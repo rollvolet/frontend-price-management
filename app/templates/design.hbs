@@ -1,0 +1,91 @@
+<div>
+  <nav class="bg-red-700">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <h1 class="text-3xl text-white font-bold leading-tight tracking-wide">
+              Prijsbeheer
+            </h1>
+          </div>
+          <div class="hidden md:block">
+            <div class="ml-10 flex items-baseline">
+              <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-white bg-red-800 focus:outline-none focus:text-white focus:bg-red-600">Producten</a>
+              <a href="#" class="ml-4 px-3 py-2 rounded-md text-sm font-medium text-red-200 hover:text-white hover:bg-red-600 focus:outline-none focus:text-white focus:bg-red-600">Leveranciers</a>
+              <a href="#" class="ml-4 px-3 py-2 rounded-md text-sm font-medium text-red-200 hover:text-white hover:bg-red-600 focus:outline-none focus:text-white focus:bg-red-600">Categorie&euml;n</a>
+            </div>
+          </div>
+        </div>
+        <div class="hidden md:block">
+          <div class="ml-4 flex items-center md:ml-6">
+            <div class="flex items-center px-5">
+              <div class="flex-shrink-0">
+                <span class="inline-block h-8 w-8 rounded-full overflow-hidden">
+                  <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                    {{!-- Placeholder avatar --}}
+                    <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                </span>
+              </div>
+              <div class="ml-3">
+                <div class="text-base font-medium leading-none text-white">Joris Pauwels</div>
+                <div class="mt-1 text-sm font-medium leading-none text-red-300">joris@rollvolet.be</div>
+              </div>
+            </div>
+            <button type="button" class="p-1 border-2 border-transparent text-red-300 rounded-full hover:text-white focus:outline-none focus:text-white focus:bg-red-600" aria-label="Notifications">
+              <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M17 16L21 12M21 12L17 8M21 12L7 12M13 16V17C13 18.6569 11.6569 20 10 20H6C4.34315 20 3 18.6569 3 17V7C3 5.34315 4.34315 4 6 4H10C11.6569 4 13 5.34315 13 7V8"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="-mr-2 flex md:hidden">
+          {{!-- Mobile menu button --}}
+          <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-red-300 hover:text-white hover:bg-red-600 focus:outline-none focus:bg-red-600 focus:text-white">
+            {{!-- TODO Menu open: "hidden", Menu closed: "block" --}}
+            <svg class="block h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            {{!-- TODO Menu open: "block", Menu closed: "hidden" --}}
+            <svg class="hidden h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    {{!--
+      TODO Mobile menu, toggle classes based on menu state.
+      Open: "block", closed: "hidden"
+    --}}
+    <div class="hidden md:hidden">
+      <div class="px-2 pt-2 pb-3 sm:px-3">
+        <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-red-800 focus:outline-none focus:text-white focus:bg-gray-700">Producten</a>
+        <a href="#" class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-red-200 hover:text-white hover:bg-red-600 focus:outline-none focus:text-white focus:bg-red-600">Leveranciers</a>
+        <a href="#" class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-red-200 hover:text-white hover:bg-red-600 focus:outline-none focus:text-white focus:bg-red-600">Categorie&euml;n</a>
+      </div>
+      <div class="pt-4 pb-3 border-t border-gray-700">
+        <div class="flex items-center px-5">
+          <div class="flex-shrink-0">
+            <span class="inline-block h-10 w-10 rounded-full overflow-hidden bg-gray-100">
+              <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                {{!-- Placeholder avatar --}}
+                <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            </span>
+          </div>
+          <div class="ml-3">
+            <div class="text-base font-medium leading-none text-white">Joris Pauwels</div>
+            <div class="mt-1 text-sm font-medium leading-none text-red-300">joris@rollvolet.be</div>
+          </div>
+        </div>
+        <div class="mt-3 px-2" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
+          <a href="#" class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-red-300 hover:text-white hover:bg-red-600 focus:outline-none focus:text-white focus:bg-red-600" role="menuitem">Log uit</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  {{outlet}}
+</div>
