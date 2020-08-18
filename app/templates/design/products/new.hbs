@@ -340,9 +340,9 @@
                   </svg>
                 </div>
                 <div class="w-0 flex-1 mx-4">
-                  <div class="bg-gray-200 flex justify-center items-center">
+                  <button type="button" class="bg-gray-200 flex justify-center items-center" {{on "click" this.openImage}}>
                     <img src="/images/demo-pic-1.jpg" alt="Oproller">
-                  </div>
+                  </button>
                 </div>
                 <div class="flex-none">
                   <svg viewBox="0 0 20 20" fill="currentColor" class="chevron-right w-8 h-8">
@@ -371,3 +371,41 @@
     </form>
   </div>
 </div>
+
+{{#if this.showImage}}
+  <div class="fixed bottom-0 inset-x-0 px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center">
+    <div class="fixed inset-0 transition-opacity"
+      {{css-transition
+          enterActiveClass="ease-out duration-300"
+          enterClass="opacity-0"
+          enterToClass="opacity-100"
+          leaveActiveClass="ease-in duration-200"
+          leaveClass="opacity-100"
+          leaveToClass="opacity-0"}}>
+      <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+    </div>
+
+    <div class="relative bg-white rounded-lg p-2 overflow-hidden shadow-xl transform transition-all sm:pt-10"
+      role="dialog" aria-modal="true" aria-labelledby="modal-headline"
+      {{css-transition
+          enterActiveClass="ease-out duration-300"
+          enterClass="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+          enterToClass="opacity-100 translate-y-0 sm:scale-100"
+          leaveActiveClass="ease-in duration-200"
+          leaveClass="opacity-100 translate-y-0 sm:scale-100"
+          leaveToClass="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"}}
+      {{on-click-outside this.closeImage}}>
+      <div class="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
+        <button type="button" class="text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500 transition ease-in-out duration-150"
+          {{on "click" this.closeImage}} aria-label="Close">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="m-2 flex justify-center items-center">
+        <img src="/images/demo-pic-1.jpg" alt="Oproller">
+      </div>
+    </div>
+  </div>
+{{/if}}
