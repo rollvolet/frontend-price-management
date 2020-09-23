@@ -12,4 +12,15 @@ Router.map(function() {
       this.route('new');
     });
   });
+  this.route('login');
+  this.route('oops');
+  this.route('main', { path: '/' }, function() {
+    this.route('products', function() {
+      this.route('edit', { path: '/:product_id' });
+    });
+    this.route('suppliers', function() {
+      this.route('edit', { path: '/:supplier_id' });
+    });
+    this.route('categories', function() { });
+  });
 });
