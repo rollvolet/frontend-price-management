@@ -3,7 +3,7 @@ module.exports = {
     extend: {},
   },
   variants: {
-    backgroundColor: ['responsive', 'hover', 'focus', 'disabled'],
+    backgroundColor: ['responsive', 'hover', 'focus', 'disabled']
   },
   plugins: [
     require('@tailwindcss/ui')({
