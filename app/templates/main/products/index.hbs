@@ -8,7 +8,7 @@
               <thead>
                 <tr>
                   <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                    Nummer
+                    Nr.
                   </th>
                   <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                     Categorie
@@ -20,13 +20,7 @@
                     VKP
                   </th>
                   <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                    VKP Eenheid
-                  </th>
-                  <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                     Leverancier
-                  </th>
-                  <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                    Leveranicer nummer
                   </th>
                   <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                     Marge
@@ -47,23 +41,17 @@
                       {{product.name}}
                     </td>
                     <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                      10
-                    </td>
-                    <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                      ST
+                      10 &euro; / ST
                     </td>
                     <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
                       Flexforce
-                    </td>
-                    <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                      034983049850298345
+                      <br>Nr. 034983049850298345
                     </td>
                     <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
                       2.50
                     </td>
                     <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-                      <LinkTo @route="main.products.edit" @model={{product.id}}
-                        class="text-red-600 hover:text-red-800">
+                      <LinkTo @route="main.products.edit" @model={{product.id}} class="text-red-600 hover:text-red-800">
                         Bewerk
                       </LinkTo>
                     </td>
