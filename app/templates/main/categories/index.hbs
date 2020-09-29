@@ -1,0 +1,7 @@
+<div class="bg-white shadow overflow-hidden border border-gray-200 sm:rounded-md">
+  <ul>
+    {{#each this.model as |category|}}
+      <Category::ListItem @model={{category}} />
+    {{/each}}
+  </ul>
+</div>
