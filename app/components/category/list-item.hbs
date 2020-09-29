@@ -22,8 +22,11 @@
         {{#if this.sortedSubcategories.length}}
           <ul class="">
             {{#each this.sortedSubcategories as |subcategory|}}
-              <li class="px-4 py-2 text-base text-gray-600 border-l-2 border-gray-300">
-                {{subcategory.label}}
+              <li class="px-4 py-2 border-l-2 border-gray-300">
+                <Category::SubcategoryEdit
+                  @model={{subcategory}}
+                  @onSave={{perform this.saveSubcategory}}
+                  @onCancel={{this.cancelSubcategory}} />
               </li>
             {{/each}}
             <div class="-ml-3 flex group">

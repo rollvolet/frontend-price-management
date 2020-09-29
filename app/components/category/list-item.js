@@ -57,4 +57,14 @@ export default class CategoryListItemComponent extends Component {
     this.isEnabledInput = false;
     this.newCategory = null;
   }
+
+  @task
+  *saveSubcategory(category) {
+    yield category.save();
+  }
+
+  @action
+  cancelSubcategory(category) {
+    category.rollbackAttributes();
+  }
 }
