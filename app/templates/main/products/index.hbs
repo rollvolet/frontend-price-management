@@ -70,7 +70,7 @@
 <PaginationWithPagenumbers
   @page={{this.page}}
   @size={{this.size}}
-  @total="97"
+  @total={{this.model.meta.count}}
   @onPrevious={{this.previousPage}}
   @onNext={{this.nextPage}}
   @onSelectPage={{this.selectPage}}
