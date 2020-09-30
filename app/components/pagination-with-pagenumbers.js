@@ -33,7 +33,7 @@ export default class PaginationWithPagenumbersComponent extends Component {
   }
 
   get lastPage() {
-    return Math.floor(this.args.total / this.size); // page is zero-based
+    return Math.floor((this.args.total - 1)/ this.size); // page is zero-based
   }
 
   get nbOfPages() {
@@ -56,7 +56,7 @@ export default class PaginationWithPagenumbersComponent extends Component {
         const leftWindow = [x, x + 1, x + 2].filter(i => i <= this.lastPage);
         const y = this.lastPage;
         const rightWindow = [y - 2, y - 1, y].filter(i => i >= this.firstPage);
-        const pages = [...leftWindow, ...rightWindow].uniq().sort();
+        const pages = [...leftWindow, ...rightWindow].uniq().sort(function(a, b) { return a - b; });
         if (pages.length == 6 && pages[2] < pages[3] - 1) {
           return [...leftWindow, more, ...rightWindow];
         } else {
