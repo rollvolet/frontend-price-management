@@ -1,3 +1,8 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+.active-main-route {
+  @apply text-white;
+  @apply bg-red-800;
+}
