@@ -1,0 +1,13 @@
+{{#if this.isEnabledInput}}
+  <Input
+    @value={{@model.label}}
+    @enter={{this.save}}
+    @focus-out={{this.save}}
+    @escape-press={{this.cancel}}
+    {{autofocus}}
+    class="px-2 py-1  w-full sm:w-48 bg-gray-50 border-b-2 text-gray-700 leading-tight appearance-none focus:outline-none focus:border-red-600" />
+{{else}}
+  <button type="button" {{on "click" this.enableEdit}} class="text-base leading-5 font-medium text-red-600 capitalize">
+    {{@model.label}}
+  </button>
+{{/if}}

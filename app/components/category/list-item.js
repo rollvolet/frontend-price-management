@@ -23,7 +23,7 @@ export default class CategoryListItemComponent extends Component {
   }
 
   @action
-  toggleIsExpanded() {
+  toggleIsExpanded(e) {
     this.isExpanded = !this.isExpanded;
     if (this.isExpanded)
       this.loadSubcategories.perform();
@@ -36,7 +36,7 @@ export default class CategoryListItemComponent extends Component {
   }
 
   @task
-  *saveCategory() {
+  *createCategory() {
     if (this.newCategory) {
       this.isEnabledInput = false;
       const category = this.store.createRecord('product-category', {
@@ -53,18 +53,18 @@ export default class CategoryListItemComponent extends Component {
   }
 
   @action
-  cancelCategory() {
+  cancelNewCategory() {
     this.isEnabledInput = false;
     this.newCategory = null;
   }
 
   @task
-  *saveSubcategory(category) {
+  *saveCategory(category) {
     yield category.save();
   }
 
   @action
-  cancelSubcategory(category) {
+  cancelEditCategory(category) {
     category.rollbackAttributes();
   }
 }

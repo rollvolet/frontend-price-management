@@ -8,8 +8,11 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
           </svg>
         </div>
-        <div class="ml-5 text-base leading-5 font-medium text-red-600 truncate capitalize">
-          {{@model.label}}
+        <div class="ml-5">
+          <Category::CategoryEdit
+            @model={{@model}}
+            @onSave={{fn (perform this.saveCategory) @model}}
+            @onCancel={{fn this.cancelEditCategory @model}} />
         </div>
       </div>
     </div>
@@ -25,8 +28,8 @@
               <li class="px-4 py-2 border-l-2 border-gray-300">
                 <Category::SubcategoryEdit
                   @model={{subcategory}}
-                  @onSave={{perform this.saveSubcategory}}
-                  @onCancel={{this.cancelSubcategory}} />
+                  @onSave={{perform this.saveCategory}}
+                  @onCancel={{this.cancelEditCategory}} />
               </li>
             {{/each}}
             <div class="-ml-3 flex group">
@@ -43,9 +46,9 @@
                 <div class="ml-2">
                   <Input
                     @value={{this.newCategory}}
-                    @enter={{perform this.saveCategory}}
-                    @focus-out={{perform this.saveCategory}}
-                    @escape-press={{this.cancelCategory}}
+                    @enter={{perform this.createCategory}}
+                    @focus-out={{perform this.createCategory}}
+                    @escape-press={{this.cancelNewCategory}}
                     {{autofocus}}
                     class="px-2 py-1 appearance-none bg-gray-50 border-b-2 rounded text-gray-700 leading-tight focus:outline-none focus:border-red-600" />
                 </div>
