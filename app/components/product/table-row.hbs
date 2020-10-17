@@ -1,0 +1,27 @@
+<tr>
+  <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+    {{@model.identifier}}
+  </td>
+  <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+    Oproller
+  </td>
+  <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+    {{@model.name}}
+  </td>
+  <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+    {{this.salesPrice.currencyValueTaxIncluded}} {{this.salesPrice.currency}} / {{this.salesPrice.unitCode.label}}
+  </td>
+  <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+    Flexforce
+    <br>Nr. 034983049850298345
+  </td>
+  <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+    {{this.salesPrice.margin}}
+  </td>
+  <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
+    <LinkTo @route="main.products.edit" @model={{@model.id}} class="text-red-600 hover:text-red-800">
+      Bewerk
+    </LinkTo>
+  </td>
+</tr>
+{{yield}}

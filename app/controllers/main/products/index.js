@@ -3,7 +3,8 @@ import { action } from '@ember/object';
 
 export default class MainProductsIndexController extends Controller {
   page = 0;
-  size = 10;
+  size = 20;
+  sort = 'identifier';
 
   @action
   previousPage() {
