@@ -12,7 +12,7 @@ export default class PaginationWithPagenumbersComponent extends Component {
   }
 
   get start() {
-    return this.page * this.size + 1;
+    return this.args.total == 0 ? 0 : this.page * this.size + 1;
   }
 
   get end() {
