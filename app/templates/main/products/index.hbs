@@ -1,7 +1,94 @@
+<div class="mb-6 p-4 bg-gray-100 border-b border-t border-gray-200">
+  <div class="mb-6 text-gray-700 uppercase leading-tight tracking-wide">Zoeken</div>
+  <div class="mb-2 sm:-mb-8 grid grid-cols-4 gap-y-4 gap-x-2 sm:grid-cols-8">
+    <div class="col-span-1">
+      <label for="filter-number" class="block text-sm font-medium leading-5 text-gray-700">Nr.</label>
+      <div class="mt-1 relative rounded-md shadow-sm">
+        <Input
+          @id="fiter-number"
+          @value={{this.filter.identifier}}
+          {{on "keydown" (perform this.search)}}
+          class="form-input block w-full sm:text-sm sm:leading-5 transition duration-150 ease-in-out" />
+      </div>
+    </div>
+    <div class="col-span-3">
+      <label for="filter-name" class="block text-sm font-medium leading-5 text-gray-700">Naam</label>
+      <div class="mt-1 relative rounded-md shadow-sm">
+        <Input
+          @id="fiter-name"
+          @value={{this.filter.name}}
+          {{on "keydown" (perform this.search)}}
+          class="form-input block w-full sm:text-sm sm:leading-5 transition duration-150 ease-in-out" />
+      </div>
+    </div>
+    <div class="col-span-2">
+      <label for="filter-broader-category" class="block text-sm font-medium leading-5 text-gray-700">Categorie</label>
+      <div class="mt-1 relative rounded-md shadow-sm">
+        <Input
+          @id="fiter-broader-category"
+          @value={{this.filter.broaderCategory}}
+          {{on "keydown" (perform this.search)}}
+          class="form-input block w-full sm:text-sm sm:leading-5 transition duration-150 ease-in-out" />
+      </div>
+    </div>
+    <div class="col-span-2">
+      <label for="filter-category" class="block text-sm font-medium leading-5 text-gray-700">Subcategorie</label>
+      <div class="mt-1 relative rounded-md shadow-sm">
+        <Input
+          @id="fiter-category"
+          @value={{this.filter.category}}
+          {{on "keydown" (perform this.search)}}
+          class="form-input block w-full sm:text-sm sm:leading-5 transition duration-150 ease-in-out" />
+      </div>
+    </div>
+    <div class="col-span-2">
+      <label for="filter-supplier" class="block text-sm font-medium leading-5 text-gray-700">Leverancier</label>
+      <div class="mt-1 relative rounded-md shadow-sm">
+        <Input
+          @id="fiter-supplier"
+          @value={{this.filter.supplier}}
+          {{on "keydown" (perform this.search)}}
+          class="form-input block w-full sm:text-sm sm:leading-5 transition duration-150 ease-in-out" />
+      </div>
+    </div>
+    <div class="col-span-1">
+      <label for="filter-supplier-number" class="hidden lg:block text-sm font-medium leading-5 text-gray-700">Leverancier nr.</label>
+      <label for="filter-supplier-number" class="block lg:hidden text-sm font-medium leading-5 text-gray-700">Lev. nr.</label>
+      <div class="mt-1 relative rounded-md shadow-sm">
+        <Input
+          @id="fiter-supplier-number"
+          @value={{this.filter.supplierIdentifier}}
+          {{on "keydown" (perform this.search)}}
+          class="form-input block w-full sm:text-sm sm:leading-5 transition duration-150 ease-in-out" />
+      </div>
+    </div>
+    <div class="col-span-1">
+      <label for="filter-rack" class="block text-sm font-medium leading-5 text-gray-700">Rek</label>
+      <div class="mt-1 relative rounded-md shadow-sm">
+        <Input
+          @id="fiter-rack"
+          @value={{this.filter.rack}}
+          {{on "keydown" (perform this.search)}}
+          class="form-input block w-full sm:text-sm sm:leading-5 transition duration-150 ease-in-out" />
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-row-reverse p-2">
+    <button
+      {{on "click" this.resetFilters}}
+      class="text-sm text-gray-700 underline lg:no-underline hover:underline">
+      Wis alle filters
+    </button>
+  </div>
+</div>
+
+{{#if this.isLoadingModel}}
+Aan het herladen
+{{/if}}
 <div class="flex flex-col">
   <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-      <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+      <div class="overflow-hidden border-b border-gray-200 sm:rounded-lg">
         <table class="min-w-full divide-y divide-gray-200">
           <thead>
             <tr>
