@@ -2,10 +2,13 @@
   "name": "frontend-price-management",
   "version": "0.0.0",
   "private": true,
-  "description": "Small description for frontend-price-management goes here",
-  "repository": "",
+  "description": "Frontend of the Rollvolet price management application",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rollvolet/frontend-price-management.git"
+  },
   "license": "MIT",
-  "author": "",
+  "author": "Erika Pauwels <erika.pauwels@gmail.com>",
   "directories": {
     "doc": "doc",
     "test": "tests"
