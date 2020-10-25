@@ -67,7 +67,7 @@ export default class MainProductsIndexRoute extends Route {
       filter[':term:broaderCategory'] = params.broaderCategory;
     }
     if (!isEmpty(params.supplier)) {
-      filter[':term:purchaseOffering.businessEntity'] = params.supplier;
+      filter[':term:purchaseOffering.businessEntity'] = params.supplier.toLowerCase();
     }
     if (!isEmpty(params.supplierIdentifier)) {
       filter[':wildcard:purchaseOffering.identifier'] = params.supplierIdentifier;

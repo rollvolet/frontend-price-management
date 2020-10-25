@@ -44,10 +44,10 @@
     <div class="col-span-2">
       <label for="filter-supplier" class="block text-sm font-medium leading-5 text-gray-700">Leverancier</label>
       <div class="mt-1 relative rounded-md shadow-sm">
-        <Input
-          @id="fiter-supplier"
+        <InputField::BusinessEntitySelect
+          @id="filter-supplier"
           @value={{this.filter.supplier}}
-          {{on "keydown" (perform this.search)}}
+          @onSelectionChange={{this.selectSupplier}}
           class="form-input block w-full sm:text-sm sm:leading-5 transition duration-150 ease-in-out" />
       </div>
     </div>

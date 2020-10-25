@@ -9,11 +9,17 @@ export default class MainProductsIndexController extends Controller {
   sort = 'identifier';
 
   @restartableTask
-  *search() {
-    yield timeout(500);
+  *search({ ms = 500 }) {
+    yield timeout(ms);
     for (let key of this.filter.keys) {
       this.set(key, this.filter[key]);
     }
+  }
+
+  @action
+  selectSupplier(supplier) {
+    this.filter.supplier = supplier;
+    this.search.perform({ ms: 0 });
   }
 
   @action
