@@ -11,7 +11,7 @@
           class="form-input block w-full sm:text-sm sm:leading-5 transition duration-150 ease-in-out" />
       </div>
     </div>
-    <div class="col-span-3">
+    <div class="col-span-2">
       <label for="filter-name" class="block text-sm font-medium leading-5 text-gray-700">Naam</label>
       <div class="mt-1 relative rounded-md shadow-sm">
         <Input
@@ -29,10 +29,10 @@
           @scope="top"
           @value={{this.filter.broaderCategory}}
           @onSelectionChange={{fn this.selectFilter "broaderCategory"}}
-          class="form-input block w-full sm:text-sm sm:leading-5 transition duration-150 ease-in-out" />
+          class="form-input-select block w-full sm:text-sm sm:leading-5 transition duration-150 ease-in-out" />
       </div>
     </div>
-    <div class="col-span-2">
+    <div class="col-span-3">
       <label for="filter-category" class="block text-sm font-medium leading-5 text-gray-700">Subcategorie</label>
       <div class="mt-1 relative rounded-md shadow-sm">
         <Search::ProductCategorySelect
@@ -40,7 +40,7 @@
           @scope="sub"
           @value={{this.filter.category}}
           @onSelectionChange={{fn this.selectFilter "category"}}
-          class="form-input block w-full sm:text-sm sm:leading-5 transition duration-150 ease-in-out" />
+          class="form-input-select block w-full sm:text-sm sm:leading-5 transition duration-150 ease-in-out" />
       </div>
     </div>
     <div class="col-span-2">
@@ -50,7 +50,7 @@
           @id="filter-supplier"
           @value={{this.filter.supplier}}
           @onSelectionChange={{fn this.selectFilter "supplier"}}
-          class="form-input block w-full sm:text-sm sm:leading-5 transition duration-150 ease-in-out" />
+          class="form-input-select block w-full sm:text-sm sm:leading-5 transition duration-150 ease-in-out" />
       </div>
     </div>
     <div class="col-span-1">
