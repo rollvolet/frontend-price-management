@@ -17,8 +17,8 @@ export default class MainProductsIndexController extends Controller {
   }
 
   @action
-  selectSupplier(supplier) {
-    this.filter.supplier = supplier;
+  selectFilter(key, value) {
+    this.filter[key] = value;
     this.search.perform({ ms: 0 });
   }
 

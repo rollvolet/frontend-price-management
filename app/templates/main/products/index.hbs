@@ -24,30 +24,32 @@
     <div class="col-span-2">
       <label for="filter-broader-category" class="block text-sm font-medium leading-5 text-gray-700">Categorie</label>
       <div class="mt-1 relative rounded-md shadow-sm">
-        <Input
-          @id="fiter-broader-category"
+        <Search::ProductCategorySelect
+          @id="filter-broader-category"
+          @scope="top"
           @value={{this.filter.broaderCategory}}
-          {{on "keydown" (perform this.search)}}
+          @onSelectionChange={{fn this.selectFilter "broaderCategory"}}
           class="form-input block w-full sm:text-sm sm:leading-5 transition duration-150 ease-in-out" />
       </div>
     </div>
     <div class="col-span-2">
       <label for="filter-category" class="block text-sm font-medium leading-5 text-gray-700">Subcategorie</label>
       <div class="mt-1 relative rounded-md shadow-sm">
-        <Input
-          @id="fiter-category"
+        <Search::ProductCategorySelect
+          @id="filter-category"
+          @scope="sub"
           @value={{this.filter.category}}
-          {{on "keydown" (perform this.search)}}
+          @onSelectionChange={{fn this.selectFilter "category"}}
           class="form-input block w-full sm:text-sm sm:leading-5 transition duration-150 ease-in-out" />
       </div>
     </div>
     <div class="col-span-2">
       <label for="filter-supplier" class="block text-sm font-medium leading-5 text-gray-700">Leverancier</label>
       <div class="mt-1 relative rounded-md shadow-sm">
-        <InputField::BusinessEntitySelect
+        <Search::BusinessEntitySelect
           @id="filter-supplier"
           @value={{this.filter.supplier}}
-          @onSelectionChange={{this.selectSupplier}}
+          @onSelectionChange={{fn this.selectFilter "supplier"}}
           class="form-input block w-full sm:text-sm sm:leading-5 transition duration-150 ease-in-out" />
       </div>
     </div>

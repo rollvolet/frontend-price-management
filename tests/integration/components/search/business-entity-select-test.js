@@ -3,22 +3,22 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 
-module('Integration | Component | input-field/product-category-select', function(hooks) {
+module('Integration | Component | search/business-entity-select', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
-    await render(hbs`<InputField::ProductCategorySelect />`);
+    await render(hbs`<Search::BusinessEntitySelect />`);
 
     assert.equal(this.element.textContent.trim(), '');
 
     // Template block usage:
     await render(hbs`
-      <InputField::ProductCategorySelect>
+      <Search::BusinessEntitySelect>
         template block text
-      </InputField::ProductCategorySelect>
+      </Search::BusinessEntitySelect>
     `);
 
     assert.equal(this.element.textContent.trim(), 'template block text');

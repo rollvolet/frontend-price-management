@@ -6,7 +6,7 @@ import { keepLatestTask, restartableTask } from 'ember-concurrency-decorators';
 import { timeout } from 'ember-concurrency';
 import { SUPPLIER_CATEGORY } from '../../models/business-entity';
 
-export default class InputFieldBusinessEntitySelectComponent extends Component {
+export default class SearchBusinessEntitySelectComponent extends Component {
   @service store;
 
   @tracked options = [];
@@ -52,8 +52,20 @@ export default class InputFieldBusinessEntitySelectComponent extends Component {
   }
 
   @action
-  changeValue(selected) {
+  selectValue(selected) {
     this.selected = selected;
     this.args.onSelectionChange(this.selected && this.selected.name);
+  }
+
+  @action
+  onValueUpdate() {
+    // value has been updated from outside. Make sure this.selected is in sync
+    const selectedName = this.selected && this.selected.name;
+    if (this.args.value != selectedName) {
+      if (this.args.value)
+        this.selected = this.options.find(opt => opt.name.toLowerCase() == this.args.value.toLowerCase());
+      else
+        this.selected = null;
+    }
   }
 }

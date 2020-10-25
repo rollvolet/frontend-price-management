@@ -1,0 +1,14 @@
+<div id={{@id}} ...attributes {{did-update this.onValueUpdate @value}}>
+  <PowerSelect
+    @placeholder={{this.placeholder}}
+    @searchPlaceholder="Typ om te zoeken"
+    @options={{this.options}}
+    @selected={{this.selected}}
+    @searchEnabled={{true}}
+    @search={{perform this.search}}
+    @onChange={{this.selectValue}}
+    @noMatchesMessage="Geen resultaten"
+    @allowClear={{true}} as |option select|>
+    {{option.name}}
+  </PowerSelect>
+</div>
