@@ -3,6 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { keepLatestTask } from 'ember-concurrency-decorators';
+import { all } from 'ember-concurrency';
 
 export default class SearchProductCategorySelectComponent extends Component {
   @service store;
@@ -17,24 +18,29 @@ export default class SearchProductCategorySelectComponent extends Component {
 
   @keepLatestTask
   *loadData() {
-    const filter = {};
+    const categories = this.store.peekAll('product-category');
 
-    if (this.args.scope == 'top')
-      filter[':has-no:broader'] = true;
-    else if (this.args.scope)
-      filter['broader'] = {
-        ':exact:label': this.args.scope
+    const wrappers = yield all(categories.map(async (category) => {
+      const broader = await category.broader;
+      return {
+        category,
+        broaderLabel: broader && broader.label
       };
+    }));
 
-    this.options = yield this.store.query('product-category', {
-      page: { size: 1000 },
-      sort: 'label',
-      filter
-    });
+    if (this.args.scope == 'top') {
+      this.options = wrappers.filter(wrapper => wrapper.broaderLabel == null).map(wrapper => wrapper.category);
+    } else if (this.args.scope) {
+      this.options = wrappers.filter(wrapper => wrapper.broaderLabel == this.args.scope).map(wrapper => wrapper.category);
+    } else {
+      this.options = [];
+    }
 
     if (this.args.value) {
-      const selected = this.options.find(opt => opt.label.toLowerCase() == this.args.value.toLowerCase());
-      this.selectValue(selected);
+      this.selected = this.options.find(opt => opt.label.toLowerCase() == this.args.value.toLowerCase());
+
+      if (this.args.value && !this.selected) // selected value cannot be found in list of options, hence unset selected value
+        this.selectValue(null);
     }
   }
 
