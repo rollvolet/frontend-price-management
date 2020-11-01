@@ -21,8 +21,10 @@ export default class SearchProductCategorySelectComponent extends Component {
 
     if (this.args.scope == 'top')
       filter[':has-no:broader'] = true;
-    else if (this.args.scope == 'sub')
-      filter[':has:broader'] = true;
+    else if (this.args.scope)
+      filter['broader'] = {
+        ':exact:label': this.args.scope
+      };
 
     this.options = yield this.store.query('product-category', {
       page: { size: 1000 },
@@ -31,7 +33,8 @@ export default class SearchProductCategorySelectComponent extends Component {
     });
 
     if (this.args.value) {
-      this.selected = this.options.find(opt => opt.label.toLowerCase() == this.args.value.toLowerCase());
+      const selected = this.options.find(opt => opt.label.toLowerCase() == this.args.value.toLowerCase());
+      this.selectValue(selected);
     }
   }
 

@@ -47,7 +47,7 @@
       <div class="mt-1 relative rounded-md shadow-sm">
         <Search::ProductCategorySelect
           @id="filter-category"
-          @scope="sub"
+          @scope={{this.filter.broaderCategory}}
           @value={{this.filter.category}}
           @onSelectionChange={{fn this.selectFilter "category"}}
           class="form-input-select block w-full sm:text-sm sm:leading-5 transition duration-150 ease-in-out" />
