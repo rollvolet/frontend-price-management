@@ -1,1 +1,309 @@
-{{outlet}}
+<div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+  <div class="px-4 py-4 sm:px-0">
+    <form>
+      <div>
+        <div>
+          <div class="grid row-gap-6 col-gap-6 sm:grid-cols-2">
+            <div class="sm:col-span-1">
+              <div>
+                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                  Details
+                </h3>
+                <p class="mt-1 text-sm leading-5 text-gray-500">
+                  Informatie over het product.
+                </p>
+              </div>
+              <div class="mt-6 grid grid-cols-1 row-gap-6 col-gap-4 sm:grid-cols-6">
+                <div class="sm:col-span-4">
+                  <label for="product-name" class="block text-sm font-medium leading-5 text-gray-700">
+                    Naam
+                  </label>
+                  <div class="mt-1 rounded-md shadow-sm">
+                    <Input
+                      @id="product-name"
+                      @value={{this.model.name}}
+                      class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
+                  </div>
+                </div>
+                <div class="sm:col-span-5 lg:col-span-3">
+                  <label for="broader-category" class="block text-sm font-medium leading-5 text-gray-700">
+                    Categorie
+                  </label>
+                  <div class="mt-1 rounded-md shadow-sm">
+                    <Input::ProductCategorySelect
+                      @id="broader-category"
+                      @scope="top"
+                      @value={{this.broaderCategory}}
+                      @onSelectionChange={{this.setBroaderCategory}}
+                      class="form-select block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
+                  </div>
+                </div>
+                <div class="sm:col-span-5 lg:col-span-3">
+                  <label for="category" class="block text-sm font-medium leading-5 text-gray-700">
+                    Subcategorie
+                  </label>
+                  <div class="mt-1 rounded-md shadow-sm">
+                    <Input::ProductCategorySelect
+                      @id="category"
+                      @scope={{this.broaderCategory.uri}}
+                      @value={{this.model.category}}
+                      @onSelectionChange={{this.setCategory}}
+                      class="form-select block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
+                  </div>
+                </div>
+                <div class="sm:col-span-6">
+                  <label for="product-description" class="block text-sm font-medium leading-5 text-gray-700">
+                    Opmerking
+                  </label>
+                  <div class="mt-1 rounded-md shadow-sm">
+                    <Textarea
+                      @id="product-description"
+                      @value={{this.model.description}}
+                      rows="5"
+                      class="form-textarea block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="sm:col-span-1">
+              <div class="mt-8 border-t border-gray-200 pt-8 sm:mt-0 sm:border-0 sm:pt-0">
+                <div>
+                  <h3 class="text-lg leading-6 font-medium text-gray-900">
+                    Leverancier
+                  </h3>
+                  <p class="mt-1 text-sm leading-5 text-gray-500">
+                    Informatie over de leverancier waar het product aangekocht is.
+                  </p>
+                </div>
+                <div class="mt-6 grid grid-cols-1 row-gap-6 col-gap-4 sm:grid-cols-6">
+                  <div class="sm:col-span-4">
+                    <label for="supplier" class="block text-sm font-medium leading-5 text-gray-700">
+                      Leverancier
+                    </label>
+                    <div class="mt-1 rounded-md shadow-sm">
+                      <select id="supplier" class="form-select block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                        <option>Leverancier X</option>
+                        <option>Leverancier Y</option>
+                        <option>Leverancier Z</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="sm:col-span-2">
+                    <label for="supplier-nb" class="block text-sm font-medium leading-5 text-gray-700">
+                      Nummer
+                    </label>
+                    <div class="mt-1 rounded-md shadow-sm">
+                      <input id="supplier-nb" type="text" class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-8 border-t border-gray-200 pt-8">
+                <div>
+                  <h3 class="text-lg leading-6 font-medium text-gray-900">
+                    Magazijn
+                  </h3>
+                  <p class="mt-1 text-sm leading-5 text-gray-500">
+                    Informatie over de plaatsing en voorraad van het product in het magazijn.
+                  </p>
+                </div>
+                <div class="mt-6 grid grid-cols-6 row-gap-6 col-gap-4">
+                  <div class="col-span-6 relative flex items-start">
+                    <div class="flex items-center h-5">
+                      {{!-- On: "bg-red-600", Off: "bg-gray-200" --}}
+                      <span role="checkbox" tabindex="0" aria-checked="false" class="relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:shadow-outline bg-gray-200">
+                        {{!-- On: "translate-x-5", Off: "translate-x-0" --}}
+                        <span aria-hidden="true" class="translate-x-0 relative inline-block h-5 w-5 rounded-full bg-white shadow transform transition ease-in-out duration-200">
+                          {{!-- On: "opacity-0 ease-out duration-100", Off: "opacity-100 ease-in duration-200" --}}
+                          <span class="opacity-100 ease-in duration-200 absolute inset-0 h-full w-full flex items-center justify-center transition-opacity">
+                            <svg class="h-3 w-3 text-gray-400" fill="none" viewBox="0 0 12 12">
+                              <path d="M4 8l2-2m0 0l2-2M6 6L4 4m2 2l2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                          </span>
+                          {{!-- On: "opacity-100 ease-in duration-200", Off: "opacity-0 ease-out duration-100" --}}
+                          <span class="opacity-0 ease-out duration-100 absolute inset-0 h-full w-full flex items-center justify-center transition-opacity">
+                            <svg class="h-3 w-3 text-red-600" fill="currentColor" viewBox="0 0 12 12">
+                              <path d="M3.707 5.293a1 1 0 00-1.414 1.414l1.414-1.414zM5 8l-.707.707a1 1 0 001.414 0L5 8zm4.707-3.293a1 1 0 00-1.414-1.414l1.414 1.414zm-7.414 2l2 2 1.414-1.414-2-2-1.414 1.414zm3.414 2l4-4-1.414-1.414-4 4 1.414 1.414z" />
+                            </svg>
+                          </span>
+                        </span>
+                      </span>
+                    </div>
+                    <div class="ml-3 text-sm leading-5">
+                      <label for="in-stock" class="font-medium text-gray-700">In voorraad</label>
+                    </div>
+                  </div>
+
+                  <div class="col-span-6 lg:col-span-3">
+                    <label for="warehouse-department" class="block text-sm font-medium leading-5 text-gray-700">
+                      Afdeling
+                    </label>
+                    <div class="mt-1 rounded-md shadow-sm">
+                      <select id="warehouse-department" class="form-select block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                        <option>Schroeven en pluggen</option>
+                        <option>Afdeling Y</option>
+                        <option>Afdeling Z</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-span-2 lg:col-span-1">
+                    <label for="rack-nb" class="block text-sm font-medium leading-5 text-gray-700">
+                      Rek
+                    </label>
+                    <div class="mt-1 rounded-md shadow-sm">
+                      <input id="rack-nb" type="text" class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                    </div>
+                  </div>
+                  <div class="col-span-2 lg:col-span-1">
+                    <label for="position-nb" class="block text-sm font-medium leading-5 text-gray-700">
+                      Positie
+                    </label>
+                    <div class="mt-1 rounded-md shadow-sm">
+                      <input id="position-nb" type="text" class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                    </div>
+                  </div>
+                  <div class="col-span-2 lg:col-span-1">
+                    <label for="placement-nb" class="block text-sm font-medium leading-5 text-gray-700">
+                      Plaats
+                    </label>
+                    <div class="mt-1 rounded-md shadow-sm">
+                      <input id="placement-nb" type="text" class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-8 border-t border-gray-200 pt-8">
+          <div>
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+              Prijzen
+            </h3>
+            <p class="mt-1 text-sm leading-5 text-gray-500">
+              Informatie over de inkoop- en verkoopprijs van het product.
+            </p>
+          </div>
+          <div class="mt-6 grid grid-cols-6 row-gap-6 col-gap-4">
+            <div class="col-span-3 sm:col-span-1">
+              <label for="price-in" class="block text-sm font-medium leading-5 text-gray-700">
+                Inkoopprijs netto
+              </label>
+              <div class="mt-1 rounded-md shadow-sm relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <span class="text-gray-500 sm:text-sm sm:leng-5">
+                    &euro;
+                  </span>
+                </div>
+                <input id="price-in" class="form-input block w-full pl-7 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+              </div>
+            </div>
+            <div class="col-span-3 sm:col-span-1">
+              <label for="unit-price-in" class="block text-sm font-medium leading-5 text-gray-700">
+                Eenheid
+              </label>
+              <div class="mt-1 rounded-md shadow-sm">
+                <select id="unit-price-in" class="form-select block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                  <option>Stuk</option>
+                  <option>m</option>
+                  <option>m2</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <fieldset class="mt-6">
+            <legend class="text-base font-medium text-gray-900">
+              Berekeningsbasis
+            </legend>
+            <p class="text-sm leading-5 text-gray-500">Afhankelijk van de gekozen basis wordt de verkoopprijs of marge automatisch berekend.</p>
+            <div class="mt-4">
+              <div class="grid grid-cols-6 row-gap-6 col-gap-4">
+                {{!-- Disable if calculation base is 'margin' --}}
+                <div class="col-span-6 sm:col-span-1 flex items-center">
+                  <input id="calc-base-price-out" name="form-input push_notifications" type="radio" class="form-radio h-4 w-4 text-red-600 transition duration-150 ease-in-out">
+                  <label for="calc-base-price-out" class="ml-3">
+                    <span class="block text-sm leading-5 font-medium text-gray-700">Verkoopprijs</span>
+                  </label>
+                </div>
+                <div class="col-span-3 sm:col-span-1">
+                  <label for="price-out-evat" class="block text-sm font-medium leading-5 text-gray-700">
+                    Prijs excl. btw
+                  </label>
+                  <div class="mt-1 rounded-md shadow-sm relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <span class="text-gray-500 sm:text-sm sm:leng-5">
+                        &euro;
+                      </span>
+                    </div>
+                    <input id="price-out-evat" class="form-input block w-full pl-7 transition duration-150 ease-in-out sm:text-sm sm:leading-5 disabled:bg-gray-200" disabled>
+                  </div>
+                </div>
+                <div class="col-span-3 sm:col-span-1">
+                  <label for="price-out-ivat" class="block text-sm font-medium leading-5 text-gray-700">
+                    Prijs incl. btw
+                  </label>
+                  <div class="mt-1 rounded-md shadow-sm relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <span class="text-gray-500 sm:text-sm sm:leng-5">
+                        &euro;
+                      </span>
+                    </div>
+                    <input id="price-out-ivat" class="form-input block w-full pl-7 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                  </div>
+                </div>
+                <div class="col-span-3 sm:col-span-1">
+                  <label for="unit-price-out" class="block text-sm font-medium leading-5 text-gray-700">
+                    Eenheid
+                  </label>
+                  <div class="mt-1 rounded-md shadow-sm">
+                    <select id="unit-price-out" class="form-select block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                      <option>Stuk</option>
+                      <option>m</option>
+                      <option>m2</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-8 grid grid-cols-6 row-gap-6 col-gap-4 sm:mt-4">
+                {{!-- Disable if calculation base is 'price-out' --}}
+                <div class="col-span-6 sm:col-span-1 flex items-center">
+                  <input id="calc-base-margin" name="form-input push_notifications" type="radio" class="form-radio h-4 w-4 text-red-600 transition duration-150 ease-in-out">
+                  <label for="calc-base-margin" class="ml-3">
+                    <span class="block text-sm leading-5 font-medium text-gray-700">Marge</span>
+                  </label>
+                </div>
+                <div class="col-span-3 sm:col-span-1">
+                  <label for="margin-pct" class="block text-sm font-medium leading-5 text-gray-700">
+                    Percentage
+                  </label>
+                  <div class="mt-1 rounded-md shadow-sm relative">
+                    <input id="margin-pct" class="form-input block w-full pl-2 pr-6 transition duration-150 ease-in-out sm:text-sm sm:leading-5 disabled:bg-gray-200" disabled>
+                    <div class="absolute inset-y-0 right-0 flex items-center">
+                      <span class="py-0 pl-2 pr-2 text-gray-500 sm:text-sm sm:leading-5">
+                        %
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+      <div class="mt-8 border-t border-gray-200 pt-5">
+        <div class="flex justify-end">
+          <span class="inline-flex rounded-md shadow-sm">
+            <button type="button" class="py-2 px-4 border border-gray-300 rounded-md text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
+              Annuleer
+            </button>
+          </span>
+          <span class="ml-3 inline-flex rounded-md shadow-sm">
+            <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-red-600 hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red active:bg-red-700 transition duration-150 ease-in-out">
+              Opslaan
+            </button>
+          </span>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
