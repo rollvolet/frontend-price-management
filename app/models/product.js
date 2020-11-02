@@ -9,6 +9,6 @@ export default class ProductModel extends Model {
 
   @belongsTo('warehouse-location') warehouseLocation;
   @hasMany('offering') offerings;
-  @hasMany('product-category') categories;
+  @belongsTo('product-category') category;
   @hasMany('file') attachments;
 }
