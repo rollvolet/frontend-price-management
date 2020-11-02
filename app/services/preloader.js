@@ -21,5 +21,13 @@ export default class PreloaderService extends Service {
       sort: 'label',
       include: 'broader'
     });
+    yield this.store.query('warehouse-department', {
+      page: { size: 1000 },
+      sort: 'name'
+    });
+    yield this.store.query('unit-code', {
+      page: { size: 1000 },
+      sort: 'label'
+    });
   }
 }

@@ -1,0 +1,14 @@
+<div id={{@id}} ...attributes>
+  <PowerSelect
+    @searchPlaceholder="Typ om te zoeken"
+    @options={{this.options}}
+    @selected={{@value}}
+    @searchEnabled={{true}}
+    @searchField="label"
+    @onChange={{this.selectValue}}
+    @noMatchesMessage="Geen resultaten"
+    @renderInPlace={{true}}
+    @allowClear={{true}} as |option select|>
+    {{option.label}}
+  </PowerSelect>
+</div>
