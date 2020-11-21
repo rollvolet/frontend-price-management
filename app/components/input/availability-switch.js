@@ -1,8 +1,6 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-
-const IN_STOCK = 'http://schema.org/InStock';
-const OUT_OF_STOCK = 'http://schema.org/OutOfStock';
+import { IN_STOCK, OUT_OF_STOCK } from '../../models/offering';
 
 export default class InputAvailabilitySwitchComponent extends Component {
   get isOn() {

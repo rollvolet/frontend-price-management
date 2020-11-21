@@ -44,20 +44,22 @@ export default class ProductEditComponent extends Component {
     salesOffering.rollbackAttributes();
     this.args.model.rollbackAttributes();
 
-    yield all([
-      warehouseLocation.belongsTo('department').reload(),
-      purchasePrice.belongsTo('unitCode').reload(),
-      purchaseOffering.belongsTo('unitPriceSpecification').reload(),
-      purchaseOffering.belongsTo('businessEntity').reload(),
-      salesPrice.belongsTo('unitCode').reload(),
-      salesOffering.belongsTo('unitPriceSpecification').reload(),
-      this.args.model.belongsTo('category').reload(),
-      this.args.model.belongsTo('warehouseLocation').reload(),
-      this.args.model.belongsTo('purchaseOffering').reload(),
-      this.args.model.belongsTo('salesOffering').reload(),
-    ]);
+    if (!this.args.model.isNew) {
+      yield all([
+        warehouseLocation.belongsTo('department').reload(),
+        purchasePrice.belongsTo('unitCode').reload(),
+        purchaseOffering.belongsTo('unitPriceSpecification').reload(),
+        purchaseOffering.belongsTo('businessEntity').reload(),
+        salesPrice.belongsTo('unitCode').reload(),
+        salesOffering.belongsTo('unitPriceSpecification').reload(),
+        this.args.model.belongsTo('category').reload(),
+        this.args.model.belongsTo('warehouseLocation').reload(),
+        this.args.model.belongsTo('purchaseOffering').reload(),
+        this.args.model.belongsTo('salesOffering').reload(),
+      ]);
 
-    this.loadData.perform();
+      this.loadData.perform(); // restore broaderCategory
+    }
   }
 
   @task
@@ -82,6 +84,9 @@ export default class ProductEditComponent extends Component {
       yield salesPrice.save();
       yield salesOffering.save();
       yield this.args.model.save();
+
+      if (this.args.onSave)
+        this.args.onSave();
     } catch (e) {
       warn(`Failed to save product: ${e}`, { id: 'save.failure' });
       this.errors = A(['Opslaan mislukt. Contacteer support als dit probleem zich blijft voordoen.']);

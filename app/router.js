@@ -16,6 +16,7 @@ Router.map(function() {
   this.route('oops');
   this.route('main', { path: '/' }, function() {
     this.route('products', function() {
+      this.route('new');
       this.route('edit', { path: '/:product_id' });
     });
     this.route('suppliers', function() {
