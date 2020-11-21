@@ -13,8 +13,10 @@ export default class CategoryCategoryEditComponent extends Component {
 
   @action
   save() {
-    this.args.onSave(this.args.model);
-    this.isEnabledInput = false;
+    if (this.isEnabledInput) {
+      this.args.onSave(this.args.model);
+      this.isEnabledInput = false;
+    } // else input wasn't enabled. Just ignore
   }
 
   @action

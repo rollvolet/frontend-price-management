@@ -2,12 +2,14 @@
   <Input
     @value={{@model.label}}
     @enter={{this.save}}
-    @focus-out={{this.save}}
     @escape-press={{this.cancel}}
+    {{on "focusout" this.save}}
     {{autofocus}}
-    class="px-2 py-1 w-full sm:w-48 bg-gray-50 border-b-2 text-gray-700 leading-tight appearance-none focus:outline-none focus:border-red-600" />
+    class="px-2 py-1 w-full sm:w-48 bg-gray-50 border-b-2 text-gray-700 leading-tight focus:ring-red-200 focus:border-b focus:border-red-200" />
 {{else}}
-  <div role="button" {{on "click" this.enableEdit}} class="text-base text-gray-600 hover:font-medium">
+  <button type="button"
+    onClick={{this.enableEdit}}
+    class="text-base text-gray-600 hover:font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200">
     {{@model.label}}
-  </div>
+  </button>
 {{/if}}

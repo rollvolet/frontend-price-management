@@ -37,19 +37,21 @@ export default class CategoryListItemComponent extends Component {
 
   @task
   *createCategory() {
-    if (this.newCategory) {
-      this.isEnabledInput = false;
-      const category = this.store.createRecord('product-category', {
-        label: this.newCategory,
-        conceptScheme: this.args.model.conceptScheme,
-        broader: this.args.model
-      });
-      yield category.save();
-      this.subcategories = this.subcategories; // required to trigger rerender
-      this.newCategory = null;
-    } else {
-      this.isEnabledInput = false;
-    }
+    if (this.isEnabledInput) {
+      if (this.newCategory) {
+        this.isEnabledInput = false;
+        const category = this.store.createRecord('product-category', {
+          label: this.newCategory,
+          conceptScheme: this.args.model.conceptScheme,
+          broader: this.args.model
+        });
+        yield category.save();
+        this.subcategories = this.subcategories; // required to trigger rerender
+        this.newCategory = null;
+      } else {
+        this.isEnabledInput = false;
+      }
+    } // else input wasn't enabled. Just ignore.
   }
 
   @action

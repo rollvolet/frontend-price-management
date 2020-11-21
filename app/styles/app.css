@@ -7,7 +7,11 @@
   @apply bg-red-800;
 }
 
-/** ember-power-select */
+
+/**
+ *  ember-power-select
+*/
+
 .ember-power-select-trigger {
   -webkit-appearance: none;
      -moz-appearance: none;
@@ -26,19 +30,22 @@
   @apply w-full;
 }
 
+.ember-power-select-trigger:focus,
+.ember-power-select-trigger--active {
+  @apply ring-red-200 border-2 border-red-200 outline-none;
+}
+
 .ember-power-select-search-input {
   border-top: none;
   border-right: none;
   border-left: none;
+  @apply border-gray-300;
 }
 
 .ember-power-select-search-input:focus {
-  border: none;
-  outline: none;
-  border-bottom: 1px solid #aaaaaa;
+  @apply ring-0 border-b border-red-200 outline-none;
 }
 
 .ember-power-select-option[aria-current="true"] {
-  @apply bg-red-300;
-  @apply text-black;
+  @apply bg-red-200 text-black;
 }

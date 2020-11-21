@@ -1,6 +1,7 @@
 <div id={{@id}} {{did-update (perform this.loadData) @scope}}>
   <PowerSelect
     @searchPlaceholder="Typ om te zoeken"
+    @loadingMessage="Aan het zoeken..."
     @options={{this.options}}
     @selected={{@value}}
     @searchEnabled={{true}}
