@@ -2,6 +2,7 @@ import Route from '@ember/routing/route';
 import { PRICE_OUT_CALCULATION_BASIS } from '../../../models/unit-price-specification';
 import { IN_STOCK } from '../../../models/offering';
 import { ROLLVOLET_URI } from '../../../models/business-entity';
+import { next as nextNumber } from '../../../utils/sequence-number';
 
 export default class MainProductsNewRoute extends Route {
   async model() {
@@ -12,6 +13,8 @@ export default class MainProductsNewRoute extends Route {
       filter: { ':uri:': ROLLVOLET_URI }
     });
     const rollvolet = businessEntities.firstObject;
+
+    const number = await nextNumber();
 
     const purchasePrice = this.store.createRecord('unit-price-specification', {
       currency: 'EUR',
@@ -39,7 +42,7 @@ export default class MainProductsNewRoute extends Route {
     const product = this.store.createRecord('product', {
       created: now,
       modified: now,
-      // TODO generate identifier
+      identifier: number,
       warehouseLocation,
       purchaseOffering,
       salesOffering
