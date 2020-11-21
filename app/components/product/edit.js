@@ -5,7 +5,8 @@ import { warn } from '@ember/debug';
 import { A } from '@ember/array';
 import { keepLatestTask, task } from 'ember-concurrency-decorators';
 import { all } from 'ember-concurrency';
-import { PRICE_OUT_CALCULATION_BASIS, MARGIN_CALCULATION_BASIS } from '../../models/unit-price-specification';
+import { VAT_RATE, PRICE_OUT_CALCULATION_BASIS, MARGIN_CALCULATION_BASIS } from '../../models/unit-price-specification';
+import formatDecimal from '../../utils/format-decimal';
 
 export default class ProductEditComponent extends Component {
   priceOutCalculationBasis = PRICE_OUT_CALCULATION_BASIS;
@@ -80,10 +81,35 @@ export default class ProductEditComponent extends Component {
       const salesPrice = yield salesOffering.unitPriceSpecification;
       yield salesPrice.save();
       yield salesOffering.save();
-      this.args.onSave();
+      //this.args.onSave();
     } catch (e) {
       warn(`Failed to save product: ${e}`, { id: 'save.failure' });
       this.errors = A(['Opslaan mislukt. Contacteer support als dit probleem zich blijft voordoen.']);
+    }
+  }
+
+  @keepLatestTask
+  *recalculateSalesPrice() {
+    const purchaseOffering = yield this.args.model.purchaseOffering;
+    const purchasePrice = yield purchaseOffering.unitPriceSpecification;
+    purchasePrice.currencyValue = formatDecimal(purchasePrice.currencyValue);
+
+    const salesOffering = yield this.args.model.salesOffering;
+    const salesPrice = yield salesOffering.unitPriceSpecification;
+
+    if (salesPrice.calculationBasis == MARGIN_CALCULATION_BASIS) {
+      salesPrice.margin = formatDecimal(salesPrice.margin);
+      if (salesPrice.valueAddedTaxIncluded) {
+        const value = purchasePrice.currencyValue * salesPrice.margin * (1 + VAT_RATE);
+        salesPrice.currencyValue = formatDecimal(value);
+      } else {
+        const value = purchasePrice.currencyValue * salesPrice.margin;
+        salesPrice.currencyValue = formatDecimal(value);
+      }
+    } else {
+      salesPrice.currencyValue = formatDecimal(salesPrice.currencyValue);
+      const margin = salesPrice.currencyValueTaxExcluded / purchasePrice.currencyValue;
+      salesPrice.margin = formatDecimal(margin);
     }
   }
 
