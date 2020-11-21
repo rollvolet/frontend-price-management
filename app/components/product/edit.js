@@ -82,7 +82,6 @@ export default class ProductEditComponent extends Component {
       yield salesPrice.save();
       yield salesOffering.save();
       yield this.args.model.save();
-      this.args.onSave();
     } catch (e) {
       warn(`Failed to save product: ${e}`, { id: 'save.failure' });
       this.errors = A(['Opslaan mislukt. Contacteer support als dit probleem zich blijft voordoen.']);

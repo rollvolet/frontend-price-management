@@ -6,9 +6,4 @@ export default class MainProductsEditController extends Controller {
   cancel() {
     this.transitionToRoute('main.products.index');
   }
-
-  @action
-  save() {
-    this.transitionToRoute('main.products.index');
-  }
 }
