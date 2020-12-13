@@ -40,9 +40,10 @@
                 </span>
               </div>
               <div class="ml-3">
-                {{!-- TODO replace with currentSession.user --}}
-                <div class="text-sm font-medium leading-none text-white">Joris Pauwels</div>
-                <div class="mt-1 text-xs font-medium leading-none text-red-300">joris@rollvolet.be</div>
+                {{#if this.userInfo.isLoaded}}
+                  <div class="text-sm font-medium leading-none text-white">{{this.userInfo.name}}</div>
+                  <div class="mt-1 text-xs font-medium leading-none text-red-300">{{this.userInfo.email}}</div>
+                {{/if}}
               </div>
             </div>
             <MuLogout />
@@ -93,9 +94,8 @@
             </span>
           </div>
           <div class="ml-3">
-            {{!-- TODO replace with currentSession.user --}}
-            <div class="text-base font-medium leading-none text-white">Joris Pauwels</div>
-            <div class="mt-1 text-sm font-medium leading-none text-red-300">joris@rollvolet.be</div>
+            <div class="text-base font-medium leading-none text-white">{{this.userInfo.name}}</div>
+            <div class="mt-1 text-sm font-medium leading-none text-red-300">{{this.userInfo.email}}</div>
           </div>
         </div>
         <div class="mt-3 px-2" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
