@@ -56,7 +56,7 @@
     "ember-load-initializers": "^2.1.1",
     "ember-math-helpers": "^2.15.0",
     "ember-maybe-import-regenerator": "^0.1.6",
-    "ember-mu-login": "^2.0.0-beta.0",
+    "ember-mu-login": "^2.0.0",
     "ember-mu-transform-helpers": "^2.0.0",
     "ember-power-select": "^4.0.6",
     "ember-qunit": "^4.6.0",
