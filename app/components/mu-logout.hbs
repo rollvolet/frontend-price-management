@@ -1,14 +1,14 @@
 {{#if (eq @scope 'mobile')}}
   <button type="button"
     onClick={{this.logout}}
-    class="mt-1 block w-full px-3 py-2 rounded-md text-left text-base font-medium text-red-300 hover:text-white hover:bg-red-600 focus:outline-none focus:text-white focus:bg-red-600"
+    class="mt-1 block w-full px-3 py-2 rounded-md text-left text-base font-medium text-red-200 hover:text-white hover:bg-red-600 focus:outline-none focus:text-white focus:bg-red-600"
     role="menuitem">
     Log uit
   </button>
 {{else}}
   <button type="button"
     onClick={{this.logout}}
-    class="ml-4 p-1 border-2 border-transparent text-red-300 rounded-full hover:text-white focus:outline-none focus:text-white focus:bg-red-600" aria-label="Log out">
+    class="ml-4 p-1 border-2 border-transparent text-red-200 rounded-full hover:text-white focus:outline-none focus:text-white focus:bg-red-600" aria-label="Log out">
     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
       <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M17 16L21 12M21 12L17 8M21 12L7 12M13 16V17C13 18.6569 11.6569 20 10 20H6C4.34315 20 3 18.6569 3 17V7C3 5.34315 4.34315 4 6 4H10C11.6569 4 13 5.34315 13 7V8"/>
     </svg>
