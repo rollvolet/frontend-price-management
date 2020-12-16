@@ -37,7 +37,12 @@ async function muSearch(index, page, size, sort, filter, dataMapping) {
 
   endpoint.search = params.toString();
 
-  const { count, data } = await (await fetch(endpoint)).json();
+  const response = await fetch(endpoint, {
+    headers: {
+      Accept: 'application/vnd.api+json'
+    }
+  });
+  const { count, data } = await response.json();
   const pagination = getPaginationMetadata(page, size, count);
   const entries = A(data.map(dataMapping));
 
