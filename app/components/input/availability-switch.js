@@ -13,10 +13,7 @@ export default class InputAvailabilitySwitchComponent extends Component {
 
   @action
   toggleValue() {
-    if (this.isOn) {
-      this.args.onChange(OUT_OF_STOCK);
-    } else {
-      this.args.onChange(IN_STOCK);
-    }
+    const newValue = this.isOn ? OUT_OF_STOCK : IN_STOCK;
+    this.args.onChange(newValue);
   }
 }

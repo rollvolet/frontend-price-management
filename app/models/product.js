@@ -4,6 +4,7 @@ export default class ProductModel extends Model {
   @attr name;
   @attr description;
   @attr identifier;
+  @attr('boolean') includeInStockReport;
   @attr('datetime') created;
   @attr('datetime') modified;
 

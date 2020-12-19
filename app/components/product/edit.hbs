@@ -108,12 +108,12 @@
             <div class="mt-6 grid grid-cols-6 gap-y-6 gap-x-4">
               <div class="col-span-6 relative flex items-start">
                 <div class="flex items-center h-5">
-                  <Input::AvailabilitySwitch
-                    @value={{@model.salesOffering.availability}}
-                    @onChange={{fn (mut @model.salesOffering.availability)}} />
+                  <Input::Switch
+                    @value={{@model.includeInStockReport}}
+                    @onChange={{fn (mut @model.includeInStockReport)}} />
                 </div>
                 <div class="ml-3 text-sm leading-5">
-                  <label for="in-stock" class="font-medium text-gray-700">In voorraad</label>
+                  <label for="in-stock" class="font-medium text-gray-700">In voorraadlijst</label>
                 </div>
               </div>
 
