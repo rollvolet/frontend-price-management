@@ -186,12 +186,10 @@
                 &euro;
               </span>
             </div>
-            <Input
+            <Input::DecimalNumber
               @id="price-in"
-              @type="number"
-              step="0.01"
               @value={{@model.purchaseOffering.unitPriceSpecification.currencyValue}}
-              {{on "focusout" (perform this.recalculateSalesPrice)}}
+              @onChange={{this.setPriceIn}}
               class="focus:ring-red-200 focus:border-red-200 block w-full pl-7 border-gray-300 rounded-md md:text-sm md:leading-5" />
           </div>
         </div>
@@ -235,12 +233,10 @@
                   &euro;
                 </span>
               </div>
-              <Input
+              <Input::DecimalNumber
                 @id="price-out-evat"
-                @type="number"
-                step="0.01"
                 @value={{@model.salesOffering.unitPriceSpecification.currencyValueTaxExcluded}}
-                class="focus:ring-red-400 focus:border-red-200 block w-full pl-7 border-gray-300 rounded-md md:text-sm md:leading-5 disabled:bg-gray-200"
+                class="block w-full pl-7 border-gray-300 rounded-md md:text-sm md:leading-5 bg-gray-200"
                 disabled="true" />
             </div>
           </div>
@@ -254,14 +250,12 @@
                   &euro;
                 </span>
               </div>
-              <Input
+              <Input::DecimalNumber
                 @id="price-out-ivat"
-                @type="number"
-                step="0.01"
                 @value={{@model.salesOffering.unitPriceSpecification.currencyValue}}
+                @onChange={{this.setPriceOut}}
                 class="focus:ring-red-200 focus:border-red-200 block w-full pl-7 border-gray-300 rounded-md md:text-sm md:leading-5
                 {{if @model.salesOffering.unitPriceSpecification.hasMarginCalculationBasis "disabled:bg-gray-200"}}"
-                {{on "focusout" (perform this.recalculateSalesPrice)}}
                 disabled={{@model.salesOffering.unitPriceSpecification.hasMarginCalculationBasis}} />
             </div>
           </div>
@@ -299,14 +293,12 @@
               Factor
             </label>
             <div class="mt-1 rounded-md shadow-sm relative">
-              <Input
+              <Input::DecimalNumber
                 @id="margin"
                 @value={{@model.salesOffering.unitPriceSpecification.margin}}
-                @type="number"
-                step="0.01"
+                @onChange={{this.setMargin}}
                 class="focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md md:text-sm md:leading-5
                 {{if @model.salesOffering.unitPriceSpecification.hasPriceOutCalculationBasis "disabled:bg-gray-200"}}"
-                {{on "focusout" (perform this.recalculateSalesPrice)}}
                 disabled={{@model.salesOffering.unitPriceSpecification.hasPriceOutCalculationBasis}} />
             </div>
           </div>

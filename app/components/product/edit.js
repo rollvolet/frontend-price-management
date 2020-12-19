@@ -157,6 +157,14 @@ export default class ProductEditComponent extends Component {
   }
 
   @action
+  async setPriceIn(value) {
+    const offering = await this.args.model.purchaseOffering;
+    const price = await offering.unitPriceSpecification;
+    price.currencyValue = value;
+    this.recalculateSalesPrice.perform();
+  }
+
+  @action
   async setUnitPriceIn(unitCode) {
     const offering = await this.args.model.purchaseOffering;
     const price = await offering.unitPriceSpecification;
@@ -164,9 +172,25 @@ export default class ProductEditComponent extends Component {
   }
 
   @action
+  async setPriceOut(value) {
+    const offering = await this.args.model.salesOffering;
+    const price = await offering.unitPriceSpecification;
+    price.currencyValue = value;
+    this.recalculateSalesPrice.perform();
+  }
+
+  @action
   async setUnitPriceOut(unitCode) {
     const offering = await this.args.model.salesOffering;
     const price = await offering.unitPriceSpecification;
     price.unitCode = unitCode;
+  }
+
+  @action
+  async setMargin(value) {
+    const offering = await this.args.model.salesOffering;
+    const price = await offering.unitPriceSpecification;
+    price.margin = value;
+    this.recalculateSalesPrice.perform();
   }
 }
