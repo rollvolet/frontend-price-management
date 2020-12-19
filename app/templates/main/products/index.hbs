@@ -22,16 +22,6 @@
       </div>
     </div>
     <div class="col-span-2">
-      <label for="filter-name" class="block text-sm font-medium leading-5 text-gray-700">Naam</label>
-      <div class="mt-1 relative rounded-md shadow-sm">
-        <Input
-          @id="fiter-name"
-          @value={{this.filter.name}}
-          {{on "keydown" (perform this.search)}}
-          class="focus:ring-red-200 focus:border-red-200 border-gray-300 rounded-md block w-full sm:text-sm sm:leading-5" />
-      </div>
-    </div>
-    <div class="col-span-2">
       <label for="filter-broader-category" class="block text-sm font-medium leading-5 text-gray-700">Categorie</label>
       <div class="mt-1 relative rounded-md shadow-sm">
         <Search::ProductCategorySelect
@@ -51,6 +41,16 @@
           @value={{this.filter.category}}
           @onSelectionChange={{fn this.selectFilter "category"}}
           class="block w-full sm:text-sm sm:leading-5" />
+      </div>
+    </div>
+    <div class="col-span-2">
+      <label for="filter-name" class="block text-sm font-medium leading-5 text-gray-700">Naam</label>
+      <div class="mt-1 relative rounded-md shadow-sm">
+        <Input
+          @id="fiter-name"
+          @value={{this.filter.name}}
+          {{on "keydown" (perform this.search)}}
+          class="focus:ring-red-200 focus:border-red-200 border-gray-300 rounded-md block w-full sm:text-sm sm:leading-5" />
       </div>
     </div>
     <div class="col-span-2">
