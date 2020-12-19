@@ -14,6 +14,10 @@ export default class OfferingModel extends Model {
   @belongsTo('product', { inverse: 'salesOffering' }) salesProduct;
   @belongsTo('unit-price-specification') unitPriceSpecification;
   @belongsTo('business-entity') businessEntity;
+
+  get isAvailable() {
+    return this.availability == IN_STOCK;
+  }
 };
 
 export {

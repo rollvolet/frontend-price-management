@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 
-export default class MainProductsEditRoute extends Route {
+export default class MainProductsDetailRoute extends Route {
   async model(params) {
     const products = await this.store.query('product', {
       filter: { ':id:': params.product_id },
