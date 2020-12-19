@@ -6,7 +6,7 @@ import { A } from '@ember/array';
 import { keepLatestTask, task } from 'ember-concurrency-decorators';
 import { all } from 'ember-concurrency';
 import { VAT_RATE, PRICE_OUT_CALCULATION_BASIS, MARGIN_CALCULATION_BASIS } from '../../models/unit-price-specification';
-import formatDecimal from '../../utils/format-decimal';
+import roundDecimal from '../../utils/round-decimal';
 
 export default class ProductEditComponent extends Component {
   priceOutCalculationBasis = PRICE_OUT_CALCULATION_BASIS;
@@ -97,24 +97,24 @@ export default class ProductEditComponent extends Component {
   *recalculateSalesPrice() {
     const purchaseOffering = yield this.args.model.purchaseOffering;
     const purchasePrice = yield purchaseOffering.unitPriceSpecification;
-    purchasePrice.currencyValue = formatDecimal(purchasePrice.currencyValue);
+    purchasePrice.currencyValue = roundDecimal(purchasePrice.currencyValue);
 
     const salesOffering = yield this.args.model.salesOffering;
     const salesPrice = yield salesOffering.unitPriceSpecification;
 
     if (salesPrice.calculationBasis == MARGIN_CALCULATION_BASIS) {
-      salesPrice.margin = formatDecimal(salesPrice.margin);
+      salesPrice.margin = roundDecimal(salesPrice.margin);
       if (salesPrice.valueAddedTaxIncluded) {
         const value = purchasePrice.currencyValue * salesPrice.margin * (1 + VAT_RATE);
-        salesPrice.currencyValue = formatDecimal(value);
+        salesPrice.currencyValue = roundDecimal(value);
       } else {
         const value = purchasePrice.currencyValue * salesPrice.margin;
-        salesPrice.currencyValue = formatDecimal(value);
+        salesPrice.currencyValue = roundDecimal(value);
       }
     } else {
-      salesPrice.currencyValue = formatDecimal(salesPrice.currencyValue);
+      salesPrice.currencyValue = roundDecimal(salesPrice.currencyValue);
       const margin = salesPrice.currencyValueTaxExcluded / purchasePrice.currencyValue;
-      salesPrice.margin = formatDecimal(margin);
+      salesPrice.margin = roundDecimal(margin);
     }
   }
 

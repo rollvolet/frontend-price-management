@@ -1,5 +1,5 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
-import formatDecimal from '../utils/format-decimal';
+import roundDecimal from '../utils/round-decimal';
 
 const VAT_RATE = 0.21;
 const PRICE_OUT_CALCULATION_BASIS = 'http://data.rollvolet.be/calculation-basis/47c2570e-cc21-4496-ba76-7e89a3cf782d';
@@ -19,12 +19,12 @@ export default class UnitPriceSpecificationModel extends Model {
     if (this.valueAddedTaxIncluded)
       return this.currencyValue;
     else
-      return formatDecimal(this.currencyValue * (1 + VAT_RATE));
+      return roundDecimal(this.currencyValue * (1 + VAT_RATE));
   }
 
   get currencyValueTaxExcluded() {
     if (this.valueAddedTaxIncluded)
-      return formatDecimal(this.currencyValue / (1 + VAT_RATE));
+      return roundDecimal(this.currencyValue / (1 + VAT_RATE));
     else
       return this.currencyValue;
   }
