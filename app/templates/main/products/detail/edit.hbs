@@ -2,6 +2,7 @@
   <div class="px-4 py-4 sm:px-0">
     <Product::Edit
       @model={{this.model}}
-      @onCancel={{this.cancel}} />
+      @onSave={{this.goToDetailView}}
+      @onCancel={{this.goToDetailView}} />
   </div>
 </div>

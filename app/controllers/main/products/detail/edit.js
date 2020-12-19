@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 
 export default class MainProductsDetailEditController extends Controller {
   @action
-  cancel() {
+  goToDetailView() {
     this.transitionToRoute('main.products.detail.index');
   }
 }
