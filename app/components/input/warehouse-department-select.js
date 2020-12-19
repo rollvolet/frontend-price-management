@@ -18,7 +18,7 @@ export default class InputWarehouseDepartmentSelectComponent extends Component {
 
   @keepLatestTask
   *loadData() {
-    this.options = this.store.peekAll('warehouse-department');
+    this.options = this.store.peekAll('warehouse-department').sortBy('name');
 
     const value = yield this.args.value; // argument may be a promise/proxy object
     if (value) {

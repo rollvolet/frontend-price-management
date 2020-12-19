@@ -29,9 +29,15 @@ export default class SearchProductCategorySelectComponent extends Component {
     }));
 
     if (this.args.scope == 'top') {
-      this.options = wrappers.filter(wrapper => wrapper.broaderLabel == null).map(wrapper => wrapper.category);
+      this.options = wrappers
+        .filter(wrapper => wrapper.broaderLabel == null)
+        .map(wrapper => wrapper.category)
+        .sortBy('label');
     } else if (this.args.scope) {
-      this.options = wrappers.filter(wrapper => wrapper.broaderLabel == this.args.scope).map(wrapper => wrapper.category);
+      this.options = wrappers
+        .filter(wrapper => wrapper.broaderLabel == this.args.scope)
+        .map(wrapper => wrapper.category)
+        .sortBy('label');
     } else {
       this.options = [];
     }

@@ -18,7 +18,7 @@ export default class InputUnitCodeSelectComponent extends Component {
 
   @keepLatestTask
   *loadData() {
-    this.options = this.store.peekAll('unit-code');
+    this.options = this.store.peekAll('unit-code').sortBy('label');
 
     const value = yield this.args.value; // argument may be a promise/proxy object
     if (value) {
