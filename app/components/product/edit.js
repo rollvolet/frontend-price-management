@@ -1,9 +1,10 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import { inject as service } from '@ember/service';
 import { warn } from '@ember/debug';
 import { A } from '@ember/array';
-import { keepLatestTask, task } from 'ember-concurrency-decorators';
+import { enqueueTask, keepLatestTask, task } from 'ember-concurrency-decorators';
 import { all } from 'ember-concurrency';
 import { VAT_RATE, PRICE_OUT_CALCULATION_BASIS, MARGIN_CALCULATION_BASIS } from '../../models/unit-price-specification';
 import roundDecimal from '../../utils/round-decimal';
@@ -11,6 +12,8 @@ import roundDecimal from '../../utils/round-decimal';
 export default class ProductEditComponent extends Component {
   priceOutCalculationBasis = PRICE_OUT_CALCULATION_BASIS;
   marginCalculationBasis = MARGIN_CALCULATION_BASIS;
+
+  @service store;
 
   @tracked broaderCategory;
   @tracked errors = A();
@@ -116,6 +119,22 @@ export default class ProductEditComponent extends Component {
       const margin = salesPrice.currencyValueTaxExcluded / purchasePrice.currencyValue;
       salesPrice.margin = roundDecimal(margin);
     }
+  }
+
+  @enqueueTask
+  *uploadFile(file) {
+    try {
+      const response = yield file.upload('/files');
+      const uploadedFile = yield this.store.findRecord('file', response.body.data.id);
+      this.args.model.attachments.pushObject(uploadedFile);
+    } catch(e) {
+      // TODO show error notification
+    }
+  }
+
+  @task
+  *deleteFile(file) {
+    this.args.model.attachments.removeObject(file);
   }
 
   @action

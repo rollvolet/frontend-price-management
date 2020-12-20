@@ -12,5 +12,5 @@ export default class ProductModel extends Model {
   @belongsTo('offering', { inverse: 'purchaseProduct' }) purchaseOffering;
   @belongsTo('offering', { inverse: 'salesProduct' }) salesOffering;
   @belongsTo('product-category') category;
-  @hasMany('file') attachments;
+  @hasMany('file', { inverse: null }) attachments;
 }

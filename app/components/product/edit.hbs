@@ -308,6 +308,99 @@
         </div>
       </fieldset>
     </div>
+    <div class="mt-8 border-t border-gray-200 pt-8">
+      <div>
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          Bijlagen
+        </h3>
+        <p class="mt-1 text-sm leading-5 text-gray-500">
+          Bijkomende informatie in de vorm van afbeeldingen en bestanden.
+        </p>
+      </div>
+      <div class="mt-6">
+        <div>
+          <label for="attachments" class="block text-sm leading-5 font-medium text-gray-700">
+            Afbeeldingen en documenten
+          </label>
+          <div class="mt-2">
+            <FileDropzone
+              @name="files"
+              as |dropzone queue|>
+              <div class="flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md {{if (and dropzone.active dropzone.valid) "border-red-300 bg-red-50" "border-gray-300"}}">
+                <div class="space-y-1 text-center">
+                  <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  {{#if (and dropzone.active (not dropzone.valid))}}
+                    <div class="text-sm text-gray-600">
+                      Drag-and-drop niet ondersteund
+                    </div>
+                  {{else if queue.files.length}}
+                    <div class="text-sm text-gray-600">
+                      {{queue.files.length}} bestanden aan het opladen ({{queue.progress}}%)
+                    </div>
+                  {{else}}
+                    <div class="flex text-sm text-gray-600">
+                      <FileUpload
+                        @for="file-upload"
+                        @name="attachments"
+                        @accept="*/*"
+                        @multiple={{true}}
+                        @onfileadd={{perform this.uploadFile}}
+                        class="relative cursor-pointer rounded-md font-medium text-red-600 hover:text-red-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-red-200">
+                        <a href="#" tabindex="0" class="focus:outline-none">Laad een bestand op</a>
+                      </FileUpload>
+                      {{#if dropzone.supported}}
+                        <p class="pl-1">of sleep het naar hier</p>
+                      {{/if}}
+                    </div>
+                    <p class="text-xs text-gray-500">
+                      PDF, JPG, GIF tot 500MB
+                    </p>
+                  {{/if}}
+                </div>
+              </div>
+            </FileDropzone>
+          </div>
+        </div>
+        {{#if @model.attachments.length}}
+          <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-2">
+            <div>
+              <ul class="border border-gray-200 rounded-md">
+                {{#each @model.attachments as |file index|}}
+                  <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm leading-5
+                    {{if (gt index 0) "border-t border-gray-200"}}">
+                    <div class="w-0 flex-1 flex items-center">
+                      <svg class="flex-shrink-0 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                        {{!-- paper-clip --}}
+                        <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
+                      </svg>
+                      <span class="ml-2 flex-1 w-0 truncate">
+                        {{file.filename}}
+                        <span class="ml-2 text-xs text-gray-400"> {{file.humanReadableSize}}</span>
+                      </span>
+                    </div>
+                    <div class="ml-4 flex-shrink-0 flex space-x-4">
+                      <a href={{file.downloadLink}}
+                        target="_blank" rel="noopener noreferrer"
+                        class="bg-white rounded-md font-medium text-red-600 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200">
+                        Download
+                      </a>
+                      <span class="text-gray-300" aria-hidden="true">|</span>
+                      <button type="button"
+                        class="bg-white rounded-md font-medium text-red-600 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200"
+                        onClick={{perform this.deleteFile file}}>
+                        Verwijder
+                      </button>
+                    </div>
+                  </li>
+                {{/each}}
+              </ul>
+            </div>
+          </div>
+        {{/if}}
+      </div>
+    </div>
   </div>
   <div class="mt-8 border-t border-gray-200 pt-5">
     <div class="flex justify-end">
