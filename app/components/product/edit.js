@@ -14,9 +14,9 @@ export default class ProductEditComponent extends Component {
   marginCalculationBasis = MARGIN_CALCULATION_BASIS;
 
   @service store;
+  @service notification;
 
   @tracked broaderCategory;
-  @tracked errors = A();
 
   constructor() {
     super(...arguments);
@@ -73,7 +73,6 @@ export default class ProductEditComponent extends Component {
 
   @task
   *save() {
-    this.errors = A();
     // TODO add some validation
     try {
       const warehouseLocation = yield this.args.model.warehouseLocation;
@@ -91,8 +90,11 @@ export default class ProductEditComponent extends Component {
       if (this.args.onSave)
         this.args.onSave();
     } catch (e) {
-      warn(`Failed to save product: ${e}`, { id: 'save.failure' });
-      this.errors = A(['Opslaan mislukt. Contacteer support als dit probleem zich blijft voordoen.']);
+      this.notification.addError({
+        title: "Opslaan mislukt!",
+        message: "Probeer het product nogmaals op te slaan.",
+        error: e
+      });
     }
   }
 
@@ -128,7 +130,11 @@ export default class ProductEditComponent extends Component {
       const uploadedFile = yield this.store.findRecord('file', response.body.data.id);
       this.args.model.attachments.pushObject(uploadedFile);
     } catch(e) {
-      // TODO show error notification
+      this.notification.addError({
+        title: "Er is iets misgelopen!",
+        message: "Probeer het bestand nogmaals op te laden.",
+        error: e
+      });
     }
   }
 
