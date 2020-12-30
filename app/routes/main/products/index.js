@@ -55,7 +55,8 @@ export default class MainProductsIndexRoute extends Route {
     const filter = {};
 
     if (!isEmpty(params.name)) {
-      filter[':wildcard:name'] = params.name.includes('*') ? params.name : `*${params.name}*`;
+      const name = params.name.toLowerCase();
+      filter[':wildcard:name'] = name.includes('*') ? name : `*${name}*`;
     }
     if (!isEmpty(params.identifier)) {
       filter['identifier'] = params.identifier;
@@ -70,10 +71,10 @@ export default class MainProductsIndexRoute extends Route {
       filter[':term:purchaseOffering.businessEntity'] = params.supplier.toLowerCase();
     }
     if (!isEmpty(params.supplierIdentifier)) {
-      filter[':wildcard:purchaseOffering.identifier'] = params.supplierIdentifier;
+      filter[':wildcard:purchaseOffering.identifier'] = params.supplierIdentifier.toLowerCase();
     }
     if (!isEmpty(params.rack)) {
-      filter[':wildcard:warehouseLocation.rack'] = params.rack;
+      filter[':wildcard:warehouseLocation.rack'] = params.rack.toLowerCase();
     }
 
     if (!Object.keys(filter).length) {
