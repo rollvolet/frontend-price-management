@@ -5,7 +5,7 @@ import { inject as service } from '@ember/service';
 import { warn } from '@ember/debug';
 import { A } from '@ember/array';
 import { enqueueTask, keepLatestTask, task } from 'ember-concurrency-decorators';
-import { all } from 'ember-concurrency';
+import { all, timeout } from 'ember-concurrency';
 import { VAT_RATE, PRICE_OUT_CALCULATION_BASIS, MARGIN_CALCULATION_BASIS } from '../../models/unit-price-specification';
 import roundDecimal from '../../utils/round-decimal';
 
@@ -17,6 +17,7 @@ export default class ProductEditComponent extends Component {
   @service notification;
 
   @tracked broaderCategory;
+  @tracked showDeleteConfirmationModal = false;
 
   constructor() {
     super(...arguments);
@@ -98,6 +99,17 @@ export default class ProductEditComponent extends Component {
     }
   }
 
+  @task
+  *delete() {
+    // TODO delete related dangling records
+    yield this.args.model.destroyRecord();
+    // wait for delete-delta to be handled by mu-search
+    yield timeout(4000);
+    this.showDeleteConfirmationModal = false;
+    if (this.args.onDelete)
+      this.args.onDelete();
+  }
+
   @keepLatestTask
   *recalculateSalesPrice() {
     const purchaseOffering = yield this.args.model.purchaseOffering;
@@ -141,6 +153,16 @@ export default class ProductEditComponent extends Component {
   @task
   *deleteFile(file) {
     this.args.model.attachments.removeObject(file);
+  }
+
+  @action
+  askToDelete() {
+    this.showDeleteConfirmationModal = true;
+  }
+
+  @action
+  cancelDelete() {
+    this.showDeleteConfirmationModal = false;
   }
 
   @action

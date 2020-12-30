@@ -6,4 +6,9 @@ export default class MainProductsDetailEditController extends Controller {
   goToDetailView() {
     this.transitionToRoute('main.products.detail.index');
   }
+
+  @action
+  goToListView() {
+    this.transitionToRoute('main.products.index');
+  }
 }
