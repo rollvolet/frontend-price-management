@@ -22,6 +22,17 @@ module.exports = function(environment) {
       // when it is created
     },
 
+    torii: {
+      disableRedirectInitializer: true,
+      providers: {
+        'azure-ad2-oauth2': {
+          tenantId: '3e9b8827-39f2-4fb4-9bc1-f8a200aaea79',
+          apiKey: '5f012056-5ae1-48d5-9f8d-305221a92cf3',
+          scope: 'user.read',
+          redirectUri: 'http://localhost:4200/torii/redirect.html'
+        }
+      }
+    },
     'ember-simple-auth': {
       routeAfterAuthentication: 'main.products.index'
     }
