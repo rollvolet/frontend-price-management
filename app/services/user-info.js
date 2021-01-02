@@ -6,7 +6,7 @@ export default class UserInfoService extends Service {
   @service session;
 
   @tracked name;
-  @tracked email;
+  @tracked username;
 
   get isLoaded() {
     return this.fetchUserInfo.last && this.fetchUserInfo.last.isSuccessful;
@@ -14,12 +14,18 @@ export default class UserInfoService extends Service {
 
   @keepLatestTask
   *fetchUserInfo() {
-    this.name = 'Erika';
-    this.email = 'erika.pauwels@rollvolet.be';
+    if (this.session.isAuthenticated) {
+      const sessionData = this.session.data.authenticated.data;
+      this.name = sessionData.attributes.name;
+      this.username = sessionData.attributes.username;
+    } else {
+      this.name = null;
+      this.username = null;
+    }
   }
 
   clearUserInfo() {
     this.name = null;
-    this.email = null;
+    this.username = null;
   }
 }
