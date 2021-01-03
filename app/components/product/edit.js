@@ -86,6 +86,7 @@ export default class ProductEditComponent extends Component {
       const salesPrice = yield salesOffering.unitPriceSpecification;
       yield salesPrice.save();
       yield salesOffering.save();
+      this.args.model.modified = new Date();
       yield this.args.model.save();
 
       if (this.args.onSave)
