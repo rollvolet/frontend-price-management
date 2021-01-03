@@ -28,7 +28,7 @@ module.exports = function(environment) {
         'azure-ad2-oauth2': {
           tenantId: '3e9b8827-39f2-4fb4-9bc1-f8a200aaea79',
           apiKey: '5f012056-5ae1-48d5-9f8d-305221a92cf3',
-          scope: 'user.read',
+          scope: 'User.Read',
           redirectUri: 'http://localhost:4200/torii/redirect.html'
         }
       }
@@ -59,7 +59,8 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    // here you can enable a production-specific feature
+    ENV.torii.providers['azure-ad2-oauth2'].apiKey = '{{AUTH_CLIENT_ID}}';
+    ENV.torii.providers['azure-ad2-oauth2'].redirectUri = '{{AUTH_REDIRECT_URI}}';
   }
 
   return ENV;

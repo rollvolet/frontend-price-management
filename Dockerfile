@@ -8,7 +8,7 @@ RUN npm install
 COPY . .
 RUN ember build -prod
 
-FROM semtech/static-file-service:0.1.0
+FROM semtech/static-file-service:0.2.0
 
 COPY nginx/app.conf /config/app.conf
 COPY --from=builder /app/dist /data
