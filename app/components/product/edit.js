@@ -101,10 +101,23 @@ export default class ProductEditComponent extends Component {
 
   @task
   *delete() {
-    // TODO delete related dangling records
+    const warehouseLocation = yield this.args.model.warehouseLocation;
+    const purchaseOffering = yield this.args.model.purchaseOffering;
+    const purchasePrice = yield purchaseOffering.unitPriceSpecification;
+    const salesOffering = yield this.args.model.salesOffering;
+    const salesPrice = yield salesOffering.unitPriceSpecification;
+    const attachments = yield this.args.model.attachments;
+
     yield this.args.model.destroyRecord();
-    // wait for delete-delta to be handled by mu-search
-    yield timeout(4000);
+    yield all([
+      warehouseLocation,
+      purchaseOffering,
+      purchasePrice,
+      salesOffering,
+      salesPrice].map(record => record.destroyRecord()));
+    yield all(attachments.map(file => file.destroyRecord()));
+    yield timeout(4000); // wait for delete-delta to be handled by mu-search
+
     this.showDeleteConfirmationModal = false;
     if (this.args.onDelete)
       this.args.onDelete();
