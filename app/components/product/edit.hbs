@@ -11,7 +11,34 @@
               Informatie over het product.
             </p>
           </div>
-          <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-6">
+          <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-6 items-center">
+            <div class="md:col-span-1">
+              <dt class="text-sm font-medium text-gray-500">
+                Nr.
+              </dt>
+              <dd class="mt-1 text-sm text-gray-900">
+                {{@model.identifier}}
+              </dd>
+            </div>
+            <div class="md:col-span-5 relative flex items-start">
+              <div class="flex items-center h-5">
+                <Input::DateSwitch
+                  @value={{@model.salesOffering.validThrough}}
+                  @onChange={{fn (mut @model.salesOffering.validThrough)}} />
+              </div>
+              <div class="ml-3 text-sm leading-5">
+                {{#if @model.salesOffering.validThrough}}
+                  <label for="in-stock" class="font-medium text-gray-700">
+                    Niet beschikbaar
+                    <span class="font-normal">sinds {{dayjs-format date=@model.salesOffering.validThrough format="DD-MM-YYYY"}}</span>
+                  </label>
+                {{else}}
+                  <label for="in-stock" class="font-medium text-gray-700">
+                    Beschikbaar
+                  </label>
+                {{/if}}
+              </div>
+            </div>
             <div class="md:col-span-4">
               <label for="product-name" class="block text-sm font-medium leading-5 text-gray-700">
                 Naam

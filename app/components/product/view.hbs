@@ -10,8 +10,8 @@
             Informatie over het product.
           </p>
         </div>
-        <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 grid-cols-6">
-          <div class="col-span-1 sm:col-span-3 md:col-span-1">
+        <div class="mt-6 grid gap-y-6 gap-x-4 grid-cols-6">
+          <div class="col-span-3">
             <dt class="text-sm font-medium text-gray-500">
               Nr.
             </dt>
@@ -19,7 +19,25 @@
               {{@model.identifier}}
             </dd>
           </div>
-          <div class="col-span-5 sm:col-span-3 md:col-span-5">
+          <div class="col-span-3 -ml-7 flex items-center space-x-2">
+            {{#if @model.salesOffering.validThrough}}
+              <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                {{!-- ban --}}
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+              </svg>
+              <div>
+                <div class="text-red-700 text-sm font-medium">Niet beschikbaar</div>
+                <div class="text-red-700 text-xs">Sinds {{dayjs-format date=@model.salesOffering.validThrough format="DD-MM-YYYY"}}</div>
+              </div>
+            {{else}}
+              <svg class="h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                {{!-- clipboard-check --}}
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+              </svg>
+              <span class="text-green-700 text-sm font-medium">Beschikbaar</span>
+            {{/if}}
+          </div>
+          <div class="col-span-6">
             <dt class="text-sm font-medium text-gray-500">
               Naam
             </dt>
