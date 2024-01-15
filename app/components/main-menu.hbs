@@ -1,0 +1,99 @@
+<nav class="bg-red-700">
+  <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <div class="flex items-center">
+        <div class="shrink-0">
+          <h1 class="text-4xl text-white font-bold font-display leading-tight tracking-wide">
+            Prijsbeheer
+          </h1>
+        </div>
+        <div class="hidden md:block">
+          <div class="ml-10 flex items-baseline">
+            <LinkTo @route="main.products.index"
+              @activeClass="text-white !bg-red-700"
+              class="ml-4 px-3 py-2 rounded-md font-medium text-red-100 hover:bg-red-600 focus:outline-none focus:text-white focus:bg-red-600">
+              Producten
+            </LinkTo>
+            <LinkTo @route="main.suppliers.index"
+              @activeClass="text-white !bg-red-700"
+              class="ml-4 px-3 py-2 rounded-md font-medium text-red-100 hover:bg-red-600 focus:outline-none focus:text-white focus:bg-red-600">
+              Leveranciers
+            </LinkTo>
+            <LinkTo @route="main.categories.index"
+              @activeClass="text-white !bg-red-700"
+              class="ml-4 px-3 py-2 rounded-md font-medium text-red-100 hover:bg-red-600 focus:outline-none focus:text-white focus:bg-red-600">
+              Categorieën
+            </LinkTo>
+          </div>
+        </div>
+      </div>
+      <div class="hidden md:block">
+        <div class="flex items-center justify-end ml-6">
+          <div class="flex items-center">
+            <div class="shrink-0">
+              <span class="inline-block h-10 w-10 rounded-full overflow-hidden bg-red-100">
+                {{svg-jar "placeholder-avatar" class="h-full w-full text-red-400"}}
+              </span>
+            </div>
+            <div class="ml-3">
+              {{#if this.userInfo.isLoaded}}
+                <div class="text-base font-medium text-red-100">{{this.userInfo.name}}</div>
+              {{/if}}
+            </div>
+          </div>
+          <MuLogout />
+        </div>
+      </div>
+      <div class="-mr-2 flex md:hidden">
+        {{!-- Mobile menu button --}}
+        <button type="button"
+          disabled={{@isLoading}}
+          {{on "click" this.toggleIsOpenMenu}}
+          class="inline-flex items-center justify-center p-2 rounded-md text-red-300 hover:text-white hover:bg-red-600 focus:outline-none focus:bg-red-600 focus:text-white">
+          {{#if this.isOpenMenu}}
+            <span class="sr-only">Close menu</span>
+            {{svg-jar "close-line" class="h-6 w-6 fill-current"}}
+          {{else}}
+            <span class="sr-only">Open menu</span>
+            {{svg-jar "menu-line" class="h-6 w-6 fill-current"}}
+          {{/if}}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="{{if this.isOpenMenu "block" "hidden"}} md:hidden">
+    <div class="px-2 pt-2 pb-3 sm:px-3">
+      <LinkTo @route="main.products.index"
+        @activeClass="active-main-route"
+        class="block px-3 py-2 rounded-md text-base font-medium text-red-100 hover:bg-red-600 focus:outline-none focus:text-white focus:bg-red-600">
+        Producten
+      </LinkTo>
+      <LinkTo @route="main.suppliers.index"
+        @activeClass="active-main-route"
+        class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-red-100 hover:bg-red-600 focus:outline-none focus:text-white focus:bg-red-600">
+        Leveranciers
+      </LinkTo>
+      <LinkTo @route="main.categories.index"
+        @activeClass="active-main-route"
+        class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-red-100 hover:bg-red-600 focus:outline-none focus:text-white focus:bg-red-600">
+        Categorieën
+      </LinkTo>
+    </div>
+    <div class="flex justify-between items-center border-t border-red-800 px-4 pt-4 pb-3">
+      <div class="flex items-center">
+        <div class="shrink-0">
+          <span class="inline-block h-10 w-10 rounded-full overflow-hidden bg-red-100">
+            {{svg-jar "placeholder-avatar" class="h-full w-full text-red-400"}}
+          </span>
+        </div>
+        <div class="ml-3">
+          <div class="text-base font-medium leading-none text-red-100">{{this.userInfo.name}}</div>
+        </div>
+      </div>
+      <div class="px-2" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
+        <MuLogout @scope="mobile" />
+      </div>
+    </div>
+  </div>
+</nav>
