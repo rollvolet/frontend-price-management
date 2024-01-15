@@ -166,10 +166,8 @@ export default class ProductEditComponent extends Component {
   *uploadFile(file) {
     try {
       const response = yield file.upload('/files');
-      const uploadedFile = yield this.store.findRecord(
-        'file',
-        response.body.data.id
-      );
+      const { data } = yield response.json();
+      const uploadedFile = yield this.store.findRecord('file', data.id);
       this.args.model.attachments.pushObject(uploadedFile);
     } catch (e) {
       this.notification.addError({
