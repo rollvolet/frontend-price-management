@@ -1,0 +1,30 @@
+<form class="space-y-6" {{on "submit" this.login }}>
+  {{#if this.errorMessage}}
+    <div class="rounded-md bg-yellow-50 p-4">
+      <div class="flex">
+        <div class="shrink-0">
+          {{svg-jar "alert-fill" class="h-5 w-5 text-yellow-400 fill-current"}}
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-yellow-800">
+            Aanmelden mislukt
+          </h3>
+          <div class="mt-2 text-sm text-yellow-700">
+            <p>
+              {{this.errorMessage}}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  {{/if}}
+
+  <div>
+    <Rlv::Button
+      type="submit"
+      @label="Aanmelden"
+      @skin="primary"
+      @loading={{this.isAuthenticating}}
+      class="w-full flex justify-center" />
+  </div>
+</form>

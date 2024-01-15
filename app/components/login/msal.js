@@ -4,7 +4,7 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { warn } from '@ember/debug';
 
-export default class MsalLoginComponent extends Component {
+export default class LoginMsalComponent extends Component {
   @service session;
 
   @tracked errorMessage;
@@ -19,10 +19,7 @@ export default class MsalLoginComponent extends Component {
 
     try {
       this.isAuthenticating = true;
-      await this.session.authenticate(
-        'authenticator:torii',
-        'azure-ad2-oauth2'
-      );
+      await this.session.authenticate('authenticator:torii', 'azure-ad2-oauth2');
     } catch (e) {
       warn(JSON.stringify(e), { id: 'authentication.failure' });
       if (e.errors && e.errors.length && e.errors[0].title) {
@@ -30,7 +27,7 @@ export default class MsalLoginComponent extends Component {
       } else if (e.status == 403) {
         this.errorMessage = 'U hebt geen toegang tot de applicatie';
       } else {
-        this.errorMessage = 'Er is iets misgelopen. Probeer aub nog eens.';
+        this.errorMessage = 'Er is iets misgelopen. Probeer opnieuw.';
       }
     } finally {
       this.isAuthenticating = false;
