@@ -4,10 +4,9 @@ import { inject as service } from '@ember/service';
 export default class MainProductsDetailRoute extends Route {
   @service store;
 
-  async model(params) {
-    const products = await this.store.query('product', {
+  model(params) {
+    return this.store.queryOne('product', {
       filter: { ':id:': params.product_id },
-      page: { size: 1 },
       include: [
         'category.broader',
         'purchase-offering.unit-price-specification',
@@ -15,6 +14,5 @@ export default class MainProductsDetailRoute extends Route {
         'sales-offering.unit-price-specification',
       ].join(','),
     });
-    return products.firstObject;
   }
 }

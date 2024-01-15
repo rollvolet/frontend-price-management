@@ -6,68 +6,37 @@
           <h3 class="text-lg leading-6 font-medium text-gray-900">
             Details
           </h3>
-          <p class="mt-1 text-sm leading-5 text-gray-500">
+          <p class="mt-1 text-sm text-gray-500">
             Informatie over het product.
           </p>
         </div>
         <div class="mt-6 grid gap-y-6 gap-x-4 grid-cols-6">
           <div class="col-span-3">
-            <dt class="text-sm font-medium text-gray-500">
-              Nr.
-            </dt>
-            <dd class="mt-1 text-sm text-gray-900">
-              {{@model.identifier}}
-            </dd>
+            <Util::Property @label="Nr." @value={{@model.identifier}} />
           </div>
           <div class="col-span-3 -ml-7 flex items-center space-x-2">
             {{#if @model.salesOffering.validThrough}}
-              <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                {{!-- ban --}}
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
-              </svg>
+              {{svg-jar "prohibited-line" class="h-5 w-5 text-red-600 fill-current"}}
               <div>
                 <div class="text-red-700 text-sm font-medium">Niet beschikbaar</div>
                 <div class="text-red-700 text-xs">Sinds {{dayjs-format date=@model.salesOffering.validThrough format="DD-MM-YYYY"}}</div>
               </div>
             {{else}}
-              <svg class="h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                {{!-- clipboard-check --}}
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-              </svg>
+              {{svg-jar "survey-line" class="h-5 w-5 text-green-600 fill-current"}}
               <span class="text-green-700 text-sm font-medium">Beschikbaar</span>
             {{/if}}
           </div>
           <div class="col-span-6">
-            <dt class="text-sm font-medium text-gray-500">
-              Naam
-            </dt>
-            <dd class="mt-1 text-sm text-gray-900">
-              {{@model.name}}
-            </dd>
+            <Util::Property @label="Naam" @value={{@model.name}} />
           </div>
           <div class="col-span-3">
-            <dt class="text-sm font-medium text-gray-500">
-              Categorie
-            </dt>
-            <dd class="mt-1 text-sm text-gray-900">
-              {{@model.category.broader.label}}
-            </dd>
+            <Util::Property @label="Categorie" @value={{@model.category.broader.label}} />
           </div>
           <div class="col-span-3">
-            <dt class="text-sm font-medium text-gray-500">
-              Subcategorie
-            </dt>
-            <dd class="mt-1 text-sm text-gray-900">
-              {{@model.category.label}}
-            </dd>
+            <Util::Property @label="Subcategorie" @value={{@model.category.label}} />
           </div>
           <div class="col-span-6 md:col-span-3">
-            <dt class="text-sm font-medium text-gray-500">
-              Opmerking
-            </dt>
-            <dd class="mt-1 text-sm text-gray-900">
-              {{@model.description}}
-            </dd>
+            <Util::Property @label="Opmerking" @value={{@model.description}} />
           </div>
         </div>
       </div>
@@ -77,26 +46,16 @@
             <h3 class="text-lg leading-6 font-medium text-gray-900">
               Leverancier
             </h3>
-            <p class="mt-1 text-sm leading-5 text-gray-500">
+            <p class="mt-1 text-sm text-gray-500">
               Informatie over de leverancier waar het product aangekocht is.
             </p>
           </div>
           <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 grid-cols-6">
             <div class="col-span-4 sm:col-span-3">
-              <dt class="text-sm font-medium text-gray-500">
-                Leverancier
-              </dt>
-              <dd class="mt-1 text-sm text-gray-900">
-                {{@model.purchaseOffering.businessEntity.name}}
-              </dd>
+              <Util::Property @label="Leverancier" @value={{@model.purchaseOffering.businessEntity.name}} />
             </div>
             <div class="col-span-2 sm:col-span-3">
-              <dt class="text-sm font-medium text-gray-500">
-                Nummer
-              </dt>
-              <dd class="mt-1 text-sm text-gray-900">
-                {{@model.purchaseOffering.identifier}}
-              </dd>
+              <Util::Property @label="Nummer" @value={{@model.purchaseOffering.identifier}} />
             </div>
           </div>
         </div>
@@ -105,58 +64,31 @@
             <h3 class="text-lg leading-6 font-medium text-gray-900">
               Magazijn
             </h3>
-            <p class="mt-1 text-sm leading-5 text-gray-500">
+            <p class="mt-1 text-sm text-gray-500">
               Informatie over de plaatsing en voorraad van het product in het magazijn.
             </p>
           </div>
           <div class="mt-6 grid grid-cols-6 gap-y-6 gap-x-4">
             <div class="col-span-6 flex items-center space-x-2">
               {{#if @model.includeInStockReport}}
-                <svg class="h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  {{!-- eye --}}
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
+                {{svg-jar "eye-line" class="h-5 w-5 text-green-600 fill-current"}}
                 <span class="text-green-700 text-sm font-medium">Neem op in voorraadlijst</span>
               {{else}}
-                <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  {{!-- eye-off --}}
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-                </svg>
+                {{svg-jar "eye-off-line" class="h-5 w-5 text-red-600 fill-current"}}
                 <span class="text-red-700 text-sm font-medium">Niet in voorraadlijst</span>
               {{/if}}
             </div>
             <div class="col-span-6 sm:col-span-3">
-              <dt class="text-sm font-medium text-gray-500">
-                Afdeling
-              </dt>
-              <dd class="mt-1 text-sm text-gray-900">
-                {{@model.warehouseLocation.department.name}}
-              </dd>
+              <Util::Property @label="Afdeling" @value={{@model.warehouseLocation.department.name}} />
             </div>
             <div class="col-span-2 sm:col-span-1">
-              <dt class="text-sm font-medium text-gray-500">
-                Rek
-              </dt>
-              <dd class="mt-1 text-sm text-gray-900">
-                {{@model.warehouseLocation.rack}}
-              </dd>
+              <Util::Property @label="Rek" @value={{@model.warehouseLocation.rack}} />
             </div>
             <div class="col-span-2 sm:col-span-1">
-              <dt class="text-sm font-medium text-gray-500">
-                Zijde
-              </dt>
-              <dd class="mt-1 text-sm text-gray-900">
-                {{@model.warehouseLocation.side}}
-              </dd>
+              <Util::Property @label="Zijde" @value={{@model.warehouseLocation.side}} />
             </div>
             <div class="col-span-2 sm:col-span-1">
-              <dt class="text-sm font-medium text-gray-500">
-                Plaats
-              </dt>
-              <dd class="mt-1 text-sm text-gray-900">
-                {{@model.warehouseLocation.position}}
-              </dd>
+              <Util::Property @label="Plaats" @value={{@model.warehouseLocation.position}} />
             </div>
           </div>
         </div>
@@ -168,7 +100,7 @@
       <h3 class="text-lg leading-6 font-medium text-gray-900">
         Prijzen
       </h3>
-      <p class="mt-1 text-sm leading-5 text-gray-500">
+      <p class="mt-1 text-sm text-gray-500">
         Informatie over de inkoop- en verkoopprijs van het product.
       </p>
     </div>
@@ -182,12 +114,9 @@
         </dd>
       </div>
       <div class="col-span-3 sm:col-span-2 lg:col-span-1">
-        <dt class="text-sm font-medium text-gray-500">
-          Eenheid
-        </dt>
-        <dd class="mt-1 text-sm text-gray-900">
+        <Util::Property @label="Eenheid">
           <Fmt::UnitCode @value={{@model.purchaseOffering.unitPriceSpecification.unitCode.label}} />
-        </dd>
+        </Util::Property>
       </div>
     </div>
     <div class="mt-4 grid gap-y-4 gap-x-6 md:grid-cols-2">
@@ -195,70 +124,47 @@
         {{if @model.salesOffering.unitPriceSpecification.hasPriceOutCalculationBasis "border-green-300" "border-gray-200"}}">
         <div class="col-span-6 flex items-center">
           {{#if @model.salesOffering.unitPriceSpecification.hasPriceOutCalculationBasis}}
-            <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              {{!-- check-circle icon --}}
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
+            {{svg-jar "checkbox-circle-line" class="h-5 w-5 text-green-400 fill-current"}}
             <span class="ml-2 block text-sm font-medium text-green-700">Verkoopprijs</span>
           {{else}}
-            <svg class="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              {{!-- minus-circle icon --}}
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span class="ml-2 block text-sm leading-5 font-medium text-gray-700">Verkoopprijs</span>
+            {{svg-jar "indeterminate-circle-line" class="h-5 w-5 text-gray-400 fill-current"}}
+            <span class="ml-2 block text-sm font-medium text-gray-700">Verkoopprijs</span>
           {{/if}}
         </div>
         <div class="col-span-2">
-          <dt class="text-sm font-medium text-gray-500">
-            Prijs excl. btw
-          </dt>
-          <dd class="mt-1 text-sm text-gray-900">
+          <Util::Property @label="Prijs excl. btw">
             <Fmt::UnitPrice @model={{@model.salesOffering.unitPriceSpecification}} @showTaxIncluded={{false}} />
-          </dd>
+          </Util::Property>
         </div>
         <div class="col-span-2">
-          <dt class="text-sm font-medium text-gray-500">
+          <Util::Property @label="Prijs incl. btw">
             Prijs incl. btw
-          </dt>
-          <dd class="mt-1 text-sm text-gray-900">
             <Fmt::UnitPrice @model={{@model.salesOffering.unitPriceSpecification}} @showTaxIncluded={{true}} />
-          </dd>
+          </Util::Property>
         </div>
         <div class="col-span-2">
-          <dt class="text-sm font-medium text-gray-500">
-            Eenheid
-          </dt>
-          <dd class="mt-1 text-sm text-gray-900">
+          <Util::Property @label="Eenheid">
             <Fmt::UnitCode @value={{@model.salesOffering.unitPriceSpecification.unitCode.label}} />
-          </dd>
+          </Util::Property>
         </div>
       </div>
       <div class="p-4 grid grid-cols-6 gap-y-4 gap-x-4 rounded-md bg-gray-50 border
         {{if @model.salesOffering.unitPriceSpecification.hasMarginCalculationBasis "border-green-300" "border-gray-200"}}">
         <div class="col-span-6 flex items-center">
           {{#if @model.salesOffering.unitPriceSpecification.hasMarginCalculationBasis}}
-            <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              {{!-- check-circle icon --}}
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
+            {{svg-jar "checkbox-circle-line" class="h-5 w-5 text-green-400 fill-current"}}
             <span class="ml-2 block text-sm font-medium text-green-700">Marge</span>
           {{else}}
-            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              {{!-- minus-circle icon --}}
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span class="ml-2 block text-sm leading-5 font-medium text-gray-600">Marge</span>
+            {{svg-jar "indeterminate-circle-line" class="h-5 w-5 text-gray-400 fill-current"}}
+            <span class="ml-2 block text-sm font-medium text-gray-600">Marge</span>
           {{/if}}
         </div>
         <div class="col-span-6">
-          <dt class="text-sm font-medium text-gray-500">
-            Factor
-          </dt>
-          <dd class="mt-1 text-sm text-gray-900">
+          <Util::Property @label="Factor">
             {{#if @model.salesOffering.unitPriceSpecification.margin}}
               <Fmt::Decimal @value={{@model.salesOffering.unitPriceSpecification.margin}} />
             {{/if}}
-          </dd>
+          </Util::Property>
         </div>
       </div>
     </div>
@@ -267,7 +173,7 @@
         <h3 class="text-lg leading-6 font-medium text-gray-900">
           Bijlagen
         </h3>
-        <p class="mt-1 text-sm leading-5 text-gray-500">
+        <p class="mt-1 text-sm text-gray-500">
           Bijkomende informatie in de vorm van afbeeldingen en bestanden.
         </p>
       </div>
@@ -280,20 +186,19 @@
                   <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm leading-5
                     {{if (gt index 0) "border-t border-gray-200"}}">
                     <div class="w-0 flex-1 flex items-center">
-                      <svg class="shrink-0 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
-                      </svg>
+                      {{svg-jar "attachment-2" class="shrink-0 h-5 w-5 text-gray-400 fill-current"}}
                       <span class="ml-2 flex-1 w-0 truncate">
                         {{file.filename}}
                         <span class="ml-2 text-xs text-gray-400"> {{file.humanReadableSize}}</span>
                       </span>
                     </div>
                     <div class="ml-4 shrink-0">
-                      <a href={{file.downloadLink}}
-                        target="_blank" rel="noopener noreferrer"
-                        class="bg-white rounded-md font-medium text-red-600 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200">
-                        Download
-                      </a>
+                      <Rlv::Button
+                        @label="Download"
+                        @href={{file.downloadLink}}
+                        @skin="link"
+                        target="_blank"
+                        rel="noopener noreferrer" />
                     </div>
                   </li>
                 {{/each}}
@@ -302,7 +207,7 @@
           </div>
         {{else}}
           <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-2">
-            <div class="text-sm leading-5 text-gray-400 italic">
+            <div class="text-sm text-gray-400 italic">
               Nog geen bestanden opgeladen.
             </div>
           </div>
@@ -314,25 +219,23 @@
     <div class="flex flex-wrap-reverse justify-between items-center">
       <div class="mt-6 text-xs text-gray-400 sm:mt-0">
         <div>
-          Aangemaakt op {{dayjs-format date=@model.created format="DD-MM-YYYY"}}
+          <Util::CreatedOn @date={{@model.created}} />
         </div>
         <div>
-          Laatst aangepast op {{dayjs-format date=@model.modified format="DD-MM-YYYY"}}
+          <Util::UpdatedOn @date={{@model.modified}} />
         </div>
       </div>
-      <div class="flex justify-end">
-        <span class="inline-flex rounded-md shadow-sm">
-          <LinkTo @route="main.products.index"
-            class="bg-white py-2 px-4 border border-gray-300 rounded-md text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200" >
-            Terug
-          </LinkTo>
-        </span>
-        <span class="ml-3 inline-flex rounded-md shadow-sm">
-          <LinkTo @route="main.products.detail.edit"
-            class="inline-flex justify-center py-2 px-4 w-24 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-red-600 hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200">
-            Bewerk
-          </LinkTo>
-        </span>
+      <div class="flex justify-end space-x-3">
+        <Rlv::Button
+          @label="Terug"
+          @icon="arrow-go-back-line"
+          @route="main.products.index"
+          @skin="secondary" />
+        <Rlv::Button
+          @label="Bewerk"
+          @icon="pencil-line"
+          @route="main.products.detail.edit"
+          @skin="primary" />
       </div>
     </div>
   </div>
