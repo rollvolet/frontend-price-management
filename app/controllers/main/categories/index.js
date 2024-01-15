@@ -1,7 +1,8 @@
 import Controller from '@ember/controller';
+import { tracked } from '@glimmer/tracking';
 
 export default class MainCategoriesIndexController extends Controller {
-  page = 0;
-  size = 50;
-  sort = 'label';
+  @tracked page = 0;
+  @tracked size = 50;
+  @tracked sort = 'label';
 }

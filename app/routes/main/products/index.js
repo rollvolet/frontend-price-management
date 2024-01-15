@@ -105,21 +105,18 @@ export default class MainProductsIndexRoute extends Route {
 
   setupController(controller) {
     super.setupController(...arguments);
-    controller.set(
-      'filter',
-      new ProductFilter(copy(this.lastParams.committed))
-    );
-    controller.set('page', this.lastParams.committed.page);
-    controller.set('size', this.lastParams.committed.size);
-    controller.set('sort', this.lastParams.committed.sort);
+    controller.filter = new ProductFilter(copy(this.lastParams.committed));
+    controller.page = this.lastParams.committed.page;
+    controller.size = this.lastParams.committed.size;
+    controller.sort = this.lastParams.committed.sort;
   }
 
   @action
   loading(transition) {
     const controller = this.controllerFor(this.routeName);
-    controller.set('isLoadingModel', true);
+    controller.isLoadingModel = true;
     transition.promise.finally(function () {
-      controller.set('isLoadingModel', false);
+      controller.isLoadingModel = false;
     });
 
     return true; // bubble the loading event

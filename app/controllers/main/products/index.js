@@ -1,17 +1,28 @@
 import Controller from '@ember/controller';
+import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { restartableTask, timeout } from 'ember-concurrency';
 
 export default class MainProductsIndexController extends Controller {
-  page = 0;
-  size = 20;
-  sort = 'identifier';
+  @tracked page = 0;
+  @tracked size = 20;
+  @tracked sort = 'identifier';
+
+  @tracked isLoadingModel;
+  @tracked filter;
+  @tracked name;
+  @tracked category;
+  @tracked broaderCategory;
+  @tracked identifier;
+  @tracked supplier;
+  @tracked supplierIdentifier;
+  @tracked rack;
 
   @restartableTask
   *search({ ms = 500 }) {
     yield timeout(ms);
     for (let key of this.filter.keys) {
-      this.set(key, this.filter[key]);
+      this[key] = this.filter[key];
     }
   }
 
@@ -33,13 +44,13 @@ export default class MainProductsIndexController extends Controller {
 
   @action
   selectPage(page) {
-    this.set('page', page);
+    this.page = page;
   }
 
   @action
   resetFilters() {
     for (let key of this.filter.keys) {
-      this.set(key, undefined);
+      this[key] = undefined;
     }
     this.filter.reset();
   }
