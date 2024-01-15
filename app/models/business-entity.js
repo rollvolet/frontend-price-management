@@ -6,6 +6,7 @@ const SUPPLIER_CATEGORY =
   'http://data.rollvolet.be/business-categories/34104acc-3633-4ea6-a465-87075d0e1cd1';
 
 export default class BusinessEntityModel extends Model {
+  @attr('string') uri;
   @attr name;
   @attr description;
   @attr legalname;

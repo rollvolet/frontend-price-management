@@ -27,6 +27,18 @@ export default class ProductFilter {
     ];
   }
 
+  toQueryParams() {
+    const val = {};
+    for (let key of this.keys) {
+      if (['supplier', 'category', 'broaderCategory'].includes(key)) {
+        val[key] = this[key]?.uri;
+      } else {
+        val[key] = this[key];
+      }
+    }
+    return val;
+  }
+
   reset() {
     this.keys.forEach((key) => (this[key] = undefined));
   }

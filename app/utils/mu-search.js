@@ -44,11 +44,11 @@ function getPaginationMetadata(pageNumber, size, total) {
 function sortOrder(sort) {
   if (sort.startsWith('-')) {
     return 'desc';
-  }
-  if (sort.length > 0) {
+  } else if (sort.length > 0) {
     return 'asc';
+  } else {
+    return null;
   }
-  return null;
 }
 
 function stripSort(sort) {
@@ -59,12 +59,33 @@ function snakeToCamel(text) {
   return text.replace(/(-\w)/g, (entry) => entry[1].toUpperCase());
 }
 
-async function muSearch(index, page, size, sort, filter, dataMapping) {
+function fixBooleanValues(object) {
+  for (let key in object) {
+    if (['true', 'false'].includes(object[key])) {
+      object[key] = object[key] == 'true';
+    } else if (object[key]?.constructor?.name == 'Object') {
+      fixBooleanValues(object[key]);
+    }
+  }
+}
+
+async function muSearch(index, page, size, sort, filter, dataMapping, highlightConfig) {
+  if (!dataMapping) {
+    dataMapping = (entry) => entry.attributes;
+  }
+
+  for (let key in filter) {
+    if (filter[key] == null) {
+      delete filter[key]; // mu-search doesn't work well with unspecified filters
+    }
+  }
+
   const endpoint = new URL(`/${index}/search`, window.location.origin);
   const params = new URLSearchParams(
     Object.entries({
       'page[size]': size,
       'page[number]': page,
+      count: 'exact',
     })
   );
 
@@ -73,7 +94,19 @@ async function muSearch(index, page, size, sort, filter, dataMapping) {
   }
 
   if (sort) {
-    params.append(`sort[${snakeToCamel(stripSort(sort))}]`, sortOrder(sort));
+    sort.split(',').forEach((s) => {
+      params.append(`sort[${snakeToCamel(stripSort(s))}]`, sortOrder(s));
+    });
+  }
+
+  if (highlightConfig) {
+    if (highlightConfig.fields) {
+      params.append(`highlight[:fields:]`, highlightConfig.fields.join(','));
+    }
+
+    if (highlightConfig.tag) {
+      params.append('highlight[:tag:]', highlightConfig.tag);
+    }
   }
 
   endpoint.search = params.toString();
@@ -85,10 +118,18 @@ async function muSearch(index, page, size, sort, filter, dataMapping) {
   });
   const { count, data } = await response.json();
   const pagination = getPaginationMetadata(page, size, count);
-  const entries = A(data.map(dataMapping));
+  const entries = A(
+    await Promise.all(
+      data.map((entry) => {
+        fixBooleanValues(entry);
+        return dataMapping(entry);
+      })
+    )
+  );
 
   return ArrayProxy.create({
     content: entries,
+    highlight: data.map((entry) => entry.highlight),
     meta: {
       count,
       pagination,
@@ -96,4 +137,22 @@ async function muSearch(index, page, size, sort, filter, dataMapping) {
   });
 }
 
+function getWildcardFilterValue(value, ignoreCase = true) {
+  if (value) {
+    let wildcardValue = value;
+    if (!wildcardValue.endsWith('*') && !wildcardValue.endsWith('+')) {
+      wildcardValue = `${wildcardValue}*`;
+    }
+
+    if (ignoreCase) {
+      wildcardValue = wildcardValue.toLowerCase();
+    }
+
+    return wildcardValue;
+  } else {
+    return undefined;
+  }
+}
+
 export default muSearch;
+export { getWildcardFilterValue };

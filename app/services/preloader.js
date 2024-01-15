@@ -16,17 +16,14 @@ export default class PreloaderService extends Service {
 
   @keepLatestTask
   *loadData() {
-    yield this.store.query('product-category', {
-      page: { size: 1000 },
+    yield this.store.queryAll('product-category', {
       sort: 'label',
       include: 'broader',
     });
-    yield this.store.query('warehouse-department', {
-      page: { size: 1000 },
+    yield this.store.queryAll('warehouse-department', {
       sort: 'name',
     });
-    yield this.store.query('unit-code', {
-      page: { size: 1000 },
+    yield this.store.queryAll('unit-code', {
       sort: 'label',
     });
   }

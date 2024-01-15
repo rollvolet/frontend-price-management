@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
-import { isEmpty } from '@ember/utils';
-import search from '../../../utils/mu-search';
+import { isPresent } from '@ember/utils';
+import search, { getWildcardFilterValue } from '../../../utils/mu-search';
 import Snapshot from '../../../utils/snapshot';
 import { copy } from 'ember-copy';
 import ProductFilter from '../../../models/product-filter';
@@ -45,67 +45,54 @@ export default class MainProductsIndexRoute extends Route {
     this.lastParams = new Snapshot();
   }
 
-  model(params) {
+  async model(params) {
     this.lastParams.stageLive(params);
 
-    if (
-      this.lastParams.anyFieldChanged(
-        Object.keys(params).filter((key) => key !== 'page')
-      )
-    ) {
+    if (this.lastParams.anyFieldChanged(Object.keys(params).filter((key) => key !== 'page'))) {
       params.page = 0;
     }
 
+    const { supplier, category, broaderCategory } = params;
+    this.supplier = supplier ? await this.store.findRecordByUri('business-entity', supplier) : null;
+    this.category = category
+      ? await this.store.findRecordByUri('product-category', category)
+      : null;
+    this.broaderCategory = broaderCategory
+      ? await this.store.findRecordByUri('product-category', broaderCategory)
+      : null;
+
     const filter = {};
 
-    if (!isEmpty(params.name)) {
-      const name = params.name.toLowerCase();
-      filter[':wildcard:name'] = name.includes('*') ? name : `*${name}*`;
-    }
-    if (!isEmpty(params.identifier)) {
+    filter[':wildcard:name'] = getWildcardFilterValue(params.name);
+    if (isPresent(params.identifier)) {
       filter['identifier'] = params.identifier;
     }
-    if (!isEmpty(params.category)) {
-      filter[':term:category'] = params.category;
-    }
-    if (!isEmpty(params.broaderCategory)) {
-      filter[':term:broaderCategory'] = params.broaderCategory;
-    }
-    if (!isEmpty(params.supplier)) {
-      filter[':term:purchaseOffering.businessEntity'] =
-        params.supplier.toLowerCase();
-    }
-    if (!isEmpty(params.supplierIdentifier)) {
-      filter[':wildcard:purchaseOffering.identifier'] =
-        params.supplierIdentifier.toLowerCase();
-    }
-    if (!isEmpty(params.rack)) {
-      filter[':wildcard:warehouseLocation.rack'] = params.rack.toLowerCase();
-    }
-
-    if (!Object.keys(filter).length) {
-      filter[':sqs:name'] = '*';
-    }
+    filter['category.uuid'] = this.category?.id;
+    filter['broaderCategory.uuid'] = this.broaderCategory?.id;
+    filter['purchaseOffering.businessEntity.uuid'] = this.supplier?.id;
+    filter[':wildcard:purchaseOffering.identifier'] = getWildcardFilterValue(
+      params.supplierIdentifier
+    );
+    filter[':wildcard:warehouseLocation.rack'] = getWildcardFilterValue(params.rack);
 
     this.lastParams.commit();
 
-    return search(
-      'products',
-      params.page,
-      params.size,
-      params.sort,
-      filter,
-      (product) => {
-        const entry = product.attributes;
-        entry.id = product.id;
-        return entry;
-      }
-    );
+    return search('products', params.page, params.size, params.sort, filter, (product) => {
+      const entry = product.attributes;
+      entry.id = product.id;
+      return entry;
+    });
   }
 
   setupController(controller) {
     super.setupController(...arguments);
-    controller.filter = new ProductFilter(copy(this.lastParams.committed));
+
+    const filter = copy(this.lastParams.committed);
+    filter.supplier = this.supplier;
+    filter.category = this.category;
+    filter.broaderCategory = this.broaderCategory;
+    controller.filter = new ProductFilter(filter);
+
     controller.page = this.lastParams.committed.page;
     controller.size = this.lastParams.committed.size;
     controller.sort = this.lastParams.committed.sort;

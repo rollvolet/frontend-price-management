@@ -1,96 +1,80 @@
-<div class="relative mb-6 p-4 bg-gray-100 border-b border-t border-gray-200">
-  <div class="mb-6 flex text-gray-700 uppercase leading-tight tracking-wide">
-    Zoeken
-    {{#if this.isLoadingModel}}
-      <div class="flex-0 ml-4">
-        <Util::LoadingSpinner @label="" />
+<div class="p-4 lg:px-6 space-y-4 w-full bg-gray-50 rounded-md">
+  <div class="flex items-center justify-between">
+    <div class="flex items-center space-x-2">
+      <div class="flex items-center">
+        {{svg-jar "search-line" class="shrink-0 mr-2 h-4 w-4 text-gray-500 fill-current"}}
+        <h4 class="text-gray-700 text-sm uppercase tracking-wide">
+          Zoeken
+        </h4>
       </div>
-    {{/if}}
-  </div>
-  <div class="mb-2 grid grid-cols-4 gap-y-4 gap-x-2 sm:grid-cols-8 lg:grid-cols-12">
-    <div class="col-span-1">
-      <label for="filter-number" class="block text-sm font-medium leading-5 text-gray-700">Nr.</label>
-      <div class="mt-1 relative rounded-md shadow-sm">
-        <Input
-          id="fiter-number"
-          @value={{this.filter.identifier}}
-          {{on "keydown" (perform this.search)}}
-          class="focus:ring-red-200 focus:border-red-200 border-gray-300 rounded-md block w-full sm:text-sm sm:leading-5" />
-      </div>
+      {{#if this.isLoadingModel}}
+        <div class="flex-0">
+          <Util::LoadingSpinner @label="" />
+        </div>
+      {{else}}
+        <div class="text-gray-500 text-xs">
+          (<span class="font-medium">{{this.model.meta.count}}</span> resultaten gevonden)
+        </div>
+      {{/if}}
     </div>
-    <div class="col-span-2">
-      <label for="filter-broader-category" class="block text-sm font-medium leading-5 text-gray-700">Categorie</label>
-      <div class="mt-1 relative rounded-md shadow-sm">
-        <Search::ProductCategorySelect
-          @id="filter-broader-category"
-          @scope="top"
-          @value={{this.filter.broaderCategory}}
-          @onSelectionChange={{fn this.selectFilter "broaderCategory"}}
-          class="focus:ring-red-200 focus:border-red-200 border-gray-300 rounded-md-select block w-full sm:text-sm sm:leading-5" />
-      </div>
-    </div>
-    <div class="col-span-3">
-      <label for="filter-category" class="block text-sm font-medium leading-5 text-gray-700">Subcategorie</label>
-      <div class="mt-1 relative rounded-md shadow-sm">
-        <Search::ProductCategorySelect
-          @id="filter-category"
-          @scope={{this.filter.broaderCategory}}
-          @value={{this.filter.category}}
-          @onSelectionChange={{fn this.selectFilter "category"}}
-          class="block w-full sm:text-sm sm:leading-5" />
-      </div>
-    </div>
-    <div class="col-span-2">
-      <label for="filter-name" class="block text-sm font-medium leading-5 text-gray-700">Naam</label>
-      <div class="mt-1 relative rounded-md shadow-sm">
-        <Input
-          id="fiter-name"
-          @value={{this.filter.name}}
-          {{on "keydown" (perform this.search)}}
-          class="focus:ring-red-200 focus:border-red-200 border-gray-300 rounded-md block w-full sm:text-sm sm:leading-5" />
-      </div>
-    </div>
-    <div class="col-span-2">
-      <label for="filter-supplier" class="block text-sm font-medium leading-5 text-gray-700">Leverancier</label>
-      <div class="mt-1 relative rounded-md shadow-sm">
-        <Search::BusinessEntitySelect
-          @id="filter-supplier"
-          @value={{this.filter.supplier}}
-          @onSelectionChange={{fn this.selectFilter "supplier"}}
-          class="block w-full sm:text-sm sm:leading-5" />
-      </div>
-    </div>
-    <div class="col-span-1">
-      <label for="filter-supplier-number" class="block text-sm font-medium leading-5 text-gray-700">Lev. nr.</label>
-      <div class="mt-1 relative rounded-md shadow-sm">
-        <Input
-          id="fiter-supplier-number"
-          @value={{this.filter.supplierIdentifier}}
-          {{on "keydown" (perform this.search)}}
-          class="focus:ring-red-200 focus:border-red-200 border-gray-300 rounded-md block w-full sm:text-sm sm:leading-5" />
-      </div>
-    </div>
-    <div class="col-span-1">
-      <label for="filter-rack" class="block text-sm font-medium leading-5 text-gray-700">Rek</label>
-      <div class="mt-1 relative rounded-md shadow-sm">
-        <Input
-          id="fiter-rack"
-          @value={{this.filter.rack}}
-          {{on "keydown" (perform this.search)}}
-          class="focus:ring-red-200 focus:border-red-200 border-gray-300 rounded-md block w-full sm:text-sm sm:leading-5" />
-      </div>
+    <div class="shrink-0">
+      <Rlv::Button
+        @label="Wis alle filters"
+        @icon="filter-line"
+        @skin="secondary-link"
+        {{on "click" this.resetFilters}} />
     </div>
   </div>
-  <div class="lg:absolute lg:top-0 lg:right-0 p-2 lg:mx-4 lg:my-2 flex flex-row-reverse">
-    <button type="button"
-      {{on "click" this.resetFilters}}
-      class="text-sm text-gray-700 underline lg:no-underline hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200">
-      Wis alle filters
-    </button>
+  <div class="mt-4 grid sm:grid-cols-12 gap-4">
+    <div class="sm:col-span-2 lg:col-span-1">
+      <Filter::TextInput
+        @label="Nr."
+        @value={{this.filter.identifier}}
+        @onInput={{perform this.debounceFilter "identifier"}} />
+    </div>
+    <div class="sm:col-span-4 lg:col-span-3 xl:col-span-2">
+      <Filter::ProductCategorySelect
+        @label="Categorie"
+        @scope="top"
+        @value={{this.filter.broaderCategory}}
+        @onSelectionChange={{fn this.selectFilter "broaderCategory"}} />
+    </div>
+    <div class="sm:col-span-6 lg:col-span-4 xl:col-span-2">
+      <Filter::ProductCategorySelect
+        @label="Subcategorie"
+        @scope={{this.filter.broaderCategory}}
+        @disabled={{not this.filter.broaderCategory}}
+        @value={{this.filter.category}}
+        @onSelectionChange={{fn this.selectFilter "category"}} />
+    </div>
+    <div class="sm:col-span-10 lg:col-span-4 xl:col-span-3">
+      <Filter::TextInput
+        @label="Naam"
+        @value={{this.filter.name}}
+        @onInput={{perform this.debounceFilter "name"}} />
+    </div>
+    <div class="sm:col-span-6 lg:col-span-4 xl:col-span-2">
+      <Filter::BusinessEntitySelect
+        @label="Leverancier"
+        @value={{this.filter.supplier}}
+        @onSelectionChange={{fn this.selectFilter "supplier"}} />
+    </div>
+    <div class="sm:col-span-2 lg:col-span-2 xl:col-span-1">
+      <Filter::TextInput
+        @label="Lev. nr."
+        @value={{this.filter.supplierIdentifier}}
+        @onInput={{perform this.debounceFilter "supplierIdentifier"}} />
+    </div>
+    <div class="sm:col-span-2 lg:col-span-2 xl:col-span-1">
+      <Filter::TextInput
+        @label="Rek"
+        @value={{this.filter.rack}}
+        @onInput={{perform this.debounceFilter "rack"}} />
+    </div>
   </div>
 </div>
 
-<div class="flex flex-col">
+<div class="mt-4 flex flex-col">
   <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
       <div class="overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -129,39 +113,44 @@
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-500">
                   {{#if product.broaderCategory}}
-                    {{product.broaderCategory}}
+                    {{product.broaderCategory.label}}
                     <br> <div class="w-3 h-3 ml-2 mr-1 inline-block border-b-2 border-l-2 border-gray-300"></div>
                   {{/if}}
-                  {{product.category}}
+                  {{product.category.label}}
                 </td>
                 <td class="px-6 py-4 text-sm leading-5 font-medium text-gray-900">
                   {{product.name}}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-500">
-                  <Fmt::UnitPrice @model={{product.salesOffering.unitPriceSpecification}} @showTaxIncluded={{false}} />
+                  <Fmt::UnitPrice
+                    @model={{product.salesOffering.unitPriceSpecification}}
+                    @showTaxIncluded={{false}} />
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium leading-5 text-gray-900">
-                  <Fmt::UnitPrice @model={{product.salesOffering.unitPriceSpecification}} @showTaxIncluded={{true}} />
+                  <Fmt::UnitPrice
+                    @model={{product.salesOffering.unitPriceSpecification}}
+                    @showTaxIncluded={{true}} />
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-500">
                   <Fmt::UnitCode @value={{product.salesOffering.unitPriceSpecification.unitCode}} />
                 </td>
                 <td class="px-6 py-4 text-sm leading-5 text-gray-500">
-                  {{product.purchaseOffering.businessEntity}}
+                  {{product.purchaseOffering.businessEntity.name}}
                   {{#if product.purchaseOffering.identifier}}
                     <br>Nr. {{product.purchaseOffering.identifier}}
                   {{/if}}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm leading-5 font-medium">
-                  <LinkTo @route="main.products.detail.index" @model={{product.uuid}}
-                    class="text-red-700 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200">
-                    Bekijk
-                  </LinkTo>
+                  <Rlv::Button
+                    @label="Bekijk"
+                    @route="main.products.detail.index"
+                    @model={{product.uuid}}
+                    @skin="link" />
                 </td>
               </tr>
             {{else}}
               <tr>
-                <td colspan="9" class="px-6 py-4 text-center text-sm leading-5 text-gray-500">
+                <td colspan="8" class="px-6 py-4 text-center text-sm leading-5 text-gray-500">
                   Geen producten gevonden.
                 </td>
               </tr>

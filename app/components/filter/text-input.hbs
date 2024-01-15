@@ -1,0 +1,19 @@
+<div ...attributes>
+  {{#if @label}}
+    <label for={{this.fieldId}} class="block text-sm font-medium text-gray-700 flex items-center space-x-1">
+      <span>{{@label}}</span>
+      {{#if (has-block "tooltip")}}
+        <span>
+          {{svg-jar "information-line" class="h-4 w-4 text-gray-400 fill-current"}}
+          {{yield to="tooltip"}}
+        </span>
+      {{/if}}
+    </label>
+  {{/if}}
+  <input
+    id={{this.fieldId}}
+    type="text"
+    value={{@value}}
+    class="{{if @label "mt-1"}} shadow-sm focus:ring-red-200 focus:border-red-200 block w-full sm:text-sm border-gray-300 rounded-md"
+    {{on "input" @onInput}} />
+</div>

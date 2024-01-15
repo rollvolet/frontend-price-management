@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import { isBlank } from '@ember/utils';
 import { restartableTask, timeout } from 'ember-concurrency';
 
 export default class MainProductsIndexController extends Controller {
@@ -19,17 +20,35 @@ export default class MainProductsIndexController extends Controller {
   @tracked rack;
 
   @restartableTask
-  *search({ ms = 500 }) {
-    yield timeout(ms);
-    for (let key of this.filter.keys) {
-      this[key] = this.filter[key];
-    }
+  *debounceFilter(key, event) {
+    const value = event.target.value;
+    this.filter[key] = isBlank(value) ? undefined : value;
+    yield timeout(500);
+    yield this.applyFilter();
   }
 
   @action
   selectFilter(key, value) {
     this.filter[key] = value;
-    this.search.perform({ ms: 0 });
+    if (key == 'broaderCategory') {
+      this.filter['category'] = undefined;
+    }
+    this.applyFilter();
+  }
+
+  @action
+  resetFilters() {
+    this.filter.reset();
+    this.applyFilter();
+  }
+
+  // Copy values of this.filter to tracked properties on this controller.
+  // This will trigger a model refresh.
+  applyFilter() {
+    const qpValues = this.filter.toQueryParams();
+    for (let key of Object.keys(qpValues)) {
+      this[key] = qpValues[key];
+    }
   }
 
   @action
@@ -45,13 +64,5 @@ export default class MainProductsIndexController extends Controller {
   @action
   selectPage(page) {
     this.page = page;
-  }
-
-  @action
-  resetFilters() {
-    for (let key of this.filter.keys) {
-      this[key] = undefined;
-    }
-    this.filter.reset();
   }
 }

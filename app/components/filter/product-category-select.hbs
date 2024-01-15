@@ -1,0 +1,21 @@
+{{#if @label}}
+  <label for={{this.fieldId}} class="block text-sm font-medium text-gray-700">
+    {{@label}}
+  </label>
+{{/if}}
+<div class="mt-1" {{did-update (perform this.loadData) @scope}}>
+  <PowerSelect
+    @searchPlaceholder="Typ om te zoeken"
+    @loadingMessage="Aan het zoeken..."
+    @options={{this.options}}
+    @selected={{@value}}
+    @searchEnabled={{true}}
+    @searchField="label"
+    @onChange={{@onSelectionChange}}
+    @noMatchesMessage="Geen resultaten"
+    @allowClear={{true}}
+    @disabled={{or this.loadData.isRunning @disabled}}
+    as |option select|>
+    {{option.label}}
+  </PowerSelect>
+</div>
