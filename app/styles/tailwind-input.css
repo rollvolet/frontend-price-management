@@ -1,6 +1,7 @@
 @import "tailwindcss/base";
 
 @import "tailwindcss/components";
+@import "components/button";
 @import "components/ember-power-select";
 
 @import "tailwindcss/utilities";

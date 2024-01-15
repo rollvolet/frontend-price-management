@@ -1,0 +1,63 @@
+<div class="{{if this.isSmall "px-3 py-2" "px-4 py-3 sm:px-6"}} flex items-center justify-between" ...attributes>
+  <div class="flex-1 flex {{if this.hasPrevious "justify-between" "justify-end"}} sm:hidden">
+    {{#if this.hasPrevious}}
+      <button type="button"
+        {{on "click" @onPrevious}}
+        class="relative inline-flex items-center px-4 py-2 border border-gray-300 {{this.textSizeClass}} leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200">
+        Vorige
+      </button>
+    {{/if}}
+    {{#if this.hasNext}}
+      <button type="button"
+        {{on "click" @onNext}}
+        class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 {{this.textSizeClass}} leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200">
+        Volgende
+      </button>
+    {{/if}}
+  </div>
+  <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+    <div>
+      <p class="{{this.textSizeClass}} leading-5 text-gray-700">
+        <span class="font-medium">{{this.start}}</span>
+        tot
+        <span class="font-medium">{{this.end}}</span>
+        van
+        <span class="font-medium">{{@total}}</span>
+        resultaten
+      </p>
+    </div>
+    <div>
+      {{#if this.hasMultiplePages}}
+        <nav class="relative z-0 inline-flex shadow-sm">
+          <button type="button"
+            disabled={{not this.hasPrevious}}
+            {{on "click" @onPrevious}}
+            class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white {{this.textSizeClass}} leading-5 font-medium text-gray-500 disabled:text-gray-300 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200" aria-label="Vorige">
+              {{svg-jar "arrow-left-s-line" class="h-5 w-5 fill-current"}}
+          </button>
+          {{#each this.pages as |zeroBasedPage|}}
+            {{#let (add zeroBasedPage 1) as |page|}}
+              {{#if page}}
+                <button type="button"
+                  {{on "click" (fn @onSelectPage zeroBasedPage)}}
+                  class="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white {{this.textSizeClass}} leading-5 font-medium {{if (eq zeroBasedPage this.page) "text-red-600 hover:text-red-800 active:text-red-600" "text-gray-700 hover:text-gray-500 active:text-gray-700"}} focus:z-10  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200">
+                  {{page}}
+                </button>
+              {{else}}
+                <span class="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white {{this.textSizeClass}} leading-5 font-medium text-gray-700">
+                  ...
+                </span>
+              {{/if}}
+            {{/let}}
+          {{/each}}
+          <button type="button"
+            disabled={{not this.hasNext}}
+            {{on "click" @onNext}}
+            class="-ml-px relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white {{this.textSizeClass}} leading-5 font-medium text-gray-500 disabled:text-gray-300 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200" aria-label="Volgende">
+            {{svg-jar "arrow-right-s-line" class="h-5 w-5 fill-current"}}
+          </button>
+        </nav>
+      {{/if}}
+    </div>
+  </div>
+</div>
