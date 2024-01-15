@@ -1,5 +1,5 @@
 import Service, { inject as service } from '@ember/service';
-import { keepLatestTask } from 'ember-concurrency-decorators';
+import { keepLatestTask } from 'ember-concurrency';
 import { tracked } from '@glimmer/tracking';
 
 export default class UserInfoService extends Service {

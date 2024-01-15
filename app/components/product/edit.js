@@ -4,8 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import { warn } from '@ember/debug';
 import { A } from '@ember/array';
-import { enqueueTask, keepLatestTask, task } from 'ember-concurrency-decorators';
-import { all, timeout } from 'ember-concurrency';
+import { enqueueTask, keepLatestTask, task, all, timeout } from 'ember-concurrency';
 import { VAT_RATE, PRICE_OUT_CALCULATION_BASIS, MARGIN_CALCULATION_BASIS } from '../../models/unit-price-specification';
 import roundDecimal from '../../utils/round-decimal';
 

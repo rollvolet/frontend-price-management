@@ -2,8 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { keepLatestTask, restartableTask } from 'ember-concurrency-decorators';
-import { timeout } from 'ember-concurrency';
+import { keepLatestTask, restartableTask, timeout } from 'ember-concurrency';
 import { SUPPLIER_CATEGORY } from '../../models/business-entity';
 
 export default class InputBusinessEntitySelectComponent extends Component {
