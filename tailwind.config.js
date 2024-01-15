@@ -9,6 +9,7 @@ module.exports = {
     './tests/**/*.{hbs,js,ts,html}'
   ],
   safelist: [
+    { pattern: /^ember-tooltip.*/ },
     { pattern: /^ember-power-select.*/ },
   ],
   theme: {
