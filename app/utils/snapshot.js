@@ -5,15 +5,15 @@ export default class Snapshot {
   base = null;
   future = null;
 
-  constructor( base ) {
+  constructor(base) {
     this.base = copy(base, true);
   }
 
-  stage( object ) {
-    this.future = Object.assign( object, {} );
+  stage(object) {
+    this.future = Object.assign(object, {});
   }
 
-  stageLive( object ) {
+  stageLive(object) {
     this.future = object;
   }
 
@@ -23,16 +23,15 @@ export default class Snapshot {
 
   anyFieldChanged(fields) {
     for (let field of fields) {
-      if (this.fieldChanged(field))
-        return true;
+      if (this.fieldChanged(field)) return true;
     }
     return false;
   }
 
   fieldChanged(field) {
-    if( !this.hasBase ) {
+    if (!this.hasBase) {
       return false;
-    } else if( !this.hasStaging ) {
+    } else if (!this.hasStaging) {
       return this.futureOrEmpty.hasOwnProperty(field);
     } else {
       return compare(this.base[field], this.future[field]) !== 0;

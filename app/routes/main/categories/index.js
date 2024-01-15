@@ -3,24 +3,24 @@ import Route from '@ember/routing/route';
 export default class MainCategoriesIndexRoute extends Route {
   queryParams = {
     page: {
-      refreshModel: true
+      refreshModel: true,
     },
     size: {
-      refreshModel: true
+      refreshModel: true,
     },
     sort: {
-      refreshModel: true
-    }
-  }
+      refreshModel: true,
+    },
+  };
 
   model(params) {
     return this.store.query('product-category', {
       page: {
         number: params.page,
-        size: params.size
+        size: params.size,
       },
       sort: params.sort,
-      'filter[:has-no:broader]': true
+      'filter[:has-no:broader]': true,
     });
   }
 }

@@ -9,36 +9,36 @@ import ProductFilter from '../../../models/product-filter';
 export default class MainProductsIndexRoute extends Route {
   queryParams = {
     page: {
-      refreshModel: true
+      refreshModel: true,
     },
     size: {
-      refreshModel: true
+      refreshModel: true,
     },
     sort: {
-      refreshModel: true
+      refreshModel: true,
     },
     name: {
-      refreshModel: true
+      refreshModel: true,
     },
     category: {
-      refreshModel: true
+      refreshModel: true,
     },
     broaderCategory: {
-      refreshModel: true
+      refreshModel: true,
     },
     identifier: {
-      refreshModel: true
+      refreshModel: true,
     },
     supplier: {
-      refreshModel: true
+      refreshModel: true,
     },
     supplierIdentifier: {
-      refreshModel: true
+      refreshModel: true,
     },
     rack: {
-      refreshModel: true
-    }
-  }
+      refreshModel: true,
+    },
+  };
 
   constructor() {
     super(...arguments);
@@ -48,7 +48,11 @@ export default class MainProductsIndexRoute extends Route {
   model(params) {
     this.lastParams.stageLive(params);
 
-    if (this.lastParams.anyFieldChanged(Object.keys(params).filter((key) => key !== 'page'))) {
+    if (
+      this.lastParams.anyFieldChanged(
+        Object.keys(params).filter((key) => key !== 'page')
+      )
+    ) {
       params.page = 0;
     }
 
@@ -68,10 +72,12 @@ export default class MainProductsIndexRoute extends Route {
       filter[':term:broaderCategory'] = params.broaderCategory;
     }
     if (!isEmpty(params.supplier)) {
-      filter[':term:purchaseOffering.businessEntity'] = params.supplier.toLowerCase();
+      filter[':term:purchaseOffering.businessEntity'] =
+        params.supplier.toLowerCase();
     }
     if (!isEmpty(params.supplierIdentifier)) {
-      filter[':wildcard:purchaseOffering.identifier'] = params.supplierIdentifier.toLowerCase();
+      filter[':wildcard:purchaseOffering.identifier'] =
+        params.supplierIdentifier.toLowerCase();
     }
     if (!isEmpty(params.rack)) {
       filter[':wildcard:warehouseLocation.rack'] = params.rack.toLowerCase();
@@ -83,16 +89,26 @@ export default class MainProductsIndexRoute extends Route {
 
     this.lastParams.commit();
 
-    return search('products', params.page, params.size, params.sort, filter, (product) => {
-      const entry = product.attributes;
-      entry.id = product.id;
-      return entry;
-    });
+    return search(
+      'products',
+      params.page,
+      params.size,
+      params.sort,
+      filter,
+      (product) => {
+        const entry = product.attributes;
+        entry.id = product.id;
+        return entry;
+      }
+    );
   }
 
   setupController(controller) {
     super.setupController(...arguments);
-    controller.set('filter', new ProductFilter(copy(this.lastParams.committed)));
+    controller.set(
+      'filter',
+      new ProductFilter(copy(this.lastParams.committed))
+    );
     controller.set('page', this.lastParams.committed.page);
     controller.set('size', this.lastParams.committed.size);
     controller.set('sort', this.lastParams.committed.sort);
@@ -102,7 +118,7 @@ export default class MainProductsIndexRoute extends Route {
   loading(transition) {
     const controller = this.controllerFor(this.routeName);
     controller.set('isLoadingModel', true);
-    transition.promise.finally(function() {
+    transition.promise.finally(function () {
       controller.set('isLoadingModel', false);
     });
 

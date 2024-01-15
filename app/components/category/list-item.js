@@ -25,8 +25,9 @@ export default class CategoryListItemComponent extends Component {
   @action
   toggleIsExpanded(e) {
     this.isExpanded = !this.isExpanded;
-    if (this.isExpanded)
+    if (this.isExpanded) {
       this.loadSubcategories.perform();
+    }
   }
 
   @action
@@ -43,7 +44,7 @@ export default class CategoryListItemComponent extends Component {
         const category = this.store.createRecord('product-category', {
           label: this.newCategory,
           conceptScheme: this.args.model.conceptScheme,
-          broader: this.args.model
+          broader: this.args.model,
         });
         yield category.save();
         this.subcategories = this.subcategories; // required to trigger rerender

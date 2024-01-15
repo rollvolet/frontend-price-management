@@ -18,9 +18,6 @@ export default class OfferingModel extends Model {
   get isAvailable() {
     return this.availability == IN_STOCK;
   }
-};
-
-export {
-  IN_STOCK,
-  OUT_OF_STOCK
 }
+
+export { IN_STOCK, OUT_OF_STOCK };

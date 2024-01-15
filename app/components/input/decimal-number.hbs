@@ -1,5 +1,5 @@
 <Input
-  @id={{@id}}
+  id={{@id}}
   @value={{this.formattedValue}}
   {{on "focusout" (fn this.updateValue this.formattedValue)}}
   {{did-update this.formatValue @value}}

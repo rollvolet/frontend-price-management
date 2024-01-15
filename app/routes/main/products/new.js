@@ -10,7 +10,7 @@ export default class MainProductsNewRoute extends Route {
 
     const businessEntities = await this.store.query('business-entity', {
       page: { size: 1 },
-      filter: { ':uri:': ROLLVOLET_URI }
+      filter: { ':uri:': ROLLVOLET_URI },
     });
     const rollvolet = businessEntities.firstObject;
 
@@ -19,11 +19,11 @@ export default class MainProductsNewRoute extends Route {
     const purchasePrice = this.store.createRecord('unit-price-specification', {
       currency: 'EUR',
       valueAddedTaxIncluded: false,
-      currencyValue: 0.0
+      currencyValue: 0.0,
     });
     const purchaseOffering = this.store.createRecord('offering', {
       validFrom: now,
-      unitPriceSpecification: purchasePrice
+      unitPriceSpecification: purchasePrice,
     });
     const salesPrice = this.store.createRecord('unit-price-specification', {
       currency: 'EUR',
@@ -31,12 +31,12 @@ export default class MainProductsNewRoute extends Route {
       valueAddedTaxIncluded: true,
       businessEntity: rollvolet,
       currencyValue: 0.0,
-      margin: 0.0
+      margin: 0.0,
     });
     const salesOffering = this.store.createRecord('offering', {
       validFrom: now,
       availability: IN_STOCK,
-      unitPriceSpecification: salesPrice
+      unitPriceSpecification: salesPrice,
     });
     const warehouseLocation = this.store.createRecord('warehouse-location', {});
     const product = this.store.createRecord('product', {
@@ -45,7 +45,7 @@ export default class MainProductsNewRoute extends Route {
       identifier: number,
       warehouseLocation,
       purchaseOffering,
-      salesOffering
+      salesOffering,
     });
 
     return product;

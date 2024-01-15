@@ -45,7 +45,7 @@
               </label>
               <div class="mt-1 rounded-md shadow-sm">
                 <Input
-                  @id="product-name"
+                  id="product-name"
                   @value={{@model.name}}
                   class="focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md md:text-sm md:leading-5" />
               </div>
@@ -80,7 +80,7 @@
               </label>
               <div class="mt-1 rounded-md shadow-sm">
                 <Textarea
-                  @id="product-description"
+                  id="product-description"
                   @value={{@model.description}}
                   rows="5"
                   class="focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md md:text-sm md:leading-5" />
@@ -116,7 +116,7 @@
                 </label>
                 <div class="mt-1 rounded-md shadow-sm">
                   <Input
-                    @id="supplier-nb"
+                    id="supplier-nb"
                     @value={{@model.purchaseOffering.identifier}}
                     class="focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md md:text-sm md:leading-5" />
                 </div>
@@ -161,7 +161,7 @@
                 </label>
                 <div class="mt-1 rounded-md shadow-sm">
                   <Input
-                    @id="warehouse-rack-nb"
+                    id="warehouse-rack-nb"
                     @value={{@model.warehouseLocation.rack}}
                     class="focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md md:text-sm md:leading-5" />
                 </div>
@@ -172,7 +172,7 @@
                 </label>
                 <div class="mt-1 rounded-md shadow-sm">
                   <Input
-                    @id="warehouse-side"
+                    id="warehouse-side"
                     @value={{@model.warehouseLocation.side}}
                     class="focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md md:text-sm md:leading-5" />
                 </div>
@@ -183,7 +183,7 @@
                 </label>
                 <div class="mt-1 rounded-md shadow-sm">
                   <Input
-                    @id="warehouse-position"
+                    id="warehouse-position"
                     @value={{@model.warehouseLocation.position}}
                     class="focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md md:text-sm md:leading-5" />
                 </div>
@@ -237,7 +237,7 @@
           {{if @model.salesOffering.unitPriceSpecification.hasPriceOutCalculationBasis "border-green-300" "border-gray-200"}}">
           <div class="col-span-6 flex items-center">
             <Input type="radio"
-              @id="calc-base-price-out"
+              id="calc-base-price-out"
               name="price-calc-basis"
               @value={{this.priceOutCalculationBasis}}
               checked={{@model.salesOffering.unitPriceSpecification.hasPriceOutCalculationBasis}}
@@ -302,7 +302,7 @@
           {{if @model.salesOffering.unitPriceSpecification.hasMarginCalculationBasis "border-green-300" "border-gray-200"}}">
           <div class="col-span-6 flex items-center">
             <Input type="radio"
-              @id="calc-base-margin"
+              id="calc-base-margin"
               name="price-calc-basis"
               @value={{this.marginCalculationBasis}}
               checked={{@model.salesOffering.unitPriceSpecification.hasMarginCalculationBasis}}

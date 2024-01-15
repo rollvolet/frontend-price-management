@@ -4,8 +4,18 @@ import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import { warn } from '@ember/debug';
 import { A } from '@ember/array';
-import { enqueueTask, keepLatestTask, task, all, timeout } from 'ember-concurrency';
-import { VAT_RATE, PRICE_OUT_CALCULATION_BASIS, MARGIN_CALCULATION_BASIS } from '../../models/unit-price-specification';
+import {
+  enqueueTask,
+  keepLatestTask,
+  task,
+  all,
+  timeout,
+} from 'ember-concurrency';
+import {
+  VAT_RATE,
+  PRICE_OUT_CALCULATION_BASIS,
+  MARGIN_CALCULATION_BASIS,
+} from '../../models/unit-price-specification';
 import roundDecimal from '../../utils/round-decimal';
 
 export default class ProductEditComponent extends Component {
@@ -26,10 +36,11 @@ export default class ProductEditComponent extends Component {
   @keepLatestTask
   *loadData() {
     const category = yield this.args.model.category;
-    if (category)
+    if (category) {
       this.broaderCategory = yield category.broader;
-    else
+    } else {
       this.broaderCategory = null;
+    }
   }
 
   @task
@@ -88,13 +99,12 @@ export default class ProductEditComponent extends Component {
       this.args.model.modified = new Date();
       yield this.args.model.save();
 
-      if (this.args.onSave)
-        this.args.onSave();
+      if (this.args.onSave) this.args.onSave();
     } catch (e) {
       this.notification.addError({
-        title: "Opslaan mislukt!",
-        message: "Probeer het product nogmaals op te slaan.",
-        error: e
+        title: 'Opslaan mislukt!',
+        message: 'Probeer het product nogmaals op te slaan.',
+        error: e,
       });
     }
   }
@@ -109,18 +119,20 @@ export default class ProductEditComponent extends Component {
     const attachments = yield this.args.model.attachments;
 
     yield this.args.model.destroyRecord();
-    yield all([
-      warehouseLocation,
-      purchaseOffering,
-      purchasePrice,
-      salesOffering,
-      salesPrice].map(record => record.destroyRecord()));
-    yield all(attachments.map(file => file.destroyRecord()));
+    yield all(
+      [
+        warehouseLocation,
+        purchaseOffering,
+        purchasePrice,
+        salesOffering,
+        salesPrice,
+      ].map((record) => record.destroyRecord())
+    );
+    yield all(attachments.map((file) => file.destroyRecord()));
     yield timeout(4000); // wait for delete-delta to be handled by mu-search
 
     this.showDeleteConfirmationModal = false;
-    if (this.args.onDelete)
-      this.args.onDelete();
+    if (this.args.onDelete) this.args.onDelete();
   }
 
   @keepLatestTask
@@ -135,7 +147,8 @@ export default class ProductEditComponent extends Component {
     if (salesPrice.calculationBasis == MARGIN_CALCULATION_BASIS) {
       salesPrice.margin = roundDecimal(salesPrice.margin);
       if (salesPrice.valueAddedTaxIncluded) {
-        const value = purchasePrice.currencyValue * salesPrice.margin * (1 + VAT_RATE);
+        const value =
+          purchasePrice.currencyValue * salesPrice.margin * (1 + VAT_RATE);
         salesPrice.currencyValue = roundDecimal(value);
       } else {
         const value = purchasePrice.currencyValue * salesPrice.margin;
@@ -143,7 +156,8 @@ export default class ProductEditComponent extends Component {
       }
     } else {
       salesPrice.currencyValue = roundDecimal(salesPrice.currencyValue);
-      const margin = salesPrice.currencyValueTaxExcluded / purchasePrice.currencyValue;
+      const margin =
+        salesPrice.currencyValueTaxExcluded / purchasePrice.currencyValue;
       salesPrice.margin = roundDecimal(margin);
     }
   }
@@ -152,13 +166,16 @@ export default class ProductEditComponent extends Component {
   *uploadFile(file) {
     try {
       const response = yield file.upload('/files');
-      const uploadedFile = yield this.store.findRecord('file', response.body.data.id);
+      const uploadedFile = yield this.store.findRecord(
+        'file',
+        response.body.data.id
+      );
       this.args.model.attachments.pushObject(uploadedFile);
-    } catch(e) {
+    } catch (e) {
       this.notification.addError({
-        title: "Er is iets misgelopen!",
-        message: "Probeer het bestand nogmaals op te laden.",
-        error: e
+        title: 'Er is iets misgelopen!',
+        message: 'Probeer het bestand nogmaals op te laden.',
+        error: e,
       });
     }
   }
@@ -180,8 +197,7 @@ export default class ProductEditComponent extends Component {
 
   @action
   setBroaderCategory(category) {
-    if (this.broaderCategory != category)
-      this.args.model.category = null; // new top-level has been selected, hence reset category
+    if (this.broaderCategory != category) this.args.model.category = null; // new top-level has been selected, hence reset category
     this.broaderCategory = category;
   }
 

@@ -13,8 +13,13 @@ export default class NotificationService extends Service {
     // Make notification automatically disappear, unless timeout = -1
     if (!notification.timeout) notification.timeout = 5000;
     if (notification.timeout > 0) {
-      later(this, function() { this.remove(notification); },
-            notification.timeout);
+      later(
+        this,
+        function () {
+          this.remove(notification);
+        },
+        notification.timeout
+      );
     }
   }
 

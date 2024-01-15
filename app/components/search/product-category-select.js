@@ -19,33 +19,39 @@ export default class SearchProductCategorySelectComponent extends Component {
   *loadData() {
     const categories = this.store.peekAll('product-category');
 
-    const wrappers = yield all(categories.map(async (category) => {
-      const broader = await category.broader;
-      return {
-        category,
-        broaderLabel: broader && broader.label
-      };
-    }));
+    const wrappers = yield all(
+      categories.map(async (category) => {
+        const broader = await category.broader;
+        return {
+          category,
+          broaderLabel: broader && broader.label,
+        };
+      })
+    );
 
     if (this.args.scope == 'top') {
       this.options = wrappers
-        .filter(wrapper => wrapper.broaderLabel == null)
-        .map(wrapper => wrapper.category)
+        .filter((wrapper) => wrapper.broaderLabel == null)
+        .map((wrapper) => wrapper.category)
         .sortBy('label');
     } else if (this.args.scope) {
       this.options = wrappers
-        .filter(wrapper => wrapper.broaderLabel == this.args.scope)
-        .map(wrapper => wrapper.category)
+        .filter((wrapper) => wrapper.broaderLabel == this.args.scope)
+        .map((wrapper) => wrapper.category)
         .sortBy('label');
     } else {
       this.options = [];
     }
 
     if (this.args.value) {
-      this.selected = this.options.find(opt => opt.label.toLowerCase() == this.args.value.toLowerCase());
+      this.selected = this.options.find(
+        (opt) => opt.label.toLowerCase() == this.args.value.toLowerCase()
+      );
 
-      if (this.args.value && !this.selected) // selected value cannot be found in list of options, hence unset selected value
+      if (this.args.value && !this.selected) {
+        // selected value cannot be found in list of options, hence unset selected value
         this.selectValue(null);
+      }
     }
   }
 
@@ -60,10 +66,13 @@ export default class SearchProductCategorySelectComponent extends Component {
     // value has been updated from outside. Make sure this.selected is in sync
     const selectedLabel = this.selected && this.selected.label;
     if (this.args.value != selectedLabel) {
-      if (this.args.value)
-        this.selected = this.options.find(opt => opt.label.toLowerCase() == this.args.value.toLowerCase());
-      else
+      if (this.args.value) {
+        this.selected = this.options.find(
+          (opt) => opt.label.toLowerCase() == this.args.value.toLowerCase()
+        );
+      } else {
         this.selected = null;
+      }
     }
   }
 }

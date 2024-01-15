@@ -19,15 +19,15 @@ export default class PreloaderService extends Service {
     yield this.store.query('product-category', {
       page: { size: 1000 },
       sort: 'label',
-      include: 'broader'
+      include: 'broader',
     });
     yield this.store.query('warehouse-department', {
       page: { size: 1000 },
-      sort: 'name'
+      sort: 'name',
     });
     yield this.store.query('unit-code', {
       page: { size: 1000 },
-      sort: 'label'
+      sort: 'label',
     });
   }
 }

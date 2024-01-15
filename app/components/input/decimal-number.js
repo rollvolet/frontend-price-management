@@ -23,5 +23,4 @@ export default class InputDecimalNumberComponent extends Component {
     this.formattedValue = formatDecimalInput(deformattedValue);
     this.args.onChange(deformattedValue);
   }
-
 }

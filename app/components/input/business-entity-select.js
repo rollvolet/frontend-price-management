@@ -21,8 +21,8 @@ export default class InputBusinessEntitySelectComponent extends Component {
       page: { size: 50 },
       sort: 'name',
       filter: {
-        category: SUPPLIER_CATEGORY
-      }
+        category: SUPPLIER_CATEGORY,
+      },
     });
   }
 
@@ -34,8 +34,8 @@ export default class InputBusinessEntitySelectComponent extends Component {
       sort: 'name',
       filter: {
         name: term && term.toLowerCase(),
-        category: SUPPLIER_CATEGORY
-      }
+        category: SUPPLIER_CATEGORY,
+      },
     });
   }
 

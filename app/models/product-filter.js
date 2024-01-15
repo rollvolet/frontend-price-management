@@ -16,17 +16,18 @@ export default class ProductFilter {
   }
 
   get keys() {
-    return ['name',
-            'category',
-            'broaderCategory',
-            'identifier',
-            'supplier',
-            'supplierIdentifier',
-            'rack'
-           ];
+    return [
+      'name',
+      'category',
+      'broaderCategory',
+      'identifier',
+      'supplier',
+      'supplierIdentifier',
+      'rack',
+    ];
   }
 
   reset() {
-    this.keys.forEach(key => this[key] = undefined);
+    this.keys.forEach((key) => (this[key] = undefined));
   }
 }

@@ -9,8 +9,8 @@ export default class MainProductsDetailRoute extends Route {
         'category.broader',
         'purchase-offering.unit-price-specification',
         'purchase-offering.business-entity',
-        'sales-offering.unit-price-specification'
-      ].join(',')
+        'sales-offering.unit-price-specification',
+      ].join(','),
     });
     return products.firstObject;
   }

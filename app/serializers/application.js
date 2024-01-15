@@ -18,7 +18,7 @@ import JSONAPISerializer from '@ember-data/serializer/json-api';
 function createPageMeta(data) {
   let meta = {};
 
-  Object.keys(data).forEach(type => {
+  Object.keys(data).forEach((type) => {
     const link = data[type];
     meta[type] = {};
 
@@ -26,7 +26,7 @@ function createPageMeta(data) {
       //extracts from '/path?foo=bar&baz=foo' the string: foo=bar&baz=foo
       const query = link.split(/\?(.+)/)[1] || '';
 
-      query.split('&').forEach(pairs => {
+      query.split('&').forEach((pairs) => {
         const [param, value] = pairs.split('=');
 
         if (decodeURIComponent(param) === 'page[number]') {
@@ -34,7 +34,6 @@ function createPageMeta(data) {
         } else if (decodeURIComponent(param) === 'page[size]') {
           meta[type].size = parseInt(value);
         }
-
       });
     }
   });

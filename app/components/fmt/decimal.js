@@ -1,4 +1,3 @@
 import Component from '@glimmer/component';
 
-export default class FmtDecimalComponent extends Component {
-}
+export default class FmtDecimalComponent extends Component {}

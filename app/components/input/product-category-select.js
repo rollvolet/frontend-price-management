@@ -18,23 +18,25 @@ export default class InputProductCategorySelectComponent extends Component {
   *loadData() {
     const categories = this.store.peekAll('product-category');
 
-    const wrappers = yield all(categories.map(async (category) => {
-      const broader = await category.broader;
-      return {
-        category,
-        broaderUri: broader && broader.uri
-      };
-    }));
+    const wrappers = yield all(
+      categories.map(async (category) => {
+        const broader = await category.broader;
+        return {
+          category,
+          broaderUri: broader && broader.uri,
+        };
+      })
+    );
 
     if (this.args.scope == 'top') {
       this.options = wrappers
-        .filter(wrapper => wrapper.broaderUri == null)
-        .map(wrapper => wrapper.category)
+        .filter((wrapper) => wrapper.broaderUri == null)
+        .map((wrapper) => wrapper.category)
         .sortBy('label');
     } else if (this.args.scope) {
       this.options = wrappers
-        .filter(wrapper => wrapper.broaderUri == this.args.scope)
-        .map(wrapper => wrapper.category)
+        .filter((wrapper) => wrapper.broaderUri == this.args.scope)
+        .map((wrapper) => wrapper.category)
         .sortBy('label');
     } else {
       this.options = [];
@@ -42,9 +44,11 @@ export default class InputProductCategorySelectComponent extends Component {
 
     const value = yield this.args.value; // argument may be a promise/proxy object
     if (value) {
-      const selected = this.options.find(opt => opt.uri == value.uri);
-      if (!selected) // selected value cannot be found in list of options, hence unset selected value
+      const selected = this.options.find((opt) => opt.uri == value.uri);
+      if (!selected) {
+        // selected value cannot be found in list of options, hence unset selected value
         this.selectValue(null);
+      }
     }
   }
 

@@ -22,16 +22,16 @@ export default class SearchBusinessEntitySelectComponent extends Component {
       page: { size: 50 },
       sort: 'name',
       filter: {
-        category: SUPPLIER_CATEGORY
-      }
+        category: SUPPLIER_CATEGORY,
+      },
     });
 
     if (this.args.value) {
       const selectedOptions = yield this.store.query('business-entity', {
         page: { size: 1 },
         filter: {
-          ':exact:name': this.args.value
-        }
+          ':exact:name': this.args.value,
+        },
       });
       this.selected = selectedOptions.firstObject;
     }
@@ -45,8 +45,8 @@ export default class SearchBusinessEntitySelectComponent extends Component {
       sort: 'name',
       filter: {
         name: term && term.toLowerCase(),
-        category: SUPPLIER_CATEGORY
-      }
+        category: SUPPLIER_CATEGORY,
+      },
     });
   }
 
@@ -61,10 +61,13 @@ export default class SearchBusinessEntitySelectComponent extends Component {
     // value has been updated from outside. Make sure this.selected is in sync
     const selectedName = this.selected && this.selected.name;
     if (this.args.value != selectedName) {
-      if (this.args.value)
-        this.selected = this.options.find(opt => opt.name.toLowerCase() == this.args.value.toLowerCase());
-      else
+      if (this.args.value) {
+        this.selected = this.options.find(
+          (opt) => opt.name.toLowerCase() == this.args.value.toLowerCase()
+        );
+      } else {
         this.selected = null;
+      }
     }
   }
 }

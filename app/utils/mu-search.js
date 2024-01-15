@@ -6,7 +6,8 @@ import getPaginationMetadata from './get-pagination-metadata';
 function sortOrder(sort) {
   if (sort.startsWith('-')) {
     return 'desc';
-  } if (sort.length > 0) {
+  }
+  if (sort.length > 0) {
     return 'asc';
   }
   return null;
@@ -22,10 +23,12 @@ function snakeToCamel(text) {
 
 async function muSearch(index, page, size, sort, filter, dataMapping) {
   const endpoint = new URL(`/${index}/search`, window.location.origin);
-  const params = new URLSearchParams(Object.entries({
-    'page[size]': size,
-    'page[number]': page,
-  }));
+  const params = new URLSearchParams(
+    Object.entries({
+      'page[size]': size,
+      'page[number]': page,
+    })
+  );
 
   for (const field in filter) {
     params.append(`filter[${field}]`, filter[field]);
@@ -39,8 +42,8 @@ async function muSearch(index, page, size, sort, filter, dataMapping) {
 
   const response = await fetch(endpoint, {
     headers: {
-      Accept: 'application/vnd.api+json'
-    }
+      Accept: 'application/vnd.api+json',
+    },
   });
   const { count, data } = await response.json();
   const pagination = getPaginationMetadata(page, size, count);
@@ -50,8 +53,8 @@ async function muSearch(index, page, size, sort, filter, dataMapping) {
     content: entries,
     meta: {
       count,
-      pagination
-    }
+      pagination,
+    },
   });
 }
 

@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(environment) {
+module.exports = function (environment) {
   let ENV = {
     modulePrefix: 'frontend-price-management',
     environment,
@@ -13,8 +13,8 @@ module.exports = function(environment) {
       },
       EXTEND_PROTOTYPES: {
         // Prevent Ember Data from overriding Date.parse.
-        Date: false
-      }
+        Date: false,
+      },
     },
 
     APP: {
@@ -29,13 +29,13 @@ module.exports = function(environment) {
           tenantId: '3e9b8827-39f2-4fb4-9bc1-f8a200aaea79',
           apiKey: '5f012056-5ae1-48d5-9f8d-305221a92cf3',
           scope: 'User.Read',
-          redirectUri: 'http://localhost:4200/torii/redirect.html'
-        }
-      }
+          redirectUri: 'http://localhost:4200/torii/redirect.html',
+        },
+      },
     },
     'ember-simple-auth': {
-      routeAfterAuthentication: 'main.products.index'
-    }
+      routeAfterAuthentication: 'main.products.index',
+    },
   };
 
   if (environment === 'development') {
@@ -60,7 +60,8 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     ENV.torii.providers['azure-ad2-oauth2'].apiKey = '{{AUTH_CLIENT_ID}}';
-    ENV.torii.providers['azure-ad2-oauth2'].redirectUri = '{{AUTH_REDIRECT_URI}}';
+    ENV.torii.providers['azure-ad2-oauth2'].redirectUri =
+      '{{AUTH_REDIRECT_URI}}';
   }
 
   return ENV;
