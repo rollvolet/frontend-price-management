@@ -1,14 +1,17 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 export default class MainProductsDetailEditController extends Controller {
+  @service router;
+
   @action
   goToDetailView() {
-    this.transitionToRoute('main.products.detail.index');
+    this.router.transitionTo('main.products.detail.index');
   }
 
   @action
   goToListView() {
-    this.transitionToRoute('main.products.index');
+    this.router.transitionTo('main.products.index');
   }
 }

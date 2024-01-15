@@ -1,10 +1,13 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import { PRICE_OUT_CALCULATION_BASIS } from '../../../models/unit-price-specification';
 import { IN_STOCK } from '../../../models/offering';
 import { ROLLVOLET_URI } from '../../../models/business-entity';
 import { next as nextNumber } from '../../../utils/sequence-number';
 
 export default class MainProductsNewRoute extends Route {
+  @service store;
+
   async model() {
     const now = new Date();
 
