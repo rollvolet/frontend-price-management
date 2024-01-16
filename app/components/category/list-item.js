@@ -14,8 +14,9 @@ export default class CategoryListItemComponent extends Component {
 
   @keepLatestTask
   *loadSubcategories() {
-    if (!this.subcategories.length)
+    if (!this.subcategories.length) {
       this.subcategories = yield this.args.model.narrowers;
+    }
   }
 
   get sortedSubcategories() {
@@ -23,7 +24,7 @@ export default class CategoryListItemComponent extends Component {
   }
 
   @action
-  toggleIsExpanded(e) {
+  toggleIsExpanded() {
     this.isExpanded = !this.isExpanded;
     if (this.isExpanded) {
       this.loadSubcategories.perform();

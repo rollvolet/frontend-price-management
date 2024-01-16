@@ -356,9 +356,7 @@
                 as |dropzone|>
                 <div class="flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md {{if (and dropzone.active dropzone.supported) "border-red-300 bg-red-50" "border-gray-300"}}">
                   <div class="space-y-1 text-center">
-                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-                      <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
+                    {{svg-jar "add-image" class="mx-auto h-12 w-12 text-gray-400"}}
                     {{#if (and dropzone.active (not dropzone.supported))}}
                       <div class="text-sm text-gray-600">
                         Drag-and-drop niet ondersteund
@@ -406,27 +404,24 @@
                   <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm leading-5
                     {{if (gt index 0) "border-t border-gray-200"}}">
                     <div class="w-0 flex-1 flex items-center">
-                      <svg class="shrink-0 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                        {{!-- paper-clip --}}
-                        <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
-                      </svg>
+                      {{svg-jar "attachment-2" class="shrink-0 h-5 w-5 text-gray-400 fill-current"}}
                       <span class="ml-2 flex-1 w-0 truncate">
                         {{file.filename}}
                         <span class="ml-2 text-xs text-gray-400"> {{file.humanReadableSize}}</span>
                       </span>
                     </div>
                     <div class="ml-4 shrink-0 flex space-x-4">
-                      <a href={{file.downloadLink}}
-                        target="_blank" rel="noopener noreferrer"
-                        class="bg-white rounded-md font-medium text-red-600 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200">
-                        Download
-                      </a>
+                      <Rlv::Button
+                        @label="Download"
+                        @href={{file.downloadLink}}
+                        @skin="link"
+                        target="_blank"
+                        rel="noopener noreferrer" />
                       <span class="text-gray-300" aria-hidden="true">|</span>
-                      <button type="button"
-                        class="bg-white rounded-md font-medium text-red-600 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200"
-                        onClick={{perform this.deleteFile file}}>
-                        Verwijder
-                      </button>
+                      <Rlv::Button
+                        @label="Verwijder"
+                        @skin="link"
+                        {{on "click" (perform this.deleteFile file)}} />
                     </div>
                   </li>
                 {{/each}}
@@ -441,45 +436,30 @@
     <div class="flex flex-wrap-reverse justify-between items-center">
       <div class="mt-6 text-xs text-gray-400 sm:mt-0">
         <div>
-          Aangemaakt op {{dayjs-format date=@model.created format="DD-MM-YYYY"}}
+          <Util::CreatedOn @date={{@model.created}} />
         </div>
         <div>
-          Laatst aangepast op {{dayjs-format date=@model.modified format="DD-MM-YYYY"}}
+          <Util::UpdatedOn @date={{@model.modified}} />
         </div>
       </div>
-      <div class="flex justify-end">
-        <span class="inline-flex rounded-md shadow-sm">
-          <button type="button"
-            class="bg-white py-2 px-4 border border-gray-300 rounded-md text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200"
-            {{on "click" (perform this.cancel)}}>
-            Annuleer
-          </button>
-        </span>
-        <span class="ml-3 inline-flex rounded-md shadow-sm">
-          <button type="button"
-            class="inline-flex justify-center py-2 px-4 w-24 border border-transparent text-sm leading-5 font-medium rounded-md text-red-700 bg-white border-red-500 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200"
-            {{on "click" this.askToDelete}}>
-            Verwijderen
-          </button>
-        </span>
-        <span class="ml-3 inline-flex rounded-md shadow-sm">
-          {{#if this.save.isRunning}}
-            <button type="button"
-              class="inline-flex justify-center py-2 px-4 w-24 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200"
-              disabled>
-              <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-            </button>
-          {{else}}
-            <button type="button"
-              class="inline-flex justify-center py-2 px-4 w-24 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-red-600 hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200"
-              {{on "click" (perform this.save)}}>
-              Opslaan
-            </button>
-          {{/if}}
-        </span>
+      <div class="flex justify-end space-x-3">
+        <Rlv::Button
+          @label="Annuleer"
+          @icon="arrow-go-back-line"
+          @skin="secondary"
+          {{on "click" (perform this.cancel)}} />
+        <Rlv::Button
+          @label="Verwijder"
+          @icon="delete-bin-line"
+          @skin="muted"
+          @alert={{true}}
+          {{on "click" this.askToDelete}} />
+        <Rlv::Button
+          @label="Opslaan"
+          @icon="save-2-line"
+          @skin="primary"
+          @loading={{this.save.isRunning}}
+          {{on "click" (perform this.save)}} />
       </div>
     </div>
   </div>

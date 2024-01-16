@@ -1,12 +1,9 @@
 {{#if this.isExpanded}}
   <li class="block border-b border-gray-200 bg-gray-50">
-    <div role="button" class="px-4 py-4 sm:px-6" {{on "click" this.toggleIsExpanded}}>
+    <div role="button" class="px-3 py-3 sm:px-4" {{on "click" this.toggleIsExpanded}}>
       <div class="flex items-center">
         <div class="shrink-0">
-          {{!-- Heroicon name: chevron-down --}}
-          <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-          </svg>
+          {{svg-jar "arrow-down-s-line" class="h-6 w-6 text-red-500 fill-current"}}
         </div>
         <div class="ml-5">
           <Category::CategoryEdit
@@ -32,17 +29,18 @@
                   @onCancel={{this.cancelEditCategory}} />
               </li>
             {{/each}}
-            <div class="-ml-3 flex group">
-              <button type="button"
-                onClick={{this.addCategory}}
-                class="flex {{if this.isEnabledInput "text-red-600" "text-gray-400"}} group-hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200">
-                <svg class="h-6 w-6 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
-                </svg>
+            <div class="-ml-2.5 flex group">
+              <Rlv::Button
+                @hideText={{true}}
+                @icon="add-circle-fill"
+                @skin="secondary-naked"
+                @size="large"
+                class="p-0 group-hover:text-red-600"
+                {{on "click" this.addCategory}}>
                 {{#unless this.isEnabledInput}}
-                  <span class="ml-2 text-base text-gray-400 hidden group-hover:inline">Categorie toevoegen</span>
+                  <span class="ml-2 text-sm text-gray-400 hidden group-hover:inline">Categorie toevoegen</span>
                 {{/unless}}
-              </button>
+              </Rlv::Button>
               {{#if this.isEnabledInput}}
                 <div class="ml-2">
                   <Input
@@ -67,13 +65,10 @@
 {{else}}
   <li role="button" {{on "click" this.toggleIsExpanded}}
     class="block border-b border-gray-200 hover:bg-gray-50 focus:outline-none focus:bg-gray-50">
-    <div class="px-4 py-4 sm:px-6">
+    <div class="px-3 py-3 sm:px-4">
       <div class="flex items-center">
         <div class="shrink-0">
-          {{!-- Heroicon name: chevron-right --}}
-          <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-          </svg>
+          {{svg-jar "arrow-right-s-line" class="h-6 w-6 text-gray-400 fill-current"}}
         </div>
         <div class="ml-5 text-base leading-5 font-medium text-gray-600 truncate capitalize">
           {{@model.label}}
