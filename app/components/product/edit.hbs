@@ -7,7 +7,7 @@
             <h3 class="text-lg leading-6 font-medium text-gray-900">
               Details
             </h3>
-            <p class="mt-1 text-sm leading-5 text-gray-500">
+            <p class="mt-1 text-sm text-gray-500">
               Informatie over het product.
             </p>
           </div>
@@ -21,7 +21,7 @@
                   @value={{@model.salesOffering.validThrough}}
                   @onChange={{fn (mut @model.salesOffering.validThrough)}} />
               </div>
-              <div class="ml-3 text-sm leading-5">
+              <div class="ml-3 text-sm">
                 {{#if @model.salesOffering.validThrough}}
                   <label for="in-stock" class="font-medium text-gray-700">
                     Niet beschikbaar
@@ -35,7 +35,7 @@
               </div>
             </div>
             <div class="md:col-span-4">
-              <label for="product-name" class="block text-sm font-medium leading-5 text-gray-700">
+              <label for="product-name" class="block text-sm font-medium text-gray-700">
                 Naam
               </label>
               <Input
@@ -59,7 +59,7 @@
                 @onSelectionChange={{this.setCategory}} />
             </div>
             <div class="md:col-span-6">
-              <label for="product-description" class="block text-sm font-medium leading-5 text-gray-700">
+              <label for="product-description" class="block text-sm font-medium text-gray-700">
                 Opmerking
               </label>
               <Textarea
@@ -76,7 +76,7 @@
               <h3 class="text-lg leading-6 font-medium text-gray-900">
                 Leverancier
               </h3>
-              <p class="mt-1 text-sm leading-5 text-gray-500">
+              <p class="mt-1 text-sm text-gray-500">
                 Informatie over de leverancier waar het product aangekocht is.
               </p>
             </div>
@@ -90,7 +90,7 @@
                 </div>
               </div>
               <div class="md:col-span-2">
-                <label for="supplier-nb" class="block text-sm font-medium leading-5 text-gray-700">
+                <label for="supplier-nb" class="block text-sm font-medium text-gray-700">
                   Nummer
                 </label>
                 <Input
@@ -105,7 +105,7 @@
               <h3 class="text-lg leading-6 font-medium text-gray-900">
                 Magazijn
               </h3>
-              <p class="mt-1 text-sm leading-5 text-gray-500">
+              <p class="mt-1 text-sm text-gray-500">
                 Informatie over de plaatsing en voorraad van het product in het magazijn.
               </p>
             </div>
@@ -116,7 +116,7 @@
                     @value={{@model.includeInStockReport}}
                     @onChange={{fn (mut @model.includeInStockReport)}} />
                 </div>
-                <div class="ml-3 text-sm leading-5">
+                <div class="ml-3 text-sm">
                   <label for="in-stock" class="font-medium text-gray-700">In voorraadlijst</label>
                 </div>
               </div>
@@ -128,7 +128,7 @@
                   @onSelectionChange={{this.setWarehouseDepartment}} />
               </div>
               <div class="col-span-2 lg:col-span-1">
-                <label for="warehouse-rack-nb" class="block text-sm font-medium leading-5 text-gray-700">
+                <label for="warehouse-rack-nb" class="block text-sm font-medium text-gray-700">
                   Rek
                 </label>
                 <Input
@@ -137,7 +137,7 @@
                   class="mt-1 focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
               </div>
               <div class="col-span-2 lg:col-span-1">
-                <label for="warehouse-side" class="block text-sm font-medium leading-5 text-gray-700">
+                <label for="warehouse-side" class="block text-sm font-medium text-gray-700">
                   Zijde
                 </label>
                 <Input
@@ -146,7 +146,7 @@
                   class="mt-1 focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
               </div>
               <div class="col-span-2 lg:col-span-1">
-                <label for="warehouse-position" class="block text-sm font-medium leading-5 text-gray-700">
+                <label for="warehouse-position" class="block text-sm font-medium text-gray-700">
                   Plaats
                 </label>
                 <Input
@@ -164,7 +164,7 @@
         <h3 class="text-lg leading-6 font-medium text-gray-900">
           Prijzen
         </h3>
-        <p class="mt-1 text-sm leading-5 text-gray-500">
+        <p class="mt-1 text-sm text-gray-500">
           Informatie over de inkoop- en verkoopprijs van het product.
         </p>
       </div>
@@ -175,7 +175,7 @@
             @leading="&euro;"
             @value={{@model.purchaseOffering.unitPriceSpecification.currencyValue}}
             @onChange={{this.setPriceIn}}
-            class="focus:ring-red-200 focus:border-red-200 block w-full pl-7 border-gray-300 rounded-md md:text-sm" />
+            class="focus:ring-red-200 focus:border-red-200 block w-full pl-7 border-gray-300 rounded-md sm:text-sm" />
         </div>
         <div class="col-span-3 md:col-span-1">
           <InputField::UnitCodeSelect
@@ -196,7 +196,7 @@
               {{on "click" this.setPriceOutCalculationBasis}}
               class="focus:ring-green-400 h-4 w-4 text-green-600 border-gray-300" />
             <label for="calc-base-price-out" class="ml-3">
-              <span class="block text-sm leading-5 font-medium
+              <span class="block text-sm font-medium
                 {{if @model.salesOffering.unitPriceSpecification.hasPriceOutCalculationBasis "text-green-700" "text-gray-700"}}">
                 Verkoopprijs
               </span>
@@ -207,7 +207,7 @@
               @label="Prijs excl. btw"
               @leading="&euro;"
               @value={{@model.salesOffering.unitPriceSpecification.currencyValueTaxExcluded}}
-              class="block w-full pl-7 border-gray-300 rounded-md md:text-sm bg-gray-200"
+              class="block w-full pl-7 border-gray-300 rounded-md sm:text-sm bg-gray-200"
               disabled="true" />
           </div>
           <div class="col-span-3 lg:col-span-2">
@@ -216,7 +216,7 @@
               @leading="&euro;"
               @value={{@model.salesOffering.unitPriceSpecification.currencyValue}}
               @onChange={{this.setPriceOut}}
-              class="focus:ring-red-200 focus:border-red-200 block w-full pl-7 border-gray-300 rounded-md md:text-sm
+              class="focus:ring-red-200 focus:border-red-200 block w-full pl-7 border-gray-300 rounded-md sm:text-sm
               {{if @model.salesOffering.unitPriceSpecification.hasMarginCalculationBasis "disabled:bg-gray-200"}}"
               disabled={{@model.salesOffering.unitPriceSpecification.hasMarginCalculationBasis}} />
           </div>
@@ -238,7 +238,7 @@
               {{on "click" this.setMarginCalculationBasis}}
               class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300" />
             <label for="calc-base-margin" class="ml-3">
-              <span class="block text-sm leading-5 font-medium
+              <span class="block text-sm font-medium
                 {{if @model.salesOffering.unitPriceSpecification.hasMarginCalculationBasis "text-green-700" "text-gray-700"}}">
                 Marge
               </span>
@@ -249,7 +249,7 @@
               @label="Factor"
               @value={{@model.salesOffering.unitPriceSpecification.margin}}
               @onChange={{this.setMargin}}
-              class="focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md md:text-sm
+              class="focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm
               {{if @model.salesOffering.unitPriceSpecification.hasPriceOutCalculationBasis "disabled:bg-gray-200"}}"
               disabled={{@model.salesOffering.unitPriceSpecification.hasPriceOutCalculationBasis}} />
           </div>
@@ -264,13 +264,13 @@
         <h3 class="text-lg leading-6 font-medium text-gray-900">
           Bijlagen
         </h3>
-        <p class="mt-1 text-sm leading-5 text-gray-500">
+        <p class="mt-1 text-sm text-gray-500">
           Bijkomende informatie in de vorm van afbeeldingen en bestanden.
         </p>
       </div>
       <div class="mt-6">
         <div>
-          <label for="attachments" class="block text-sm leading-5 font-medium text-gray-700">
+          <label for="attachments" class="block text-sm font-medium text-gray-700">
             Afbeeldingen en documenten
           </label>
           <div class="mt-2">
@@ -325,7 +325,7 @@
             <div>
               <ul class="border border-gray-200 rounded-md">
                 {{#each @model.attachments as |file index|}}
-                  <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm leading-5
+                  <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm
                     {{if (gt index 0) "border-t border-gray-200"}}">
                     <div class="w-0 flex-1 flex items-center">
                       {{svg-jar "attachment-2" class="shrink-0 h-5 w-5 text-gray-400 fill-current"}}
