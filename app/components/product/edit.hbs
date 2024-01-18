@@ -25,7 +25,7 @@
                 {{#if @model.salesOffering.validThrough}}
                   <label for="in-stock" class="font-medium text-gray-700">
                     Niet beschikbaar
-                    <span class="font-normal">sinds {{dayjs-format date=@model.salesOffering.validThrough format="DD-MM-YYYY"}}</span>
+                    <span class="font-normal">sinds {{format-date @model.salesOffering.validThrough}}</span>
                   </label>
                 {{else}}
                   <label for="in-stock" class="font-medium text-gray-700">

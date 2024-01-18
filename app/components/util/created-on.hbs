@@ -5,7 +5,7 @@
     Aangemaakt
   {{/if}}
   {{#if @date}}
-    op {{dayjs-format date=@date format="DD-MM-YYYY"}}
+    op {{format-date @date showTime=true}}
   {{/if}}
   {{#if this.by}}
     door {{this.by}}

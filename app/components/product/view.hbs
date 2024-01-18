@@ -19,7 +19,7 @@
               {{svg-jar "prohibited-line" class="h-5 w-5 text-red-600 fill-current"}}
               <div>
                 <div class="text-red-700 text-sm font-medium">Niet beschikbaar</div>
-                <div class="text-red-700 text-xs">Sinds {{dayjs-format date=@model.salesOffering.validThrough format="DD-MM-YYYY"}}</div>
+                <div class="text-red-700 text-xs">Sinds {{format-date @model.salesOffering.validThrough}}</div>
               </div>
             {{else}}
               {{svg-jar "survey-line" class="h-5 w-5 text-green-600 fill-current"}}
