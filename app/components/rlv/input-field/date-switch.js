@@ -1,6 +1,6 @@
 import SwitchComponent from './switch';
 
-export default class InputDateSwitchComponent extends SwitchComponent {
+export default class RlvInputFieldDateSwitchComponent extends SwitchComponent {
   get onValue() {
     return null;
   }

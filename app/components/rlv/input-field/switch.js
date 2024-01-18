@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 
-export default class InputSwitchComponent extends Component {
+export default class InputFieldSwitchComponent extends Component {
   get onValue() {
     return true;
   }

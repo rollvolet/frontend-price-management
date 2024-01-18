@@ -1,10 +1,10 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { keepLatestTask, all } from 'ember-concurrency';
+import { guidFor } from '@ember/object/internals';
+import { keepLatestTask } from 'ember-concurrency';
 
-export default class InputWarehouseDepartmentSelectComponent extends Component {
+export default class InputUnitCodeSelectComponent extends Component {
   @service store;
 
   @tracked options = [];
@@ -17,20 +17,19 @@ export default class InputWarehouseDepartmentSelectComponent extends Component {
 
   @keepLatestTask
   *loadData() {
-    this.options = this.store.peekAll('warehouse-department').sortBy('name');
+    this.options = this.store.peekAll('unit-code').sortBy('label');
 
     const value = yield this.args.value; // argument may be a promise/proxy object
     if (value) {
       const selected = this.options.find((opt) => opt.uri == value.uri);
       if (!selected) {
         // selected value cannot be found in list of options, hence unset selected value
-        this.selectValue(null);
+        this.args.onSelectionChange(null);
       }
     }
   }
 
-  @action
-  selectValue(selected) {
-    this.args.onSelectionChange(selected);
+  get fieldId() {
+    return `unit-code-select-${guidFor(this)}`;
   }
 }

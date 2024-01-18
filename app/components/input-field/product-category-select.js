@@ -45,6 +45,6 @@ export default class InputFieldProductCategorySelectComponent extends Component 
   }
 
   get fieldId() {
-    return `filter-product-category-select-${guidFor(this)}`;
+    return `product-category-select-${guidFor(this)}`;
   }
 }
