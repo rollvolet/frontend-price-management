@@ -33,14 +33,14 @@
         @onInput={{perform this.debounceFilter "identifier"}} />
     </div>
     <div class="sm:col-span-4 lg:col-span-3 xl:col-span-2">
-      <Filter::ProductCategorySelect
+      <InputField::ProductCategorySelect
         @label="Categorie"
         @scope="top"
         @value={{this.filter.broaderCategory}}
         @onSelectionChange={{fn this.selectFilter "broaderCategory"}} />
     </div>
     <div class="sm:col-span-6 lg:col-span-4 xl:col-span-2">
-      <Filter::ProductCategorySelect
+      <InputField::ProductCategorySelect
         @label="Subcategorie"
         @scope={{this.filter.broaderCategory}}
         @disabled={{not this.filter.broaderCategory}}
@@ -54,7 +54,7 @@
         @onInput={{perform this.debounceFilter "name"}} />
     </div>
     <div class="sm:col-span-6 lg:col-span-4 xl:col-span-2">
-      <Filter::BusinessEntitySelect
+      <InputField::BusinessEntitySelect
         @label="Leverancier"
         @value={{this.filter.supplier}}
         @onSelectionChange={{fn this.selectFilter "supplier"}} />

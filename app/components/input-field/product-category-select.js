@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 import { guidFor } from '@ember/object/internals';
 import { keepLatestTask, all } from 'ember-concurrency';
 
-export default class FilterProductCategorySelectComponent extends Component {
+export default class InputFieldProductCategorySelectComponent extends Component {
   @service store;
 
   @tracked options = [];
