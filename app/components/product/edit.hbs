@@ -51,28 +51,19 @@
               </div>
             </div>
             <div class="md:col-span-5 lg:col-span-3">
-              <label for="broader-category" class="block text-sm font-medium leading-5 text-gray-700">
-                Categorie
-              </label>
-              <div class="mt-1 rounded-md shadow-sm">
-                <Input::ProductCategorySelect
-                  @id="broader-category"
-                  @scope="top"
-                  @value={{this.broaderCategory}}
-                  @onSelectionChange={{this.setBroaderCategory}} />
-              </div>
+              <InputField::ProductCategorySelect
+                @label="Categorie"
+                @scope="top"
+                @value={{this.broaderCategory}}
+                @onSelectionChange={{this.setBroaderCategory}} />
             </div>
             <div class="md:col-span-5 lg:col-span-3">
-              <label for="category" class="block text-sm font-medium leading-5 text-gray-700">
-                Subcategorie
-              </label>
-              <div class="mt-1 rounded-md shadow-sm">
-                <Input::ProductCategorySelect
-                  @id="category"
-                  @scope={{this.broaderCategory.uri}}
-                  @value={{@model.category}}
-                  @onSelectionChange={{this.setCategory}} />
-              </div>
+              <InputField::ProductCategorySelect
+                @label="Subcategorie"
+                @scope={{this.broaderCategory}}
+                @disabled={{not this.broaderCategory}}
+                @value={{@model.category}}
+                @onSelectionChange={{this.setCategory}} />
             </div>
             <div class="md:col-span-6">
               <label for="product-description" class="block text-sm font-medium leading-5 text-gray-700">
@@ -100,12 +91,9 @@
             </div>
             <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-6">
               <div class="md:col-span-4">
-                <label for="supplier" class="block text-sm font-medium leading-5 text-gray-700">
-                  Leverancier
-                </label>
                 <div class="mt-1 rounded-md shadow-sm">
-                  <Input::BusinessEntitySelect
-                    @id="supplier"
+                  <InputField::BusinessEntitySelect
+                    @label="Leverancier"
                     @value={{@model.purchaseOffering.businessEntity}}
                     @onSelectionChange={{this.setSupplier}} />
                 </div>

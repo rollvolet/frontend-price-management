@@ -2,15 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
-import { warn } from '@ember/debug';
-import { A } from '@ember/array';
-import {
-  enqueueTask,
-  keepLatestTask,
-  task,
-  all,
-  timeout,
-} from 'ember-concurrency';
+import { enqueueTask, keepLatestTask, task, all, timeout } from 'ember-concurrency';
 import {
   VAT_RATE,
   PRICE_OUT_CALCULATION_BASIS,
@@ -195,7 +187,9 @@ export default class ProductEditComponent extends Component {
 
   @action
   setBroaderCategory(category) {
-    if (this.broaderCategory != category) this.args.model.category = null; // new top-level has been selected, hence reset category
+    if (this.broaderCategory != category) {
+      this.args.model.category = null; // new top-level has been selected, hence reset category
+    }
     this.broaderCategory = category;
   }
 
