@@ -188,12 +188,13 @@
         <div class="p-4 grid grid-cols-6 gap-y-6 gap-x-4 rounded-md bg-gray-50 border
           {{if @model.salesOffering.unitPriceSpecification.hasPriceOutCalculationBasis "border-green-300" "border-gray-200"}}">
           <div class="col-span-6 flex items-center">
-            <Input type="radio"
+            <input
               id="calc-base-price-out"
+              type="radio"
               name="price-calc-basis"
-              @value={{this.priceOutCalculationBasis}}
+              value={{this.priceOutCalculationBasis}}
               checked={{@model.salesOffering.unitPriceSpecification.hasPriceOutCalculationBasis}}
-              {{on "click" this.setPriceOutCalculationBasis}}
+              {{on "input" this.setCalculationBasis}}
               class="focus:ring-green-400 h-4 w-4 text-green-600 border-gray-300" />
             <label for="calc-base-price-out" class="ml-3">
               <span class="block text-sm font-medium
@@ -230,12 +231,13 @@
         <div class="p-4 grid grid-cols-6 gap-y-6 gap-x-4 rounded-md bg-gray-50 border
           {{if @model.salesOffering.unitPriceSpecification.hasMarginCalculationBasis "border-green-300" "border-gray-200"}}">
           <div class="col-span-6 flex items-center">
-            <Input type="radio"
+            <input
               id="calc-base-margin"
+              type="radio"
               name="price-calc-basis"
-              @value={{this.marginCalculationBasis}}
+              value={{this.marginCalculationBasis}}
               checked={{@model.salesOffering.unitPriceSpecification.hasMarginCalculationBasis}}
-              {{on "click" this.setMarginCalculationBasis}}
+              {{on "input" this.setCalculationBasis}}
               class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300" />
             <label for="calc-base-margin" class="ml-3">
               <span class="block text-sm font-medium

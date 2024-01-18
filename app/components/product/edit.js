@@ -211,17 +211,11 @@ export default class ProductEditComponent extends Component {
   }
 
   @action
-  async setPriceOutCalculationBasis() {
+  async setCalculationBasis(e) {
+    const calculationBasis = e.target.value;
     const offering = await this.args.model.salesOffering;
     const price = await offering.unitPriceSpecification;
-    price.calculationBasis = PRICE_OUT_CALCULATION_BASIS;
-  }
-
-  @action
-  async setMarginCalculationBasis() {
-    const offering = await this.args.model.salesOffering;
-    const price = await offering.unitPriceSpecification;
-    price.calculationBasis = MARGIN_CALCULATION_BASIS;
+    price.calculationBasis = calculationBasis;
   }
 
   @action
