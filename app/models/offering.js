@@ -9,6 +9,7 @@ export default class OfferingModel extends Model {
 
   @belongsTo('product', { inverse: 'purchaseOffering', async: true }) purchaseProduct;
   @belongsTo('product', { inverse: 'salesOffering', async: true }) salesProduct;
-  @belongsTo('unit-price-specification', { inverse: 'offering', async: true }) unitPriceSpecification;
+  @belongsTo('unit-price-specification', { inverse: 'offering', async: true })
+  unitPriceSpecification;
   @belongsTo('business-entity', { inverse: 'offerings', async: true }) businessEntity;
 }

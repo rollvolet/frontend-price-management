@@ -56,8 +56,7 @@ module.exports = function (environment) {
 
   if (environment === 'production') {
     ENV.torii.providers['azure-ad2-oauth2'].apiKey = '{{AUTH_CLIENT_ID}}';
-    ENV.torii.providers['azure-ad2-oauth2'].redirectUri =
-      '{{AUTH_REDIRECT_URI}}';
+    ENV.torii.providers['azure-ad2-oauth2'].redirectUri = '{{AUTH_REDIRECT_URI}}';
   }
 
   return ENV;

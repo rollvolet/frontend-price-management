@@ -13,4 +13,4 @@ export default {
     PRICE_OUT: 'http://data.rollvolet.be/calculation-basis/47c2570e-cc21-4496-ba76-7e89a3cf782d',
     MARGIN: 'http://data.rollvolet.be/calculation-basis/12c12fe4-9d88-4a63-9223-2c83d69da729',
   },
-}
+};

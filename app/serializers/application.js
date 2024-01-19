@@ -43,8 +43,9 @@ function createPageMeta(data) {
 
 export default class ApplicationSerializer extends JSONAPISerializer {
   serializeAttribute(snapshot, json, key, attributes) {
-    if (key !== 'uri')
+    if (key !== 'uri') {
       super.serializeAttribute(snapshot, json, key, attributes);
+    }
   }
 
   /**
