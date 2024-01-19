@@ -6,14 +6,14 @@ import { VAT_RATE } from '../config';
 const { CALCULATION_BASIS } = constants;
 
 export default class UnitPriceSpecificationModel extends Model {
-  @attr currency;
+  @attr('string') currency;
   @attr('number') currencyValue;
   @attr('number') margin;
-  @attr calculationBasis;
+  @attr('string') calculationBasis;
   @attr('boolean') valueAddedTaxIncluded;
 
-  @belongsTo('unit-code') unitCode;
-  @belongsTo('offering') offering;
+  @belongsTo('unit-code', { inverse: 'unitPriceSpecifications' }) unitCode;
+  @belongsTo('offering', { inverse: 'unitPriceSpecification' }) offering;
 
   get currencyValueTaxIncluded() {
     if (this.valueAddedTaxIncluded) {

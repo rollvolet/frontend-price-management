@@ -1,9 +1,9 @@
 import Model, { attr, hasMany } from '@ember-data/model';
 
 export default class WarehouseDepartmentModel extends Model {
-  @attr uri;
-  @attr name;
-  @attr code;
+  @attr('string') uri;
+  @attr('string') name;
+  @attr('string') code;
 
-  @hasMany('warehouse-location') warehouseLocations;
+  @hasMany('warehouse-location', { inverse: 'department' }) warehouseLocations;
 }

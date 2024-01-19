@@ -1,10 +1,10 @@
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
 export default class WarehouseLocationModel extends Model {
-  @attr rack;
-  @attr side;
-  @attr position;
+  @attr('string') rack;
+  @attr('string') side;
+  @attr('number') position;
 
-  @belongsTo('warehouse-department') department;
-  @hasMany('product') products;
+  @belongsTo('warehouse-department', { inverse: 'warehouseLocations' }) department;
+  @hasMany('product', { inverse: 'warehouseLocation' }) products;
 }

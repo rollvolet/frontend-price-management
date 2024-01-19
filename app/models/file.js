@@ -1,10 +1,10 @@
 import Model, { attr } from '@ember-data/model';
 
 export default class FileModel extends Model {
-  @attr filename;
-  @attr format;
-  @attr size;
-  @attr extension;
+  @attr('string') filename;
+  @attr('string') format;
+  @attr('string') size;
+  @attr('string') extension;
   @attr('datetime') created;
 
   get humanReadableSize() {
