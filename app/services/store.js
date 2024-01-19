@@ -12,7 +12,7 @@ export default class ExtendedStoreService extends Store {
     }
     const results = await this.query(modelName, query, options);
     if (results.length) {
-      return results.firstObject;
+      return results[0];
     } else {
       return null;
     }
@@ -61,7 +61,7 @@ export default class ExtendedStoreService extends Store {
 
     const otherBatches = await Promise.all(batches);
     return ArrayProxy.create({
-      content: [firstBatch, ...otherBatches].map((batch) => batch.toArray()).flat(),
+      content: [firstBatch, ...otherBatches].map((batch) => batch.slice(0)).flat(),
       meta: {
         count,
       },
