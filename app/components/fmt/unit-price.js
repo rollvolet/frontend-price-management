@@ -1,34 +1,27 @@
 import Component from '@glimmer/component';
-import { get } from '@ember/object';
+import { cached } from '@glimmer/tracking';
+import { TrackedAsyncData } from 'ember-async-data';
 import { VAT_RATE } from '../../config';
 
 export default class FmtUnitPriceComponent extends Component {
   // Note:
   // this.args.model maybe a Proxy object coming from ember-data
   // or a plain javascript object coming as nested object from mu-search.
-  // By using 'get' from @ember/object to retrieve a property we cover both cases
 
-  get currencyValue() {
+  @cached
+  get currencyValueLoader() {
     if (this.args.showTaxIncluded) {
-      return this.currencyValueTaxIncluded;
+      const loadData = async () => {
+        const model = await this.args.model;
+        return model.currencyValueTaxIncluded;
+      };
+      return new TrackedAsyncData(loadData());
     } else {
-      return this.currencyValueTaxExcluded;
-    }
-  }
-
-  get currencyValueTaxIncluded() {
-    if (get(this.args.model, 'valueAddedTaxIncluded')) {
-      return get('this.args.model', 'currencyValue');
-    } else {
-      return get('this.args.model', 'currencyValue') * (1 + VAT_RATE);
-    }
-  }
-
-  get currencyValueTaxExcluded() {
-    if (get(this.args.model, 'valueAddedTaxIncluded')) {
-      return get('this.args.model', 'currencyValue') / (1 + VAT_RATE);
-    } else {
-      return get('this.args.model', 'currencyValue');
+      const loadData = async () => {
+        const model = await this.args.model;
+        return model.currencyValueTaxExcluded;
+      };
+      return new TrackedAsyncData(loadData());
     }
   }
 }
