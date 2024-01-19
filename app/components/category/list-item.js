@@ -20,7 +20,9 @@ export default class CategoryListItemComponent extends Component {
   }
 
   get sortedSubcategories() {
-    return this.subcategories.sortBy('label');
+    return this.subcategories.slice(0).sort((a, b) => {
+      return a.label > b.label ? 1 : -1;
+    });
   }
 
   @action

@@ -33,12 +33,14 @@ export default class InputFieldProductCategorySelectComponent extends Component 
       this.options = wrappers
         .filter((wrapper) => !wrapper.broaderUri)
         .map((wrapper) => wrapper.category)
-        .sortBy('label');
+        .slice(0)
+        .sort((a, b) => (a.label > b.label) ? 1 : -1);
     } else if (this.args.scope) {
       this.options = wrappers
         .filter((wrapper) => wrapper.broaderUri == this.args.scope.uri)
         .map((wrapper) => wrapper.category)
-        .sortBy('label');
+        .slice(0)
+        .sort((a, b) => (a.label > b.label) ? 1 : -1);
     } else {
       this.options = [];
     }
