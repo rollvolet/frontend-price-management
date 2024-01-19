@@ -6,5 +6,5 @@ export default class UnitCodeModel extends Model {
   @attr('string') notation;
   @attr('string') conceptScheme;
 
-  @hasMany('unit-price-specification', { inverse: 'unitCode' }) unitPriceSpecifications;
+  @hasMany('unit-price-specification', { inverse: 'unitCode', async: true }) unitPriceSpecifications;
 }

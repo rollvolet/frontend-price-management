@@ -12,8 +12,8 @@ export default class UnitPriceSpecificationModel extends Model {
   @attr('string') calculationBasis;
   @attr('boolean') valueAddedTaxIncluded;
 
-  @belongsTo('unit-code', { inverse: 'unitPriceSpecifications' }) unitCode;
-  @belongsTo('offering', { inverse: 'unitPriceSpecification' }) offering;
+  @belongsTo('unit-code', { inverse: 'unitPriceSpecifications', async: true }) unitCode;
+  @belongsTo('offering', { inverse: 'unitPriceSpecification', async: true }) offering;
 
   get currencyValueTaxIncluded() {
     if (this.valueAddedTaxIncluded) {

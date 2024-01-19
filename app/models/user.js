@@ -5,7 +5,7 @@ export default class UserClass extends Model {
   @attr('string') identifier;
   @attr('string') name;
 
-  @belongsTo('account', { inverse: 'user' }) account;
+  @belongsTo('account', { inverse: 'user', async: true }) account;
 
   get firstName() {
     // TODO this is only a best guess. Get correct first name from DB.

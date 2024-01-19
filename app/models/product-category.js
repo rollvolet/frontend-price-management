@@ -5,6 +5,6 @@ export default class ProductCategoryModel extends Model {
   @attr('string') label;
   @attr('string') conceptScheme;
 
-  @belongsTo('product-category', { inverse: 'narrowers' }) broader;
-  @hasMany('product-category', { inverse: 'broader' }) narrowers;
+  @belongsTo('product-category', { inverse: 'narrowers', async: true }) broader;
+  @hasMany('product-category', { inverse: 'broader', async: true }) narrowers;
 }

@@ -8,9 +8,9 @@ export default class ProductModel extends Model {
   @attr('datetime') created;
   @attr('datetime') modified;
 
-  @belongsTo('warehouse-location', { inverse: 'products' }) warehouseLocation;
-  @belongsTo('offering', { inverse: 'purchaseProduct' }) purchaseOffering;
-  @belongsTo('offering', { inverse: 'salesProduct' }) salesOffering;
-  @belongsTo('product-category', { inverse: null }) category;
-  @hasMany('file', { inverse: null }) attachments;
+  @belongsTo('warehouse-location', { inverse: 'products', async: true }) warehouseLocation;
+  @belongsTo('offering', { inverse: 'purchaseProduct', async: true }) purchaseOffering;
+  @belongsTo('offering', { inverse: 'salesProduct', async: true }) salesOffering;
+  @belongsTo('product-category', { inverse: null, async: true }) category;
+  @hasMany('file', { inverse: null, async: true }) attachments;
 }

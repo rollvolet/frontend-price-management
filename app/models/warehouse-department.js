@@ -5,5 +5,5 @@ export default class WarehouseDepartmentModel extends Model {
   @attr('string') name;
   @attr('string') code;
 
-  @hasMany('warehouse-location', { inverse: 'department' }) warehouseLocations;
+  @hasMany('warehouse-location', { inverse: 'department', async: true }) warehouseLocations;
 }

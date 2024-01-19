@@ -12,5 +12,5 @@ export default class BusinessEntityModel extends Model {
   @attr('datetime') created;
   @attr('datetime') modified;
 
-  @hasMany('offering', { inverse: 'businessEntity' }) offerings;
+  @hasMany('offering', { inverse: 'businessEntity', async: true }) offerings;
 }

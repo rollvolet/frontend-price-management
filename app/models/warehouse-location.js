@@ -5,6 +5,6 @@ export default class WarehouseLocationModel extends Model {
   @attr('string') side;
   @attr('number') position;
 
-  @belongsTo('warehouse-department', { inverse: 'warehouseLocations' }) department;
-  @hasMany('product', { inverse: 'warehouseLocation' }) products;
+  @belongsTo('warehouse-department', { inverse: 'warehouseLocations', async: true }) department;
+  @hasMany('product', { inverse: 'warehouseLocation', async: true }) products;
 }
