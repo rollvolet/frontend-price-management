@@ -1,9 +1,7 @@
 import Model, { attr, hasMany } from '@ember-data/model';
+import constants from '../config/constants';
 
-const ROLLVOLET_URI =
-  'http://data.rollvolet.be/business-entities/b5e1f237-6b17-4698-b581-e0a61396936f';
-const SUPPLIER_CATEGORY =
-  'http://data.rollvolet.be/business-categories/34104acc-3633-4ea6-a465-87075d0e1cd1';
+const { BUSINESS_CATEGORIES } = constants;
 
 export default class BusinessEntityModel extends Model {
   @attr('string') uri;
@@ -20,8 +18,6 @@ export default class BusinessEntityModel extends Model {
   @hasMany('offering') offerings;
 
   get isSupplier() {
-    return this.category == SUPPLIER_CATEGORY;
+    return this.category == BUSINESS_CATEGORIES.SUPPLIER;
   }
 }
-
-export { ROLLVOLET_URI, SUPPLIER_CATEGORY };

@@ -1,22 +1,19 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import { PRICE_OUT_CALCULATION_BASIS } from '../../../models/unit-price-specification';
-import { IN_STOCK } from '../../../models/offering';
-import { ROLLVOLET_URI } from '../../../models/business-entity';
 import { next as nextNumber } from '../../../utils/sequence-number';
+import constants from '../../../config/constants';
+
+const { BUSINESS_ENTITIES, PRODUCT_AVAILABILITIES, CALCULATION_BASIS } = constants;
 
 export default class MainProductsNewRoute extends Route {
   @service store;
 
   async model() {
     const now = new Date();
-
-    const businessEntities = await this.store.query('business-entity', {
-      page: { size: 1 },
-      filter: { ':uri:': ROLLVOLET_URI },
-    });
-    const rollvolet = businessEntities.firstObject;
-
+    const rollvolet = await this.store.findRecordByUri(
+      'business-entity',
+      BUSINESS_ENTITIES.ROLLVOLET
+    );
     const number = await nextNumber();
 
     const purchasePrice = this.store.createRecord('unit-price-specification', {
@@ -30,7 +27,7 @@ export default class MainProductsNewRoute extends Route {
     });
     const salesPrice = this.store.createRecord('unit-price-specification', {
       currency: 'EUR',
-      calculationBasis: PRICE_OUT_CALCULATION_BASIS,
+      calculationBasis: CALCULATION_BASIS.PRICE_OUT,
       valueAddedTaxIncluded: true,
       businessEntity: rollvolet,
       currencyValue: 0.0,
@@ -38,7 +35,7 @@ export default class MainProductsNewRoute extends Route {
     });
     const salesOffering = this.store.createRecord('offering', {
       validFrom: now,
-      availability: IN_STOCK,
+      availability: PRODUCT_AVAILABILITIES.IN_STOCK,
       unitPriceSpecification: salesPrice,
     });
     const warehouseLocation = this.store.createRecord('warehouse-location', {});

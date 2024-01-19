@@ -3,16 +3,15 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import { enqueueTask, keepLatestTask, task, all, timeout } from 'ember-concurrency';
-import {
-  VAT_RATE,
-  PRICE_OUT_CALCULATION_BASIS,
-  MARGIN_CALCULATION_BASIS,
-} from '../../models/unit-price-specification';
+import { VAT_RATE } from '../../models/unit-price-specification';
 import roundDecimal from '../../utils/round-decimal';
+import constants from '../../config/constants';
+
+const { CALCULATION_BASIS } = constants;
 
 export default class ProductEditComponent extends Component {
-  priceOutCalculationBasis = PRICE_OUT_CALCULATION_BASIS;
-  marginCalculationBasis = MARGIN_CALCULATION_BASIS;
+  priceOutCalculationBasis = CALCULATION_BASIS.PRICE_OUT;
+  marginCalculationBasis = CALCULATION_BASIS.MARGIN;
 
   @service store;
   @service notification;
@@ -112,13 +111,9 @@ export default class ProductEditComponent extends Component {
 
     yield this.args.model.destroyRecord();
     yield all(
-      [
-        warehouseLocation,
-        purchaseOffering,
-        purchasePrice,
-        salesOffering,
-        salesPrice,
-      ].map((record) => record.destroyRecord())
+      [warehouseLocation, purchaseOffering, purchasePrice, salesOffering, salesPrice].map(
+        (record) => record.destroyRecord()
+      )
     );
     yield all(attachments.map((file) => file.destroyRecord()));
     yield timeout(4000); // wait for delete-delta to be handled by mu-search
@@ -136,11 +131,10 @@ export default class ProductEditComponent extends Component {
     const salesOffering = yield this.args.model.salesOffering;
     const salesPrice = yield salesOffering.unitPriceSpecification;
 
-    if (salesPrice.calculationBasis == MARGIN_CALCULATION_BASIS) {
+    if (salesPrice.calculationBasis == CALCULATION_BASIS.MARGIN) {
       salesPrice.margin = roundDecimal(salesPrice.margin);
       if (salesPrice.valueAddedTaxIncluded) {
-        const value =
-          purchasePrice.currencyValue * salesPrice.margin * (1 + VAT_RATE);
+        const value = purchasePrice.currencyValue * salesPrice.margin * (1 + VAT_RATE);
         salesPrice.currencyValue = roundDecimal(value);
       } else {
         const value = purchasePrice.currencyValue * salesPrice.margin;
@@ -148,8 +142,7 @@ export default class ProductEditComponent extends Component {
       }
     } else {
       salesPrice.currencyValue = roundDecimal(salesPrice.currencyValue);
-      const margin =
-        salesPrice.currencyValueTaxExcluded / purchasePrice.currencyValue;
+      const margin = salesPrice.currencyValueTaxExcluded / purchasePrice.currencyValue;
       salesPrice.margin = roundDecimal(margin);
     }
   }

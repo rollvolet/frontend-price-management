@@ -2,7 +2,9 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import { keepLatestTask, restartableTask, timeout } from 'ember-concurrency';
-import { SUPPLIER_CATEGORY } from '../../models/business-entity';
+import constants from '../../config/constants';
+
+const { BUSINESS_CATEGORIES } = constants;
 
 export default class InputFieldBusinessEntitySelectComponent extends Component {
   @service store;
@@ -20,7 +22,7 @@ export default class InputFieldBusinessEntitySelectComponent extends Component {
       page: { size: 50 },
       sort: 'name',
       filter: {
-        category: SUPPLIER_CATEGORY,
+        category: BUSINESS_CATEGORIES.SUPPLIER,
       },
     });
   }

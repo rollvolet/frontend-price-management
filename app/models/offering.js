@@ -1,7 +1,7 @@
-import Model, { attr, hasMany, belongsTo } from '@ember-data/model';
+import Model, { attr, belongsTo } from '@ember-data/model';
+import constants from '../config/constants';
 
-const IN_STOCK = 'http://schema.org/InStock';
-const OUT_OF_STOCK = 'http://schema.org/OutOfStock';
+const { PRODUCT_AVAILABILITIES } = constants;
 
 export default class OfferingModel extends Model {
   @attr name;
@@ -16,8 +16,6 @@ export default class OfferingModel extends Model {
   @belongsTo('business-entity') businessEntity;
 
   get isAvailable() {
-    return this.availability == IN_STOCK;
+    return this.availability == PRODUCT_AVAILABILITIES.IN_STOCK;
   }
 }
-
-export { IN_STOCK, OUT_OF_STOCK };
