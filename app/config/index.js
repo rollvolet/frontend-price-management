@@ -1,3 +1,5 @@
-export default {
-  VAT_RATE: 0.21,
+const VAT_RATE = 0.21;
+
+export {
+  VAT_RATE,
 };
