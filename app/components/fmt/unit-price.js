@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 import { get } from '@ember/object';
-
-const VAT_RATE = 0.21;
+import { VAT_RATE } from '../../config';
 
 export default class FmtUnitPriceComponent extends Component {
   // Note:

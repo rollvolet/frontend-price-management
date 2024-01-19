@@ -1,9 +1,9 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
 import roundDecimal from '../utils/round-decimal';
 import constants from '../config/constants';
+import { VAT_RATE } from '../config';
 
 const { CALCULATION_BASIS } = constants;
-const VAT_RATE = 0.21;
 
 export default class UnitPriceSpecificationModel extends Model {
   @attr currency;
@@ -43,5 +43,3 @@ export default class UnitPriceSpecificationModel extends Model {
     return this.margin * 100;
   }
 }
-
-export { VAT_RATE };

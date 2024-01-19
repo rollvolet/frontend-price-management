@@ -3,9 +3,9 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import { enqueueTask, keepLatestTask, task, all, timeout } from 'ember-concurrency';
-import { VAT_RATE } from '../../models/unit-price-specification';
 import roundDecimal from '../../utils/round-decimal';
 import constants from '../../config/constants';
+import { VAT_RATE } from '../../config';
 
 const { CALCULATION_BASIS } = constants;
 
