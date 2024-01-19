@@ -1,4 +1,4 @@
-{{page-title "Login"}}
+{{page-title "Mock login"}}
 
 {{#if this.session.isAuthenticated}}
   <div class="px-4 py-6 sm:px-6 lg:px-8">
@@ -16,8 +16,11 @@
       </div>
 
       <div class="mt-8">
-        <Login::Msal />
+        <MuLogin />
       </div>
     </div>
   </div>
+
 {{/if}}
+
+{{outlet}}

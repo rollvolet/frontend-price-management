@@ -4,6 +4,7 @@
 @import "components/button";
 @import "components/ember-tooltip";
 @import "components/ember-power-select";
+@import "components/mu-login";
 
 @import "tailwindcss/utilities";
 

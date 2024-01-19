@@ -8,6 +8,7 @@ export default class Router extends EmberRouter {
 
 Router.map(function () {
   this.route('login');
+  this.route('mock-login');
   this.route('oops');
   this.route('main', { path: '/' }, function () {
     this.route('products', function () {
