@@ -4,9 +4,10 @@ import { tracked } from '@glimmer/tracking';
 
 export default class UserInfoService extends Service {
   @service session;
+  @service store;
 
-  @tracked name;
-  @tracked username;
+  @tracked account;
+  @tracked user;
 
   get isLoaded() {
     return this.fetchUserInfo.last && this.fetchUserInfo.last.isSuccessful;
@@ -15,17 +16,22 @@ export default class UserInfoService extends Service {
   @keepLatestTask
   *fetchUserInfo() {
     if (this.session.isAuthenticated) {
-      const sessionData = this.session.data.authenticated.data;
-      this.name = sessionData.attributes.name;
-      this.username = sessionData.attributes.username;
+      const authenticatedData = this.session.data.authenticated;
+      // TODO: response in msal-login service must be fixed. Relationships must be included in data object
+      const sessionData = authenticatedData.relationships || authenticatedData.data.relationships;
+      const accountId = sessionData.account?.data.id;
+      this.account = yield this.store.findRecord('account', accountId, {
+        include: 'user',
+      });
+      this.user = yield this.account.user;
     } else {
-      this.name = null;
-      this.username = null;
+      this.account = null;
+      this.user = null;
     }
   }
 
   clearUserInfo() {
-    this.name = null;
-    this.username = null;
+    this.account = null;
+    this.user = null;
   }
 }
