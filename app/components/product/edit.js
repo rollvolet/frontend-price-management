@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
-import { enqueueTask, keepLatestTask, task, all, timeout } from 'ember-concurrency';
+import { enqueueTask, keepLatestTask, task, timeout } from 'ember-concurrency';
 import roundDecimal from '../../utils/round-decimal';
 import constants from '../../config/constants';
 import { VAT_RATE } from '../../config';
@@ -50,7 +50,7 @@ export default class ProductEditComponent extends Component {
     this.args.model.rollbackAttributes();
 
     if (!this.args.model.isNew) {
-      yield all([
+      yield Promise.all([
         warehouseLocation.belongsTo('department').reload(),
         purchasePrice.belongsTo('unitCode').reload(),
         purchaseOffering.belongsTo('unitPriceSpecification').reload(),
@@ -77,20 +77,30 @@ export default class ProductEditComponent extends Component {
   *save() {
     // TODO add some validation
     try {
-      const warehouseLocation = yield this.args.model.warehouseLocation;
-      yield warehouseLocation.save();
-      const purchaseOffering = yield this.args.model.purchaseOffering;
-      const purchasePrice = yield purchaseOffering.unitPriceSpecification;
-      yield purchasePrice.save();
-      yield purchaseOffering.save();
-      const salesOffering = yield this.args.model.salesOffering;
-      const salesPrice = yield salesOffering.unitPriceSpecification;
-      yield salesPrice.save();
-      yield salesOffering.save();
+      const [warehouseLocation, purchaseOffering, salesOffering] = yield Promise.all([
+        this.args.model.warehouseLocation,
+        this.args.model.purchaseOffering,
+        this.args.model.salesOffering,
+      ]);
+      const [purchasePrice, salesPrice] = yield Promise.all([
+        purchaseOffering.unitPriceSpecification,
+        salesOffering.unitPriceSpecification,
+      ]);
+      yield Promise.all([
+        warehouseLocation.save(),
+        purchasePrice.save(),
+        salesPrice.save(),
+      ]);
+      yield Promise.all([
+        purchaseOffering.save(),
+        salesOffering.save(),
+      ]);
       this.args.model.modified = new Date();
       yield this.args.model.save();
 
-      if (this.args.onSave) this.args.onSave();
+      if (this.args.onSave) {
+        this.args.onSave();
+      }
     } catch (e) {
       this.notification.addError({
         title: 'Opslaan mislukt!',
@@ -102,24 +112,29 @@ export default class ProductEditComponent extends Component {
 
   @task
   *delete() {
-    const warehouseLocation = yield this.args.model.warehouseLocation;
-    const purchaseOffering = yield this.args.model.purchaseOffering;
-    const purchasePrice = yield purchaseOffering.unitPriceSpecification;
-    const salesOffering = yield this.args.model.salesOffering;
-    const salesPrice = yield salesOffering.unitPriceSpecification;
-    const attachments = yield this.args.model.attachments;
-
+    const [warehouseLocation, purchaseOffering, salesOffering, attachments] = yield Promise.all([
+      this.args.model.warehouseLocation,
+      this.args.model.purchaseOffering,
+      this.args.model.salesOffering,
+      this.args.model.attachments,
+    ]);
+    const [purchasePrice, salesPrice] = yield Promise.all([
+      purchaseOffering.unitPriceSpecification,
+      salesOffering.unitPriceSpecification,
+    ]);
     yield this.args.model.destroyRecord();
-    yield all(
+    yield Promise.all(
       [warehouseLocation, purchaseOffering, purchasePrice, salesOffering, salesPrice].map(
         (record) => record.destroyRecord()
       )
     );
-    yield all(attachments.map((file) => file.destroyRecord()));
+    yield Promise.all(attachments.map((file) => file.destroyRecord()));
     yield timeout(4000); // wait for delete-delta to be handled by mu-search
 
     this.showDeleteConfirmationModal = false;
-    if (this.args.onDelete) this.args.onDelete();
+    if (this.args.onDelete) {
+      this.args.onDelete();
+    }
   }
 
   @keepLatestTask
