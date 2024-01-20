@@ -153,31 +153,7 @@
         @subtitle="Bijkomende informatie in de vorm van afbeelingen en bestanden." />
       <div class="mt-6">
         {{#if @model.attachments.length}}
-          <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-2">
-            <div>
-              <ul class="border border-gray-200 rounded-md">
-                {{#each @model.attachments as |file index|}}
-                  <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm {{if (gt index 0) "border-t border-gray-200"}}">
-                    <div class="w-0 flex-1 flex items-center">
-                      {{svg-jar "attachment-2" class="shrink-0 h-5 w-5 text-gray-400 fill-current"}}
-                      <span class="ml-2 flex-1 w-0 truncate">
-                        {{file.filename}}
-                        <span class="ml-2 text-xs text-gray-400"> {{file.humanReadableSize}}</span>
-                      </span>
-                    </div>
-                    <div class="ml-4 shrink-0">
-                      <Rlv::Button
-                        @label="Download"
-                        @href={{file.downloadLink}}
-                        @skin="link"
-                        target="_blank"
-                        rel="noopener noreferrer" />
-                    </div>
-                  </li>
-                {{/each}}
-              </ul>
-            </div>
-          </div>
+          <Product::AttachmentList @files={{@model.attachments}} />
         {{else}}
           <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-2">
             <div class="text-sm text-gray-400 italic">
