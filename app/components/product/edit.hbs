@@ -164,82 +164,84 @@
             @onSelectionChange={{this.setUnitPriceIn}} />
         </div>
       </div>
-      <fieldset class="mt-4 grid gap-y-4 gap-x-6 md:grid-cols-2">
-        <div class="p-4 grid grid-cols-6 gap-y-6 gap-x-4 rounded-md bg-gray-50 border
-          {{if @model.salesOffering.unitPriceSpecification.hasPriceOutCalculationBasis "border-green-300" "border-gray-200"}}">
-          <div class="col-span-6 flex items-center">
-            <input
-              id="calc-base-price-out"
-              type="radio"
-              name="price-calc-basis"
-              value={{this.priceOutCalculationBasis}}
-              checked={{@model.salesOffering.unitPriceSpecification.hasPriceOutCalculationBasis}}
-              {{on "input" this.setCalculationBasis}}
-              class="focus:ring-green-400 h-4 w-4 text-green-600 border-gray-300" />
-            <label for="calc-base-price-out" class="ml-3">
-              <span class="block text-sm font-medium
-                {{if @model.salesOffering.unitPriceSpecification.hasPriceOutCalculationBasis "text-green-700" "text-gray-700"}}">
-                Verkoopprijs
-              </span>
-            </label>
+      {{#let @model.salesOffering.unitPriceSpecification as |salesPrice|}}
+        <fieldset class="mt-4 grid gap-y-4 gap-x-6 md:grid-cols-2">
+          <div class="p-4 grid grid-cols-6 gap-y-6 gap-x-4 rounded-md bg-gray-50 border
+            {{if salesPrice.hasPriceOutCalculationBasis "border-green-300" "border-gray-200"}}">
+            <div class="col-span-6 flex items-center">
+              <input
+                id="calc-base-price-out"
+                type="radio"
+                name="price-calc-basis"
+                value={{this.priceOutCalculationBasis}}
+                checked={{salesPrice.hasPriceOutCalculationBasis}}
+                {{on "input" this.setCalculationBasis}}
+                class="focus:ring-green-400 h-4 w-4 text-green-600 border-gray-300" />
+              <label for="calc-base-price-out" class="ml-3">
+                <span class="block text-sm font-medium
+                  {{if salesPrice.hasPriceOutCalculationBasis "text-green-700" "text-gray-700"}}">
+                  Verkoopprijs
+                </span>
+              </label>
+            </div>
+            <div class="col-span-3 lg:col-span-2">
+              <Rlv::InputField::DecimalInput
+                @label="Prijs excl. btw"
+                @leading="&euro;"
+                @value={{salesPrice.currencyValueTaxExcluded}}
+                class="block w-full pl-7 border-gray-300 rounded-md sm:text-sm bg-gray-200"
+                disabled="true" />
+            </div>
+            <div class="col-span-3 lg:col-span-2">
+              <Rlv::InputField::DecimalInput
+                @label="Prijs incl. btw"
+                @leading="&euro;"
+                @value={{salesPrice.currencyValue}}
+                @onChange={{this.setPriceOut}}
+                class="focus:ring-red-200 focus:border-red-200 block w-full pl-7 border-gray-300 rounded-md sm:text-sm
+                {{if salesPrice.hasMarginCalculationBasis "disabled:bg-gray-200"}}"
+                disabled={{salesPrice.hasMarginCalculationBasis}} />
+            </div>
+            <div class="col-span-3 lg:col-span-2">
+              <InputField::UnitCodeSelect
+                @label="Eenheid"
+                @value={{salesPrice.unitCode}}
+                @onSelectionChange={{this.setUnitPriceOut}} />
+            </div>
           </div>
-          <div class="col-span-3 lg:col-span-2">
-            <Rlv::InputField::DecimalInput
-              @label="Prijs excl. btw"
-              @leading="&euro;"
-              @value={{@model.salesOffering.unitPriceSpecification.currencyValueTaxExcluded}}
-              class="block w-full pl-7 border-gray-300 rounded-md sm:text-sm bg-gray-200"
-              disabled="true" />
+          <div class="p-4 grid grid-cols-6 gap-y-6 gap-x-4 rounded-md bg-gray-50 border
+            {{if salesPrice.hasMarginCalculationBasis "border-green-300" "border-gray-200"}}">
+            <div class="col-span-6 flex items-center">
+              <input
+                id="calc-base-margin"
+                type="radio"
+                name="price-calc-basis"
+                value={{this.marginCalculationBasis}}
+                checked={{salesPrice.hasMarginCalculationBasis}}
+                {{on "input" this.setCalculationBasis}}
+                class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300" />
+              <label for="calc-base-margin" class="ml-3">
+                <span class="block text-sm font-medium
+                  {{if salesPrice.hasMarginCalculationBasis "text-green-700" "text-gray-700"}}">
+                  Marge
+                </span>
+              </label>
+            </div>
+            <div class="col-span-3 lg:col-span-2">
+              <Rlv::InputField::DecimalInput
+                @label="Factor"
+                @value={{salesPrice.margin}}
+                @onChange={{this.setMargin}}
+                class="focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm
+                {{if salesPrice.hasPriceOutCalculationBasis "disabled:bg-gray-200"}}"
+                disabled={{salesPrice.hasPriceOutCalculationBasis}} />
+            </div>
+            <div class="hidden col-span-6 h-14 md:block lg:hidden">
+              {{!-- Dummy element for alignment --}}
+            </div>
           </div>
-          <div class="col-span-3 lg:col-span-2">
-            <Rlv::InputField::DecimalInput
-              @label="Prijs incl. btw"
-              @leading="&euro;"
-              @value={{@model.salesOffering.unitPriceSpecification.currencyValue}}
-              @onChange={{this.setPriceOut}}
-              class="focus:ring-red-200 focus:border-red-200 block w-full pl-7 border-gray-300 rounded-md sm:text-sm
-              {{if @model.salesOffering.unitPriceSpecification.hasMarginCalculationBasis "disabled:bg-gray-200"}}"
-              disabled={{@model.salesOffering.unitPriceSpecification.hasMarginCalculationBasis}} />
-          </div>
-          <div class="col-span-3 lg:col-span-2">
-            <InputField::UnitCodeSelect
-              @label="Eenheid"
-              @value={{@model.salesOffering.unitPriceSpecification.unitCode}}
-              @onSelectionChange={{this.setUnitPriceOut}} />
-          </div>
-        </div>
-        <div class="p-4 grid grid-cols-6 gap-y-6 gap-x-4 rounded-md bg-gray-50 border
-          {{if @model.salesOffering.unitPriceSpecification.hasMarginCalculationBasis "border-green-300" "border-gray-200"}}">
-          <div class="col-span-6 flex items-center">
-            <input
-              id="calc-base-margin"
-              type="radio"
-              name="price-calc-basis"
-              value={{this.marginCalculationBasis}}
-              checked={{@model.salesOffering.unitPriceSpecification.hasMarginCalculationBasis}}
-              {{on "input" this.setCalculationBasis}}
-              class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300" />
-            <label for="calc-base-margin" class="ml-3">
-              <span class="block text-sm font-medium
-                {{if @model.salesOffering.unitPriceSpecification.hasMarginCalculationBasis "text-green-700" "text-gray-700"}}">
-                Marge
-              </span>
-            </label>
-          </div>
-          <div class="col-span-3 lg:col-span-2">
-            <Rlv::InputField::DecimalInput
-              @label="Factor"
-              @value={{@model.salesOffering.unitPriceSpecification.margin}}
-              @onChange={{this.setMargin}}
-              class="focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm
-              {{if @model.salesOffering.unitPriceSpecification.hasPriceOutCalculationBasis "disabled:bg-gray-200"}}"
-              disabled={{@model.salesOffering.unitPriceSpecification.hasPriceOutCalculationBasis}} />
-          </div>
-          <div class="hidden col-span-6 h-14 md:block lg:hidden">
-            {{!-- Dummy element for alignment --}}
-          </div>
-        </div>
-      </fieldset>
+        </fieldset>
+      {{/let}}
     </div>
     <div class="mt-8 border-t border-gray-200 pt-8">
       <Util::SectionHeader
