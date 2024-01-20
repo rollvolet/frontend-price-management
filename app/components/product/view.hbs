@@ -2,14 +2,9 @@
   <div>
     <div class="grid gap-y-6 gap-x-6 md:grid-cols-2">
       <div class="md:col-span-1">
-        <div>
-          <h3 class="text-lg leading-6 font-medium text-gray-900">
-            Details
-          </h3>
-          <p class="mt-1 text-sm text-gray-500">
-            Informatie over het product.
-          </p>
-        </div>
+        <Util::SectionHeader
+          @title="Details"
+          @subtitle="Informatie over het product." />
         <div class="mt-6 grid gap-y-6 gap-x-4 grid-cols-6">
           <div class="col-span-3">
             <Util::Property @label="Nr." @value={{@model.identifier}} />
@@ -42,14 +37,9 @@
       </div>
       <div class="md:col-span-1">
         <div class="mt-8 border-t border-gray-200 pt-8 md:mt-0 md:border-0 md:pt-0">
-          <div>
-            <h3 class="text-lg leading-6 font-medium text-gray-900">
-              Leverancier
-            </h3>
-            <p class="mt-1 text-sm text-gray-500">
-              Informatie over de leverancier waar het product aangekocht is.
-            </p>
-          </div>
+          <Util::SectionHeader
+            @title="Leverancier"
+            @subtitle="Informatie over de leverancier waar het product aangekocht is." />
           <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 grid-cols-6">
             <div class="col-span-4 sm:col-span-3">
               <Util::Property @label="Leverancier" @value={{@model.purchaseOffering.businessEntity.name}} />
@@ -60,14 +50,9 @@
           </div>
         </div>
         <div class="mt-8 border-t border-gray-200 pt-8">
-          <div>
-            <h3 class="text-lg leading-6 font-medium text-gray-900">
-              Magazijn
-            </h3>
-            <p class="mt-1 text-sm text-gray-500">
-              Informatie over de plaatsing en voorraad van het product in het magazijn.
-            </p>
-          </div>
+          <Util::SectionHeader
+            @title="Magazijn"
+            @subtitle="Informatie over de plaatsing en voorraad van het product in het magazijn." />
           <div class="mt-6 grid grid-cols-6 gap-y-6 gap-x-4">
             <div class="col-span-6 flex items-center space-x-2">
               {{#if @model.includeInStockReport}}
@@ -96,14 +81,9 @@
     </div>
   </div>
   <div class="mt-8 pt-8 border-t border-gray-200">
-    <div>
-      <h3 class="text-lg leading-6 font-medium text-gray-900">
-        Prijzen
-      </h3>
-      <p class="mt-1 text-sm text-gray-500">
-        Informatie over de inkoop- en verkoopprijs van het product.
-      </p>
-    </div>
+    <Util::SectionHeader
+      @title="Prijzen"
+      @subtitle="Informatie over de inkoop- en verkoopprijs van het product." />
     <div class="mt-6 grid grid-cols-6 gap-y-6 gap-x-4">
       <div class="col-span-3 sm:col-span-2 lg:col-span-1">
         <dt class="text-sm font-medium text-gray-500">
@@ -168,14 +148,9 @@
       </div>
     </div>
     <div class="mt-8 border-t border-gray-200 pt-8">
-      <div>
-        <h3 class="text-lg leading-6 font-medium text-gray-900">
-          Bijlagen
-        </h3>
-        <p class="mt-1 text-sm text-gray-500">
-          Bijkomende informatie in de vorm van afbeeldingen en bestanden.
-        </p>
-      </div>
+      <Util::SectionHeader
+        @title="Bijlagen"
+        @subtitle="Bijkomende informatie in de vorm van afbeelingen en bestanden." />
       <div class="mt-6">
         {{#if @model.attachments.length}}
           <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-2">
