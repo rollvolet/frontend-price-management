@@ -35,7 +35,7 @@ export default class InputFieldBusinessEntitySelectComponent extends Component {
       sort: 'name',
       filter: {
         name: term && term.toLowerCase(),
-        category: SUPPLIER_CATEGORY,
+        category: BUSINESS_CATEGORIES.SUPPLIER,
       },
     });
   }

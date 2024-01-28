@@ -1,0 +1,19 @@
+<div class="bg-white shadow overflow-hidden border border-gray-200 sm:rounded-md">
+  <ul>
+    {{#each this.model as |supplier|}}
+      <Supplier::ListItem
+        @model={{supplier}}
+        @onDelete={{fn this.deleteSupplier supplier}} />
+    {{/each}}
+  </ul>
+</div>
+
+<DataTable::Pagination
+  @page={{this.page}}
+  @size={{this.size}}
+  @total={{this.model.meta.count}}
+  @onPrevious={{this.previousPage}}
+  @onNext={{this.nextPage}}
+  @onSelectPage={{this.selectPage}}
+  class="!px-1"
+/>
