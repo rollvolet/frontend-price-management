@@ -2,10 +2,13 @@
   <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
       <div class="flex items-center">
-        <div class="shrink-0">
+        <div class="shrink-0 flex items-baseline space-x-1">
           <h1 class="text-4xl text-white font-bold font-display leading-tight tracking-wide">
             Prijsbeheer
           </h1>
+          <div class="text-xs text-red-100 font-bold">
+            v{{app-version versionOnly=true showExtended=true}}
+          </div>
         </div>
         <div class="hidden md:block">
           <div class="ml-10 flex items-baseline">
