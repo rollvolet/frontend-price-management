@@ -23,6 +23,7 @@
     "lint:js:fix": "eslint . --fix",
     "postcss:build": "postcss ./app/styles/tailwind-input.css -o ./public/assets/tailwind.css",
     "postcss:watch": "postcss ./app/styles/tailwind-input.css -o ./public/assets/tailwind.css --watch --verbose",
+    "release": "release-it",
     "start": "ember serve",
     "test": "npm-run-all --print-name \"lint\" \"test:*\"",
     "test:ember": "ember test"
