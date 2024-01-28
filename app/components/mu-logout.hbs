@@ -1,15 +1,17 @@
 {{#if (eq @scope "mobile")}}
-  <button type="button"
-    {{on "click" this.logout}}
-    class="block w-full px-3 py-2 rounded-md text-red-100 text-left text-base font-medium hover:text-white hover:bg-red-600 focus:outline-none focus:text-white focus:bg-red-600"
-    role="menuitem">
-    Log uit
-  </button>
+  <Rlv::Button
+    @label="Log uit"
+    @skin="primary"
+    @size="large"
+    class="bg-red-700 hover:bg-red-600"
+    {{on "click" this.logout}} />
 {{else}}
-  <button type="button"
-    {{on "click" this.logout}}
-    class="ml-4 p-1 border-2 border-transparent text-white rounded-full hover:text-white focus:outline-none focus:text-white focus:bg-red-600" aria-label="Log out">
-    {{svg-jar "logout-box-r-line" class="h-6 w-6 fill-current"}}
-    <EmberTooltip @text="Log uit" />
-  </button>
+  <Rlv::Button
+    @label="Log uit"
+    @skin="primary"
+    @icon="logout-box-r-line"
+    @hideText={{true}}
+    @size="large"
+    class="bg-red-700 hover:bg-red-600"
+    {{on "click" this.logout}} />
 {{/if}}
