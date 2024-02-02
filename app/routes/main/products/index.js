@@ -1,4 +1,5 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { isPresent } from '@ember/utils';
 import search, { getWildcardFilterValue } from '../../../utils/mu-search';
@@ -39,6 +40,7 @@ export default class MainProductsIndexRoute extends Route {
       refreshModel: true,
     },
   };
+  @service store;
 
   constructor() {
     super(...arguments);
@@ -80,6 +82,14 @@ export default class MainProductsIndexRoute extends Route {
     return search('products', params.page, params.size, params.sort, filter, (product) => {
       const entry = product.attributes;
       entry.id = product.id;
+      // create record for convenience of the isValid getter
+      // final response stays a pojo
+      const offering = this.store.createRecord('offering', {
+        validFrom: entry.salesOffering.validFrom,
+        validThrough: entry.salesOffering.validThrough,
+      });
+      entry.salesOffering.isValid = offering.isValid;
+      offering.destroyRecord();
       return entry;
     });
   }
