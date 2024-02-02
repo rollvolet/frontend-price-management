@@ -39,6 +39,9 @@ export default class MainProductsIndexRoute extends Route {
     rack: {
       refreshModel: true,
     },
+    availableOnly: {
+      refreshModel: true,
+    },
   };
   @service store;
 
@@ -54,7 +57,7 @@ export default class MainProductsIndexRoute extends Route {
       params.page = 0;
     }
 
-    const { supplier, category, broaderCategory } = params;
+    const { supplier, category, broaderCategory, availableOnly } = params;
     this.supplier = supplier ? await this.store.findRecordByUri('business-entity', supplier) : null;
     this.category = category
       ? await this.store.findRecordByUri('product-category', category)
@@ -62,6 +65,7 @@ export default class MainProductsIndexRoute extends Route {
     this.broaderCategory = broaderCategory
       ? await this.store.findRecordByUri('product-category', broaderCategory)
       : null;
+    this.availableOnly = availableOnly;
 
     const filter = {};
 
@@ -76,6 +80,12 @@ export default class MainProductsIndexRoute extends Route {
       params.supplierIdentifier
     );
     filter[':wildcard:warehouseLocation.rack'] = getWildcardFilterValue(params.rack);
+
+    if (params.availableOnly) {
+      // No validThrough dates in the future assumed.
+      // (has-no || gt now) would require custom elastic query
+      filter[':has-no:salesOffering.validThrough'] = 't';
+    }
 
     this.lastParams.commit();
 
@@ -101,6 +111,7 @@ export default class MainProductsIndexRoute extends Route {
     filter.supplier = this.supplier;
     filter.category = this.category;
     filter.broaderCategory = this.broaderCategory;
+    filter.availableOnly = this.availableOnly;
     controller.filter = new ProductFilter(filter);
 
     controller.page = this.lastParams.committed.page;

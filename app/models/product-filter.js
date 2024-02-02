@@ -24,6 +24,7 @@ export default class ProductFilter {
       'supplier',
       'supplierIdentifier',
       'rack',
+      'availableOnly',
     ];
   }
 
@@ -40,6 +41,12 @@ export default class ProductFilter {
   }
 
   reset() {
-    this.keys.forEach((key) => (this[key] = undefined));
+    this.keys.forEach((key) => {
+      if (key === 'availableOnly') {
+        this[key] = false;
+      } else {
+        this[key] = undefined;
+      }
+    });
   }
 }

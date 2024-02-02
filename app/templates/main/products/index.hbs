@@ -71,6 +71,14 @@
         @value={{this.filter.rack}}
         @onInput={{perform this.debounceFilter "rack"}} />
     </div>
+    <div class="sm:col-span-6 lg:col-span-4">
+      <Rlv::InputField::Checkbox
+        @id="filter-status-field"
+        @label="Toon enkel beschikbare producten"
+        @value={{this.filter.availableOnly}}
+        @onChange={{fn this.toggleAvailableOnly}}
+        class="mt-1" />
+    </div>
   </div>
 </div>
 
