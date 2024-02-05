@@ -21,9 +21,20 @@
               <span class="text-green-700 text-sm font-medium">Beschikbaar</span>
             {{/if}}
           </div>
+        </div>
+        <div class="mt-6 grid grid-cols-1 gap-y-4 gap-x-4 md:grid-cols-6 items-center">
           <div class="col-span-6">
             <Util::Property @label="Naam" @value={{@model.name}} />
           </div>
+          <div class="col-span-6">
+            <Util::Property @label="Aliasen" @value={{@model.name}}>
+              {{#each @model.alternateNames as |alias|}}
+                {{alias}}
+              {{/each}}
+            </Util::Property>
+          </div>
+        </div>
+        <div class="mt-6 grid grid-cols-1 gap-y-4 gap-x-4 md:grid-cols-6 items-center">
           <div class="col-span-3">
             <Util::Property @label="Categorie" @value={{@model.category.broader.label}} />
           </div>

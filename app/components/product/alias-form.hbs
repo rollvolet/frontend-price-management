@@ -1,0 +1,29 @@
+{{#each @aliases as |alias|}}
+  <div class="flex">
+    <Input
+      @value={{alias}}
+      readonly={{true}}
+      class="mt-1 focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
+    <Rlv::Button
+      @icon="delete-bin-line"
+      @skin="muted"
+      @size="small"
+      class="mt-1 ml-2"
+      {{on "click" (fn this.removeAlias alias)}} />
+  </div>
+{{/each}}
+<div class="flex"
+  {{on "focusout" (fn this.addAlias this.newAlias)}}
+>
+  <Input
+    id="new-alias-name"
+    @value={{this.newAlias}}
+    class="mt-1 focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
+  <Rlv::Button
+    @icon="add-line"
+    @skin="secondary"
+    @size="small"
+    @disabled={{not this.newAliasIsValid}}
+    class="mt-1 ml-2"
+    {{on "click" (fn this.addAlias this.newAlias)}} />
+</div>
