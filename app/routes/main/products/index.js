@@ -1,4 +1,5 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { isPresent } from '@ember/utils';
 import search, { getWildcardFilterValue } from '../../../utils/mu-search';
@@ -7,6 +8,8 @@ import { copy } from 'ember-copy';
 import ProductFilter from '../../../models/product-filter';
 
 export default class MainProductsIndexRoute extends Route {
+  @service store;
+
   queryParams = {
     page: {
       refreshModel: true,
