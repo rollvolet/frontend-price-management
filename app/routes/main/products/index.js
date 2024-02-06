@@ -8,6 +8,8 @@ import { copy } from 'ember-copy';
 import ProductFilter from '../../../models/product-filter';
 
 export default class MainProductsIndexRoute extends Route {
+  @service store;
+
   queryParams = {
     page: {
       refreshModel: true,
@@ -43,7 +45,6 @@ export default class MainProductsIndexRoute extends Route {
       refreshModel: true,
     },
   };
-  @service store;
 
   constructor() {
     super(...arguments);

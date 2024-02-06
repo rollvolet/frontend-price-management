@@ -18,7 +18,7 @@ export default class MainProductsIndexController extends Controller {
   @tracked supplier;
   @tracked supplierIdentifier;
   @tracked rack;
-  @tracked availableOnly = false; // default value required for ember to detect qp datatype
+  @tracked availableOnly = false;
 
   @restartableTask
   *debounceFilter(key, event) {
