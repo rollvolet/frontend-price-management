@@ -17,16 +17,14 @@
                   @onChange={{fn (mut @model.salesOffering.validThrough)}} />
               </div>
               <div class="ml-3 text-sm">
-                {{#if @model.salesOffering.validThrough}}
-                  <label for="in-stock" class="font-medium text-gray-700">
+                <label for="in-stock" class="font-medium text-gray-700">
+                  {{#if @model.salesOffering.isValid}}
+                    Beschikbaar
+                  {{else}}
                     Niet beschikbaar
                     <span class="font-normal">sinds {{format-date @model.salesOffering.validThrough}}</span>
-                  </label>
-                {{else}}
-                  <label for="in-stock" class="font-medium text-gray-700">
-                    Beschikbaar
-                  </label>
-                {{/if}}
+                  {{/if}}
+                </label>
               </div>
             </div>
             <div class="md:col-span-4">

@@ -18,6 +18,7 @@ export default class MainProductsIndexController extends Controller {
   @tracked supplier;
   @tracked supplierIdentifier;
   @tracked rack;
+  @tracked availableOnly = false;
 
   @restartableTask
   *debounceFilter(key, event) {
@@ -49,6 +50,11 @@ export default class MainProductsIndexController extends Controller {
     for (let key of Object.keys(qpValues)) {
       this[key] = qpValues[key];
     }
+  }
+
+  @action
+  toggleAvailableOnly() {
+    this.availableOnly = !this.availableOnly;
   }
 
   @action

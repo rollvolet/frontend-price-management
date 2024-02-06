@@ -10,15 +10,15 @@
             <Util::Property @label="Nr." @value={{@model.identifier}} />
           </div>
           <div class="col-span-3 -ml-7 flex items-center space-x-2">
-            {{#if @model.salesOffering.validThrough}}
+            {{#if @model.salesOffering.isValid}}
+              {{svg-jar "survey-line" class="h-5 w-5 text-green-600 fill-current"}}
+              <span class="text-green-700 text-sm font-medium">Beschikbaar</span>
+            {{else}}
               {{svg-jar "prohibited-line" class="h-5 w-5 text-red-600 fill-current"}}
               <div>
                 <div class="text-red-700 text-sm font-medium">Niet beschikbaar</div>
                 <div class="text-red-700 text-xs">Sinds {{format-date @model.salesOffering.validThrough}}</div>
               </div>
-            {{else}}
-              {{svg-jar "survey-line" class="h-5 w-5 text-green-600 fill-current"}}
-              <span class="text-green-700 text-sm font-medium">Beschikbaar</span>
             {{/if}}
           </div>
           <div class="col-span-6">

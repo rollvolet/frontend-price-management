@@ -1,4 +1,5 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { isPresent } from '@ember/utils';
 import search, { getWildcardFilterValue } from '../../../utils/mu-search';
@@ -7,6 +8,8 @@ import { copy } from 'ember-copy';
 import ProductFilter from '../../../models/product-filter';
 
 export default class MainProductsIndexRoute extends Route {
+  @service store;
+
   queryParams = {
     page: {
       refreshModel: true,
@@ -38,6 +41,9 @@ export default class MainProductsIndexRoute extends Route {
     rack: {
       refreshModel: true,
     },
+    availableOnly: {
+      refreshModel: true,
+    },
   };
 
   constructor() {
@@ -52,7 +58,7 @@ export default class MainProductsIndexRoute extends Route {
       params.page = 0;
     }
 
-    const { supplier, category, broaderCategory } = params;
+    const { supplier, category, broaderCategory, availableOnly } = params;
     this.supplier = supplier ? await this.store.findRecordByUri('business-entity', supplier) : null;
     this.category = category
       ? await this.store.findRecordByUri('product-category', category)
@@ -60,6 +66,7 @@ export default class MainProductsIndexRoute extends Route {
     this.broaderCategory = broaderCategory
       ? await this.store.findRecordByUri('product-category', broaderCategory)
       : null;
+    this.availableOnly = availableOnly;
 
     const filter = {};
 
@@ -75,11 +82,25 @@ export default class MainProductsIndexRoute extends Route {
     );
     filter[':wildcard:warehouseLocation.rack'] = getWildcardFilterValue(params.rack);
 
+    if (params.availableOnly) {
+      // No validThrough dates in the future assumed.
+      // (has-no || gt now) would require custom elastic query
+      filter[':has-no:salesOffering.validThrough'] = 't';
+    }
+
     this.lastParams.commit();
 
     return search('products', params.page, params.size, params.sort, filter, (product) => {
       const entry = product.attributes;
       entry.id = product.id;
+      // create record for convenience of the isValid getter
+      // final response stays a pojo
+      const offering = this.store.createRecord('offering', {
+        validFrom: entry.salesOffering.validFrom,
+        validThrough: entry.salesOffering.validThrough,
+      });
+      entry.salesOffering.isValid = offering.isValid;
+      offering.destroyRecord();
       return entry;
     });
   }
@@ -91,6 +112,7 @@ export default class MainProductsIndexRoute extends Route {
     filter.supplier = this.supplier;
     filter.category = this.category;
     filter.broaderCategory = this.broaderCategory;
+    filter.availableOnly = this.availableOnly;
     controller.filter = new ProductFilter(filter);
 
     controller.page = this.lastParams.committed.page;
