@@ -18,7 +18,7 @@ export default class MainProductsIndexController extends Controller {
   @tracked supplier;
   @tracked supplierIdentifier;
   @tracked rack;
-  @tracked availableOnly = false;
+  @tracked availableOnly = true;
 
   @restartableTask
   *debounceFilter(key, event) {
