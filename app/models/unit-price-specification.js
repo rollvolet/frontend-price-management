@@ -1,5 +1,5 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
-import roundDecimal from '../utils/round-decimal';
+import { calculatePriceTaxIncluded, calculatePriceTaxExcluded } from '../utils/calculate-price';
 import constants from '../config/constants';
 import { VAT_RATE } from '../config';
 
@@ -16,19 +16,11 @@ export default class UnitPriceSpecificationModel extends Model {
   @belongsTo('offering', { inverse: 'unitPriceSpecification', async: true }) offering;
 
   get currencyValueTaxIncluded() {
-    if (this.valueAddedTaxIncluded) {
-      return this.currencyValue;
-    } else {
-      return roundDecimal(this.currencyValue * (1 + VAT_RATE));
-    }
+    return calculatePriceTaxIncluded(this.currencyValue, VAT_RATE, this.valueAddedTaxIncluded);
   }
 
   get currencyValueTaxExcluded() {
-    if (this.valueAddedTaxIncluded) {
-      return roundDecimal(this.currencyValue / (1 + VAT_RATE));
-    } else {
-      return this.currencyValue;
-    }
+    return calculatePriceTaxExcluded(this.currencyValue, VAT_RATE, this.valueAddedTaxIncluded);
   }
 
   get hasPriceOutCalculationBasis() {

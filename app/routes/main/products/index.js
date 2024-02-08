@@ -112,8 +112,11 @@ export default class MainProductsIndexRoute extends Route {
     filter.supplier = this.supplier;
     filter.category = this.category;
     filter.broaderCategory = this.broaderCategory;
+
     filter.availableOnly = this.availableOnly;
-    controller.filter = new ProductFilter(filter);
+    if (!controller.filter) {
+      controller.filter = new ProductFilter(filter);
+    }
 
     controller.page = this.lastParams.committed.page;
     controller.size = this.lastParams.committed.size;

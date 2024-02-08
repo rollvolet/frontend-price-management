@@ -1,6 +1,6 @@
 {
   "name": "frontend-price-management",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "private": true,
   "description": "Frontend of the Rollvolet price management application",
   "repository": {

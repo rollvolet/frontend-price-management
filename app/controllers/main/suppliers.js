@@ -25,7 +25,8 @@ export default class MainSuppliersController extends Controller {
       category: BUSINESS_CATEGORIES.SUPPLIER,
     });
     yield supplier.save();
-    this.router.refresh('main.suppliers.index');
+    this.closeNewSupplierModal();
+    this.router.refresh('main.suppliers');
   }
 
   @action
