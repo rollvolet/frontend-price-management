@@ -1,17 +1,26 @@
+import { isPresent } from '@ember/utils';
 import roundDecimal from './round-decimal';
 
 export function calculatePriceTaxIncluded(value, vatRate, isTaxIncluded) {
-  if (isTaxIncluded) {
-    return value;
+  if (isPresent(value)) {
+    if (isTaxIncluded) {
+      return value;
+    } else {
+      return roundDecimal(value * (1 + vatRate));
+    }
   } else {
-    return roundDecimal(value * (1 + vatRate));
+    return null;
   }
 }
 
 export function calculatePriceTaxExcluded(value, vatRate, isTaxIncluded) {
-  if (isTaxIncluded) {
-    return roundDecimal(value / (1 + vatRate));
+  if (isPresent(value)) {
+    if (isTaxIncluded) {
+      return roundDecimal(value / (1 + vatRate));
+    } else {
+      return value;
+    }
   } else {
-    return value;
+    return null;
   }
 }
