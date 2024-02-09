@@ -1,5 +1,5 @@
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { next as nextNumber } from '../../../utils/sequence-number';
 import constants from '../../../config/constants';
 
