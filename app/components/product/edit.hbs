@@ -321,12 +321,14 @@
           @icon="arrow-go-back-line"
           @skin="secondary"
           {{on "click" (perform this.cancel)}} />
-        <Rlv::Button
-          @label="Verwijder"
-          @icon="delete-bin-line"
-          @skin="muted"
-          @alert={{true}}
-          {{on "click" this.askToDelete}} />
+        {{#unless @model.isNew}}
+          <Rlv::Button
+            @label="Verwijder"
+            @icon="delete-bin-line"
+            @skin="muted"
+            @alert={{true}}
+            {{on "click" this.askToDelete}} />
+        {{/unless}}
         <Rlv::Button
           @label="Opslaan"
           @icon="save-2-line"
