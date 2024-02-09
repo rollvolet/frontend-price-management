@@ -3,6 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import { guidFor } from '@ember/object/internals';
 import { keepLatestTask } from 'ember-concurrency';
+import { compare } from '@ember/utils';
 
 export default class InputUnitCodeSelectComponent extends Component {
   @service store;
@@ -17,9 +18,10 @@ export default class InputUnitCodeSelectComponent extends Component {
 
   @keepLatestTask
   *loadData() {
-    this.options = this.store.peekAll('unit-code').slice(0).sort((a, b) => {
-      return a.label > b.label ? 1 : -1;
-    });
+    this.options = this.store
+      .peekAll('unit-code')
+      .slice(0)
+      .sort((a, b) => compare(a.label, b.label));
 
     const value = yield this.args.value; // argument may be a promise/proxy object
     if (value) {

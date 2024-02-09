@@ -125,6 +125,7 @@ export default class MainProductsIndexRoute extends Route {
 
   @action
   loading(transition) {
+    // eslint-disable-next-line ember/no-controller-access-in-routes
     const controller = this.controllerFor(this.routeName);
     controller.isLoadingModel = true;
     transition.promise.finally(function () {

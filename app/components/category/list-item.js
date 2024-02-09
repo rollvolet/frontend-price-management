@@ -3,13 +3,15 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { keepLatestTask, task } from 'ember-concurrency';
 import { inject as service } from '@ember/service';
+import { compare } from '@ember/utils';
+import { TrackedArray } from 'tracked-built-ins';
 
 export default class CategoryListItemComponent extends Component {
   @service store;
 
   @tracked isExpanded = false;
   @tracked isEnabledInput = false;
-  @tracked subcategories = [];
+  @tracked subcategories = new TrackedArray([]);
   @tracked newCategory;
 
   @keepLatestTask
@@ -20,9 +22,7 @@ export default class CategoryListItemComponent extends Component {
   }
 
   get sortedSubcategories() {
-    return this.subcategories.slice(0).sort((a, b) => {
-      return a.label > b.label ? 1 : -1;
-    });
+    return this.subcategories.slice(0).sort((a, b) => compare(a.label, b.label));
   }
 
   @action
@@ -50,7 +50,6 @@ export default class CategoryListItemComponent extends Component {
           broader: this.args.model,
         });
         yield category.save();
-        this.subcategories = this.subcategories; // required to trigger rerender
         this.newCategory = null;
       } else {
         this.isEnabledInput = false;

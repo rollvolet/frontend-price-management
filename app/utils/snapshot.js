@@ -1,12 +1,11 @@
 import { compare } from '@ember/utils';
-import { copy } from 'ember-copy';
 
 export default class Snapshot {
   base = null;
   future = null;
 
   constructor(base) {
-    this.base = copy(base, true);
+    this.base = base;
   }
 
   stage(object) {
@@ -18,21 +17,21 @@ export default class Snapshot {
   }
 
   commit() {
-    this.base = copy(this.future, true);
+    this.base = Object.assign(this.future, {});
   }
 
   anyFieldChanged(fields) {
     for (let field of fields) {
-      if (this.fieldChanged(field)) return true;
+      if (this.fieldChanged(field)) {
+        return true;
+      }
     }
     return false;
   }
 
   fieldChanged(field) {
-    if (!this.hasBase) {
-      return false;
-    } else if (!this.hasStaging) {
-      return this.futureOrEmpty.hasOwnProperty(field);
+    if (!this.hasBase || !this.hasStaging) {
+      return Object.hasOwn(this.baseOrEmpty, field) || Object.hasOwn(this.futureOrEmpty, field);
     } else {
       return compare(this.base[field], this.future[field]) !== 0;
     }

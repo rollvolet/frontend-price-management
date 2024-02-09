@@ -70,7 +70,7 @@
               @subtitle="Informatie over de leverancier waar het product aangekocht is." />
             <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-6">
               <div class="md:col-span-4">
-                <div class="mt-1 rounded-md shadow-sm">
+                <div class="rounded-md shadow-sm">
                   <InputField::BusinessEntitySelect
                     @label="Leverancier"
                     @value={{@model.purchaseOffering.businessEntity}}
@@ -82,7 +82,7 @@
                   Nummer
                 </label>
                 <Input
-                    id="supplier-nb"
+                  id="supplier-nb"
                   @value={{@model.purchaseOffering.identifier}}
                   class="mt-1 focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
               </div>

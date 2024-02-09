@@ -3,6 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import { guidFor } from '@ember/object/internals';
 import { keepLatestTask, all } from 'ember-concurrency';
+import { compare } from '@ember/utils';
 
 export default class InputFieldProductCategorySelectComponent extends Component {
   @service store;
@@ -33,14 +34,12 @@ export default class InputFieldProductCategorySelectComponent extends Component 
       this.options = wrappers
         .filter((wrapper) => !wrapper.broaderUri)
         .map((wrapper) => wrapper.category)
-        .slice(0)
-        .sort((a, b) => (a.label > b.label) ? 1 : -1);
+        .sort((a, b) => compare(a.label > b.label));
     } else if (this.args.scope) {
       this.options = wrappers
         .filter((wrapper) => wrapper.broaderUri == this.args.scope.uri)
         .map((wrapper) => wrapper.category)
-        .slice(0)
-        .sort((a, b) => (a.label > b.label) ? 1 : -1);
+        .sort((a, b) => compare(a.label > b.label));
     } else {
       this.options = [];
     }

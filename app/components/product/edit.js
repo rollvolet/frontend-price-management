@@ -86,15 +86,8 @@ export default class ProductEditComponent extends Component {
         purchaseOffering.unitPriceSpecification,
         salesOffering.unitPriceSpecification,
       ]);
-      yield Promise.all([
-        warehouseLocation.save(),
-        purchasePrice.save(),
-        salesPrice.save(),
-      ]);
-      yield Promise.all([
-        purchaseOffering.save(),
-        salesOffering.save(),
-      ]);
+      yield Promise.all([warehouseLocation.save(), purchasePrice.save(), salesPrice.save()]);
+      yield Promise.all([purchaseOffering.save(), salesOffering.save()]);
       this.args.model.modified = new Date();
       yield this.args.model.save();
 
@@ -179,6 +172,7 @@ export default class ProductEditComponent extends Component {
   }
 
   @task
+  // eslint-disable-next-line require-yield
   *deleteFile(file) {
     this.args.model.attachments.removeObject(file);
   }
