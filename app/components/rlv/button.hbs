@@ -8,10 +8,10 @@
     ...attributes
   >
     {{#if this.hasIconLeft}}
-      {{svg-jar @icon class=(concat "button--icon " (unless @hideText "button--icon-text"))}}
+      {{svg-jar @icon class=(concat "button--icon " (unless this.hideText "button--icon-text"))}}
     {{/if}}
     {{#if @label}}
-      {{#if @hideText}}
+      {{#if this.hideText}}
         <span class="sr-only">{{@label}}</span>
       {{else}}
         {{@label}}
@@ -20,7 +20,7 @@
       {{yield}}
     {{/if}}
     {{#if this.hasIconRight}}
-      {{svg-jar @icon class=(concat "button--icon button--icon-right " (unless @hideText "button--icon-text"))}}
+      {{svg-jar @icon class=(concat "button--icon button--icon-right " (unless this.hideText "button--icon-text"))}}
     {{/if}}
     {{yield to="tooltip"}}
   </LinkTo>
@@ -32,10 +32,10 @@
     ...attributes
   >
     {{#if this.hasIconLeft}}
-      {{svg-jar @icon class=(concat "button--icon " (unless @hideText "button--icon-text"))}}
+      {{svg-jar @icon class=(concat "button--icon " (unless this.hideText "button--icon-text"))}}
     {{/if}}
     {{#if @label}}
-      {{#if @hideText}}
+      {{#if this.hideText}}
         <span class="sr-only">{{@label}}</span>
       {{else}}
         {{@label}}
@@ -44,7 +44,7 @@
       {{yield}}
     {{/if}}
     {{#if this.hasIconRight}}
-      {{svg-jar @icon class=(concat "button--icon button--icon-right " (unless @hideText "button--icon-text"))}}
+      {{svg-jar @icon class=(concat "button--icon button--icon-right " (unless this.hideText "button--icon-text"))}}
     {{/if}}
     {{yield to="tooltip"}}
   </a>
@@ -55,8 +55,8 @@
     ...attributes
   >
     {{#if @icon}}
-      {{svg-jar "loading-circle" class=(concat "animate-spin h-4 w-4 " (unless @hideText "mr-2"))}}
-      {{#unless @hideText}}
+      {{svg-jar "loading-circle" class=(concat "animate-spin h-4 w-4 " (unless this.hideText "mr-2"))}}
+      {{#unless this.hideText}}
         {{or @loadingMessage @label}}
       {{/unless}}
     {{else}}
@@ -74,10 +74,10 @@
     ...attributes
   >
     {{#if this.hasIconLeft}}
-      {{svg-jar @icon class=(concat "button--icon " (unless @hideText "button--icon-text"))}}
+      {{svg-jar @icon class=(concat "button--icon " (unless this.hideText "button--icon-text"))}}
     {{/if}}
     {{#if @label}}
-      {{#if @hideText}}
+      {{#if this.hideText}}
         <span class="sr-only">{{@label}}</span>
       {{else}}
         {{@label}}
@@ -86,7 +86,7 @@
       {{yield}}
     {{/if}}
     {{#if this.hasIconRight}}
-      {{svg-jar @icon class=(concat "button--icon button--icon-right " (unless @hideText "button--icon-text"))}}
+      {{svg-jar @icon class=(concat "button--icon button--icon-right " (unless this.hideText "button--icon-text"))}}
     {{/if}}
     {{yield to="tooltip"}}
   </button>
