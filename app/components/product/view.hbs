@@ -31,6 +31,8 @@
               <ul class="list-none">
                 {{#each @model.alternateNames as |alias index|}}
                   <li class="inline">
+                    {{!-- template-lint-disable  simple-unless --}}
+                    {{!-- comma enum except for last item --}}
                     {{alias}}{{unless (eq (sub @model.alternateNames.length 1) index) ", "}}
                   </li>
                 {{/each}}
