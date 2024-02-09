@@ -42,15 +42,19 @@
                 {{/unless}}
               </Rlv::Button>
               {{#if this.isEnabledInput}}
-                <div class="ml-2">
-                  <Input
-                    @value={{this.newCategory}}
-                    @enter={{perform this.createCategory}}
-                    @escape-press={{this.cancelNewCategory}}
-                    {{on "focusout" (perform this.createCategory)}}
-                    {{autofocus}}
-                    class="px-2 py-1 appearance-none bg-gray-50 border-b-2 rounded text-gray-700 leading-tight focus:ring-red-200 focus:border-b focus:border-red-200" />
-                </div>
+                {{#let (unique-id) as |inputId|}}
+                  <div class="ml-2">
+                    <label for={{inputId}} class="sr-only">Categorie</label>
+                    <Input
+                      id={{inputId}}
+                      @value={{this.newCategory}}
+                      @enter={{perform this.createCategory}}
+                      @escape-press={{this.cancelNewCategory}}
+                      {{on "focusout" (perform this.createCategory)}}
+                      {{autofocus}}
+                      class="px-2 py-1 appearance-none bg-gray-50 border-b-2 rounded text-gray-700 leading-tight focus:ring-red-200 focus:border-b focus:border-red-200" />
+                  </div>
+                {{/let}}
               {{/if}}
             </div>
           </ul>

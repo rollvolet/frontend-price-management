@@ -1,15 +1,19 @@
-{{#if this.isEnabledInput}}
-  <Input
-    @value={{@model.label}}
-    @enter={{this.save}}
-    @escape-press={{this.cancel}}
-    {{on "focusout" this.save}}
-    {{autofocus}}
-    class="px-2 py-1 w-full sm:w-48 bg-gray-50 border-b-2 text-gray-700 leading-tight focus:ring-red-200 focus:border-b focus:border-red-200" />
-{{else}}
-  <button type="button"
-    onClick={{this.enableEdit}}
-    class="text-base text-gray-600 hover:font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200">
-    {{@model.label}}
-  </button>
-{{/if}}
+{{#let (unique-id) as |inputId|}}
+  {{#if this.isEnabledInput}}
+    <label for={{inputId}} class="sr-only">Subcategorie</label>
+    <Input
+      id={{inputId}}
+      @value={{@model.label}}
+      @enter={{this.save}}
+      @escape-press={{this.cancel}}
+      {{on "focusout" this.save}}
+      {{autofocus}}
+      class="px-2 py-1 w-full sm:w-48 bg-gray-50 border-b-2 text-gray-700 leading-tight focus:ring-red-200 focus:border-b focus:border-red-200" />
+  {{else}}
+    <button type="button"
+      class="text-base text-gray-600 hover:font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200"
+      {{on "click" this.enableEdit}}>
+      {{@model.label}}
+    </button>
+  {{/if}}
+{{/let}}
