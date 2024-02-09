@@ -22,17 +22,21 @@
             {{/if}}
           </div>
         </div>
-        <div class="mt-6 grid grid-cols-1 gap-y-4 gap-x-4 md:grid-cols-6 items-center">
+        <div class="mt-6 grid grid-cols-1 gap-y-2 gap-x-4 md:grid-cols-6 items-center">
           <div class="col-span-6">
             <Util::Property @label="Naam" @value={{@model.name}} />
           </div>
-          <div class="col-span-6">
-            <Util::Property @label="Aliasen" @value={{@model.name}}>
-              {{#each @model.alternateNames as |alias|}}
-                {{alias}}
-              {{/each}}
-            </Util::Property>
-          </div>
+          {{#if @model.alternateNames.length}}
+            <div class="col-span-6 text-sm text-gray-900 italic">
+              <ul class="list-none">
+                {{#each @model.alternateNames as |alias index|}}
+                  <li class="inline">
+                    {{alias}}{{unless (eq (sub @model.alternateNames.length 1) index) ", "}}
+                  </li>
+                {{/each}}
+              </ul>
+            </div>
+          {{/if}}
         </div>
         <div class="mt-6 grid grid-cols-1 gap-y-4 gap-x-4 md:grid-cols-6 items-center">
           <div class="col-span-3">
