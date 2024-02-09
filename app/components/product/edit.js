@@ -49,7 +49,8 @@ export default class ProductEditComponent extends Component {
     salesOffering.rollbackAttributes();
     this.args.model.rollbackAttributes();
 
-    if (!this.args.model.isNew) {
+    // reset state of relationships for an existing record
+    if (this.args.model.id) {
       yield Promise.all([
         warehouseLocation.belongsTo('department').reload(),
         purchasePrice.belongsTo('unitCode').reload(),
