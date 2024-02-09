@@ -162,7 +162,8 @@ export default class ProductEditComponent extends Component {
       const response = yield file.upload('/files');
       const { data } = yield response.json();
       const uploadedFile = yield this.store.findRecord('file', data.id);
-      this.args.model.attachments.pushObject(uploadedFile);
+      const attachments = yield this.args.model.attachments;
+      attachments.push(uploadedFile);
     } catch (e) {
       this.notification.addError({
         title: 'Er is iets misgelopen!',
@@ -173,9 +174,12 @@ export default class ProductEditComponent extends Component {
   }
 
   @task
-  // eslint-disable-next-line require-yield
   *deleteFile(file) {
-    this.args.model.attachments.removeObject(file);
+    const attachments = yield this.args.model.attachments;
+    const i = attachments.indexOf(file);
+    if (i >= 0) {
+      attachments.splice(i, 1);
+    }
   }
 
   @action
