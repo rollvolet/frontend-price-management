@@ -1,4 +1,4 @@
-<li role="button" class="block border-b border-gray-200 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 group">
+<li class="block border-b border-gray-200 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 group">
   <div class="px-3 py-2 sm:px-4">
     {{#if this.editMode}}
       <form class="flex items-center space-x-2" {{on "submit" (perform this.save)}}>
@@ -28,9 +28,10 @@
       </form>
     {{else}}
       <div class="flex items-center justify-between">
-        <div class="w-full flex items-center space-x-2" {{on "click" this.openEdit}}>
+        <div role="button" class="w-full flex items-center space-x-2" {{on "click" this.openEdit}}>
           <span class="py-1.5">{{@model.name}}</span>
           <Rlv::Button
+            role="presentation"
             @label="Bewerk"
             @skin="secondary-naked"
             @size="small"

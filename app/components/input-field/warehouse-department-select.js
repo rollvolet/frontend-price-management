@@ -1,8 +1,9 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { keepLatestTask } from 'ember-concurrency';
+import { compare } from '@ember/utils';
 
 export default class InputWarehouseDepartmentSelectComponent extends Component {
   @service store;
@@ -17,9 +18,10 @@ export default class InputWarehouseDepartmentSelectComponent extends Component {
 
   @keepLatestTask
   *loadData() {
-    this.options = this.store.peekAll('warehouse-department').slice(0).sort((a, b) => {
-      return a.label > b.label ? 1 : -1;
-    });
+    this.options = this.store
+      .peekAll('warehouse-department')
+      .slice(0)
+      .sort((a, b) => compare(a.label, b.label));
 
     const value = yield this.args.value; // argument may be a promise/proxy object
     if (value) {

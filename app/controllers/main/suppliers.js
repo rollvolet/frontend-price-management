@@ -2,7 +2,7 @@ import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { task } from 'ember-concurrency';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import constants from '../../config/constants';
 
 const { BUSINESS_CATEGORIES } = constants;
@@ -25,7 +25,8 @@ export default class MainSuppliersController extends Controller {
       category: BUSINESS_CATEGORIES.SUPPLIER,
     });
     yield supplier.save();
-    this.router.refresh('main.suppliers.index');
+    this.closeNewSupplierModal();
+    this.router.refresh('main.suppliers');
   }
 
   @action

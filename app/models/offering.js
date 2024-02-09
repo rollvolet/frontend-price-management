@@ -1,4 +1,6 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
+import { isAfter } from 'date-fns';
+import { isPresent } from '@ember/utils';
 
 export default class OfferingModel extends Model {
   @attr('string') name;
@@ -12,4 +14,11 @@ export default class OfferingModel extends Model {
   @belongsTo('unit-price-specification', { inverse: 'offering', async: true })
   unitPriceSpecification;
   @belongsTo('business-entity', { inverse: 'offerings', async: true }) businessEntity;
+
+  get isValid() {
+    if (isPresent(this.validThrough)) {
+      return isAfter(this.validThrough, new Date());
+    }
+    return true;
+  }
 }

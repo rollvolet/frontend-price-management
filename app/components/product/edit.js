@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { enqueueTask, keepLatestTask, task, timeout } from 'ember-concurrency';
 import roundDecimal from '../../utils/round-decimal';
 import constants from '../../config/constants';
@@ -52,7 +52,8 @@ export default class ProductEditComponent extends Component {
     salesOffering.rollbackAttributes();
     this.args.model.rollbackAttributes();
 
-    if (!this.args.model.isNew) {
+    // reset state of relationships for an existing record
+    if (this.args.model.id) {
       yield Promise.all([
         warehouseLocation.belongsTo('department').reload(),
         purchasePrice.belongsTo('unitCode').reload(),
@@ -89,15 +90,8 @@ export default class ProductEditComponent extends Component {
         purchaseOffering.unitPriceSpecification,
         salesOffering.unitPriceSpecification,
       ]);
-      yield Promise.all([
-        warehouseLocation.save(),
-        purchasePrice.save(),
-        salesPrice.save(),
-      ]);
-      yield Promise.all([
-        purchaseOffering.save(),
-        salesOffering.save(),
-      ]);
+      yield Promise.all([warehouseLocation.save(), purchasePrice.save(), salesPrice.save()]);
+      yield Promise.all([purchaseOffering.save(), salesOffering.save()]);
       this.args.model.modified = new Date();
       yield this.args.model.save();
 
@@ -171,7 +165,8 @@ export default class ProductEditComponent extends Component {
       const response = yield file.upload('/files');
       const { data } = yield response.json();
       const uploadedFile = yield this.store.findRecord('file', data.id);
-      this.args.model.attachments.pushObject(uploadedFile);
+      const attachments = yield this.args.model.attachments;
+      attachments.push(uploadedFile);
     } catch (e) {
       this.notification.addError({
         title: 'Er is iets misgelopen!',
@@ -183,7 +178,11 @@ export default class ProductEditComponent extends Component {
 
   @task
   *deleteFile(file) {
-    this.args.model.attachments.removeObject(file);
+    const attachments = yield this.args.model.attachments;
+    const i = attachments.indexOf(file);
+    if (i >= 0) {
+      attachments.splice(i, 1);
+    }
   }
 
   @action

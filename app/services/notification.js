@@ -1,14 +1,14 @@
 import Service from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import { A } from '@ember/array';
 import { warn } from '@ember/debug';
 import { later } from '@ember/runloop';
+import { TrackedArray } from 'tracked-built-ins';
 
 export default class NotificationService extends Service {
-  @tracked notifications = A();
+  @tracked notifications = new TrackedArray([]);
 
   add(notification) {
-    this.notifications.pushObject(notification);
+    this.notifications.push(notification);
 
     // Make notification automatically disappear, unless timeout = -1
     if (!notification.timeout) notification.timeout = 5000;
@@ -24,7 +24,10 @@ export default class NotificationService extends Service {
   }
 
   remove(notification) {
-    this.notifications.removeObject(notification);
+    const i = this.notifications.indexOf(notification);
+    if (i >= 0) {
+      this.notifications.splice(i, 1);
+    }
   }
 
   addError(notification) {
