@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
 import { isPresent } from '@ember/utils';
-import search, { getWildcardFilterValue } from '../../../utils/mu-search';
+import search, { getWildcardFilterValue, langStringResourceFormat } from '../../../utils/mu-search';
 import Snapshot from '../../../utils/snapshot';
 import { copy } from 'ember-copy';
 import ProductFilter from '../../../models/product-filter';
@@ -101,6 +101,10 @@ export default class MainProductsIndexRoute extends Route {
       });
       entry.salesOffering.isValid = offering.isValid;
       offering.destroyRecord();
+
+      entry.name = langStringResourceFormat(entry.name);
+      entry.alternateNames = langStringResourceFormat(entry.alternateNames);
+
       return entry;
     });
   }

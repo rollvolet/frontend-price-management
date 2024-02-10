@@ -1,0 +1,36 @@
+<ul>
+  {{#each @values as |langString|}}
+    <li>
+    <div class="flex">
+      <div class="text-sm my-2 text-gray-900">{{langString}}</div>
+      <Rlv::Button
+        @icon="delete-bin-line"
+        @skin="tertiary"
+        @size="small"
+        class="ml-2 my-2 align-middle"
+        {{on "click" (fn this.removeLangString langString)}} />
+    </div>
+    </li>
+  {{/each}}
+  {{#if this.availableLanguages.length}}
+    <li>
+      <div class="flex"
+        {{on "focusout" (fn this.addLangString this.newLangString)}}
+      >
+        {{this.newLangString}}
+        <Rlv::LanguageInput
+          @value={{this.newLangString}}
+          @languageOptions={{this.availableLanguages}}
+          @onChange={{fn (mut this.newLangString)}}
+          class="mt-1 focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
+        <Rlv::Button
+          @icon="add-line"
+          @skin="tertiary"
+          @size="small"
+          @disabled={{not this.newLangStringIsValid}}
+          class="ml-2 my-1 align-middle"
+          {{on "click" (fn this.addLangString this.newLangString)}} />
+      </div>
+    </li>
+  {{/if}}
+</ul>

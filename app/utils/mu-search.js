@@ -1,6 +1,7 @@
 import fetch from 'fetch';
 import ArrayProxy from '@ember/array/proxy';
 import { A } from '@ember/array';
+import LangString from 'frontend-price-management/utils/lang-string';
 
 function getPaginationMetadata(pageNumber, size, total) {
   const pagination = {};
@@ -154,5 +155,26 @@ function getWildcardFilterValue(value, ignoreCase = true) {
   }
 }
 
+/* Convert mu-search lang string to mu-cl-resources lang string format */
+function langStringResourceFormat(object) {
+  const resourceLangStrings = [];
+  for (let [lang, content] of Object.entries(object)) {
+    if (lang === 'default') {
+      lang = 'en'; // not entirely correct, but what resources (Virtuoso?) does?
+    }
+    if (Array.isArray(content)) {
+      for (const _content of content) {
+        const langString = LangString(_content, lang);
+        resourceLangStrings.push(langString);
+      }
+    } else {
+      // should rather be LangString object from https://github.com/mu-semtech/ember-mu-transform-helpers/blob/82196cf20f670d46f8abcf7385515a412d057bbd/addon/transforms/language-string.js#L5-L11
+      const langString = LangString(content, lang);
+      resourceLangStrings.push(langString);
+    }
+  }
+  return resourceLangStrings;
+}
+
 export default muSearch;
-export { getWildcardFilterValue };
+export { getWildcardFilterValue, langStringResourceFormat };

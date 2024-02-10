@@ -24,7 +24,7 @@
         </div>
         <div class="mt-6 grid grid-cols-1 gap-y-2 gap-x-4 md:grid-cols-6 items-center">
           <div class="col-span-6">
-            <Util::Property @label="Naam" @value={{@model.name}} />
+            <Util::Property @label="Naam" @value={{get-by-lang @model.name}} />
           </div>
           {{#if @model.alternateNames.length}}
             <div class="col-span-6 text-sm text-gray-900 italic">
@@ -33,7 +33,7 @@
                   <li class="inline">
                     {{!-- template-lint-disable  simple-unless --}}
                     {{!-- comma enum except for last item --}}
-                    {{alias}}{{unless (eq (sub @model.alternateNames.length 1) index) ", "}}
+                    {{get-by-lang alias}}{{unless (eq (sub @model.alternateNames.length 1) index) ", "}}
                   </li>
                 {{/each}}
               </ul>

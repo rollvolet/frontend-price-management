@@ -1,3 +1,5 @@
 const VAT_RATE = 0.21;
+const DEFAULT_LANGUAGE = 'en';
+const SUPPORTED_LANGUAGES = ['nl', 'fr', 'en'];
 
-export { VAT_RATE };
+export { VAT_RATE, DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES };

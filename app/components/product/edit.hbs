@@ -33,9 +33,10 @@
               <label for="product-name" class="block text-sm font-medium text-gray-700">
                 Naam
               </label>
-              <Input
+              <Rlv::MultiLanguageInput
                 id="product-name"
-                @value={{@model.name}}
+                @values={{@model.name}}
+                @onChange={{fn (mut @model.name)}}
                 class="mt-1 focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
             </div>
             <div class="md:col-span-4">
