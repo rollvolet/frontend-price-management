@@ -3,6 +3,10 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { isPresent } from '@ember/utils';
 
+// https://youmightnotneed.com/lodash/#without
+// eslint-disable-next-line
+const without = (arr, ...args) => arr.filter(item => !args.includes(item))
+
 export default class AliasFormComponent extends Component {
   @tracked newAlias;
 
@@ -22,8 +26,7 @@ export default class AliasFormComponent extends Component {
 
   @action
   removeAlias(alias) {
-    const remainingAliases = this.args.aliases.slice();
-    remainingAliases.pop(alias);
+    const remainingAliases = without(this.args.aliases, alias);
     this.args.onChange(remainingAliases);
   }
 }
