@@ -8,6 +8,16 @@ import { SUPPORTED_LANGUAGES } from 'frontend-price-management/config';
 // eslint-disable-next-line
 const without = (arr, ...args) => arr.filter(item => !args.includes(item))
 
+/*
+ * Due to the nature of language support in rdf (and the mu-cl-resources implementation),
+ * it is impossible to make a distinction between `lang-string-set`'s for properties that
+ * have a 1-1 cardinality (but with translations provided) and properties that
+ * have a 1-n cardinality (with translations provided as well).
+ * This component caters specifically for those properties that are `lang-string-set`'s but
+ * with a 1-1 cardinality from a semantic perspective. One could also say, this component
+ * offers an interface to provide translations in multiple languages for exactly one string,
+ * with the same meaning.
+ */
 export default class MultiLanguageInputComponent extends Component {
   @tracked newLangString;
 
