@@ -5,8 +5,9 @@
       <div class="text-sm my-2 text-gray-900">{{alias}}</div>
       <Rlv::Button
         @icon="delete-bin-line"
-        @skin="tertiary"
+        @skin="naked"
         @size="small"
+        @alert={{true}}
         class="ml-2 my-2 align-middle"
         {{on "click" (fn this.removeAlias alias)}} />
     </div>
