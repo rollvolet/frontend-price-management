@@ -18,7 +18,6 @@ export default class ProductEditComponent extends Component {
 
   @tracked broaderCategory;
   @tracked showDeleteConfirmationModal = false;
-  @tracked showAliasForm;
   @tracked newAlias;
 
   constructor() {
@@ -34,7 +33,6 @@ export default class ProductEditComponent extends Component {
     } else {
       this.broaderCategory = null;
     }
-    this.showAliasForm = this.args.model.alternateNames.length > 0;
   }
 
   @task
@@ -193,11 +191,6 @@ export default class ProductEditComponent extends Component {
   @action
   cancelDelete() {
     this.showDeleteConfirmationModal = false;
-  }
-
-  @action
-  toggleAliasForm() {
-    this.showAliasForm = !this.showAliasForm;
   }
 
   @action
