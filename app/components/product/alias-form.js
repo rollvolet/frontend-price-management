@@ -18,7 +18,7 @@ export default class AliasFormComponent extends Component {
       const aliases = this.args.aliases.slice();
       aliases.push(this.newAlias);
       this.args.onChange(aliases);
-      this.newAlias = '';
+      this.newAlias = undefined;
     }
   }
 
