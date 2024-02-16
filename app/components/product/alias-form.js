@@ -12,10 +12,11 @@ export default class AliasFormComponent extends Component {
   }
 
   @action
-  addAlias(newAlias) {
-    if (newAlias) {
+  addAlias(event) {
+    event.preventDefault();
+    if (this.newAlias) {
       const aliases = this.args.aliases.slice();
-      aliases.push(newAlias);
+      aliases.push(this.newAlias);
       this.args.onChange(aliases);
       this.newAlias = '';
     }

@@ -14,20 +14,23 @@
     </li>
   {{/each}}
   <li>
-    <div class="flex"
-      {{on "focusout" (fn this.addAlias this.newAlias)}}
-    >
-      <Input
-        id="new-alias-name"
-        @value={{this.newAlias}}
-        class="mt-1 focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
-      <Rlv::Button
-        @icon="add-line"
-        @skin="tertiary"
-        @size="small"
-        @disabled={{not this.newAliasIsValid}}
-        class="ml-2 my-1 align-middle"
-        {{on "click" (fn this.addAlias this.newAlias)}} />
+    <div class="flex">
+      <form
+        {{on "submit" this.addAlias}}
+      >
+        <Input
+          id="new-alias-name"
+          @value={{this.newAlias}}
+          class="mt-1 focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
+        <Rlv::Button
+          @icon="add-line"
+          @skin="tertiary"
+          @size="small"
+          @disabled={{not this.newAliasIsValid}}
+          type="submit"
+          class="ml-2 my-1 align-middle"
+        />
+      </form>
     </div>
   </li>
 </ul>
