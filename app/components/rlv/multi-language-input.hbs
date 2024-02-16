@@ -13,10 +13,9 @@
   {{/each}}
   {{#if this.availableLanguages.length}}
     <li class="my-1.5">
-      <div class="flex items-center gap-x-2"
-        {{on "focusout" (fn this.addLangString this.newLangString)}}
+      <form class="flex items-center gap-x-2"
+        {{on "submit" this.addLangString}}
       >
-        {{this.newLangString}}
         <Rlv::LanguageInput
           @value={{this.newLangString}}
           @languageOptions={{this.availableLanguages}}
@@ -27,8 +26,9 @@
           @skin="tertiary"
           @size="small"
           @disabled={{not this.newLangStringIsValid}}
-          {{on "click" (fn this.addLangString this.newLangString)}} />
-      </div>
+          type="submit"
+        />
+      </form>
     </li>
   {{/if}}
 </ul>

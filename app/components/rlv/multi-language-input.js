@@ -38,10 +38,11 @@ export default class MultiLanguageInputComponent extends Component {
   }
 
   @action
-  addLangString(newLangString) {
-    if (newLangString) {
-      const values = this.args.values.slice();
-      values.push(newLangString);
+  addLangString(event) {
+    event.preventDefault();
+    if (this.newLangString) {
+      const values = this.values.slice();
+      values.push(this.newLangString);
       this.args.onChange(values);
       this.newLangString = '';
     }
@@ -49,7 +50,7 @@ export default class MultiLanguageInputComponent extends Component {
 
   @action
   removeLangString(langString) {
-    const remainingLangStrings = without(this.args.values, langString);
+    const remainingLangStrings = without(this.values, langString);
     this.args.onChange(remainingLangStrings);
   }
 }
