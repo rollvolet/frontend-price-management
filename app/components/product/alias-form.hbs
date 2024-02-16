@@ -1,34 +1,33 @@
 <ul>
   {{#each @aliases as |alias|}}
-    <li>
-    <div class="flex">
-      <div class="text-sm my-2 text-gray-900">{{alias}}</div>
+    <li class="my-1.5">
+    <div class="flex items-center gap-x-2">
+      <div class="text-sm text-gray-900">{{alias}}</div>
       <Rlv::Button
         @icon="delete-bin-line"
-        @skin="tertiary"
+        @skin="naked"
         @size="small"
-        class="ml-2 my-2 align-middle"
+        @alert={{true}}
         {{on "click" (fn this.removeAlias alias)}} />
     </div>
     </li>
   {{/each}}
-  <li>
-    <div class="flex"
-      {{on "focusout" (fn this.addAlias this.newAlias)}}
+  <li class="my-1.5">
+    <form class="flex items-center gap-x-2"
+      {{on "submit" this.addAlias}}
     >
-
       <Rlv::LanguageInput
         id="new-alias-name"
         @value={{this.newAlias}}
         @onChange={{fn (mut this.newAlias)}}
-        class="mt-1 focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
+        class="focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
       <Rlv::Button
         @icon="add-line"
         @skin="tertiary"
         @size="small"
         @disabled={{not this.newAliasIsValid}}
-        class="ml-2 my-1 align-middle"
-        {{on "click" (fn this.addAlias this.newAlias)}} />
-    </div>
+        type="submit"
+      />
+    </form>
   </li>
 </ul>

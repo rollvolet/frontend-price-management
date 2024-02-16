@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { isPresent } from '@ember/utils';
+import { without } from 'frontend-price-management/utils/array';
 
 export default class AliasFormComponent extends Component {
   @tracked newAlias;
@@ -11,19 +12,19 @@ export default class AliasFormComponent extends Component {
   }
 
   @action
-  addAlias(newAlias) {
-    if (newAlias) {
+  addAlias(event) {
+    event.preventDefault();
+    if (this.newAlias) {
       const aliases = this.args.aliases.slice();
-      aliases.push(newAlias);
+      aliases.push(this.newAlias);
       this.args.onChange(aliases);
-      this.newAlias = '';
+      this.newAlias = undefined;
     }
   }
 
   @action
   removeAlias(alias) {
-    const remainingAliases = this.args.aliases.slice();
-    remainingAliases.pop(alias);
+    const remainingAliases = without(this.args.aliases, alias);
     this.args.onChange(remainingAliases);
   }
 }

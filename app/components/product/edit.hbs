@@ -40,25 +40,12 @@
                 class="mt-1 focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
             </div>
             <div class="md:col-span-4">
-              <div class="flex">
-                <label for="product-alias" class="block text-sm font-medium text-gray-700">
-                  Aliasen
-                </label>
-                <div>
-                  <Rlv::Button
-                    @icon="arrow-down-s-line"
-                    @skin="secondary-link"
-                    @size="small"
-                    class="mt-1 ml-2"
-                    {{on "click" this.toggleAliasForm}} />
-                </div>
-              </div>
-              {{#if this.showAliasForm}}
+              <Util::Property @label="Aliasen">
                 <Product::AliasForm
                   @aliases={{@model.alternateNames}}
                   @onChange={{fn (mut @model.alternateNames)}}
                 />
-              {{/if}}
+              </Util::Property>
             </div>
         </div>
         <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-6 items-center">
