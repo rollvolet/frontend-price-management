@@ -6,6 +6,7 @@ import { enqueueTask, keepLatestTask, task, timeout } from 'ember-concurrency';
 import roundDecimal from '../../utils/round-decimal';
 import constants from '../../config/constants';
 import { VAT_RATE } from '../../config';
+import { without } from 'frontend-price-management/utils/array';
 
 const { CALCULATION_BASIS } = constants;
 
@@ -176,11 +177,8 @@ export default class ProductEditComponent extends Component {
 
   @task
   *deleteFile(file) {
-    const attachments = yield this.args.model.attachments;
-    const i = attachments.indexOf(file);
-    if (i >= 0) {
-      attachments.splice(i, 1);
-    }
+    let attachments = yield this.args.model.attachments;
+    this.args.model.attachments = without(attachments, file);
   }
 
   @action

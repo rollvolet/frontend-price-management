@@ -3,6 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { warn } from '@ember/debug';
 import { later } from '@ember/runloop';
 import { TrackedArray } from 'tracked-built-ins';
+import { without } from 'frontend-price-management/utils/array';
 
 export default class NotificationService extends Service {
   @tracked notifications = new TrackedArray([]);
@@ -24,10 +25,7 @@ export default class NotificationService extends Service {
   }
 
   remove(notification) {
-    const i = this.notifications.indexOf(notification);
-    if (i >= 0) {
-      this.notifications.splice(i, 1);
-    }
+    this.notifications = without(this.notifications, notification);
   }
 
   addError(notification) {
