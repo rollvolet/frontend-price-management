@@ -3,10 +3,7 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { isPresent } from '@ember/utils';
 import { SUPPORTED_LANGUAGES } from 'frontend-price-management/config';
-
-// https://youmightnotneed.com/lodash/#without
-// eslint-disable-next-line
-const without = (arr, ...args) => arr.filter(item => !args.includes(item))
+import { without } from 'frontend-price-management/utils/array';
 
 /*
  * Due to the nature of language support in rdf (and the mu-cl-resources implementation),
