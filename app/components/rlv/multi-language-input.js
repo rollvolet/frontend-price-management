@@ -21,12 +21,16 @@ const without = (arr, ...args) => arr.filter(item => !args.includes(item))
 export default class MultiLanguageInputComponent extends Component {
   @tracked newLangString;
 
+  get values() {
+    return this.args.values && this.args.values.length > 0 ? this.args.values : [];
+  }
+
   get newLangStringIsValid() {
     return isPresent(this.newLangString);
   }
 
   get alreadyUsedLanguages() {
-    return this.args.values.map((v) => v.language);
+    return this.values.map((v) => v.language);
   }
 
   get availableLanguages() {
