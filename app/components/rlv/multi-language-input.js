@@ -42,12 +42,19 @@ export default class MultiLanguageInputComponent extends Component {
       values.push(this.newLangString);
       this.args.onChange(values);
       this.newLangString = '';
+      this.inputElement.focus();
     }
+  }
+
+  @action
+  setInputElement(element) {
+    this.inputElement = element;
   }
 
   @action
   removeLangString(langString) {
     const remainingLangStrings = without(this.values, langString);
     this.args.onChange(remainingLangStrings);
+    this.inputElement.focus();
   }
 }

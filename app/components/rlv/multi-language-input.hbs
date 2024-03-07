@@ -20,6 +20,7 @@
           @value={{this.newLangString}}
           @languageOptions={{this.availableLanguages}}
           @onChange={{fn (mut this.newLangString)}}
+          {{did-insert this.setInputElement}}
           class="focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
         <Rlv::Button
           @icon="add-line"
