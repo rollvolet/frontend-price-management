@@ -19,6 +19,7 @@ export default class AliasFormComponent extends Component {
       aliases.push(this.newAlias);
       this.args.onChange(aliases);
       this.newAlias = undefined;
+      document.getElementById('new-alias-name').focus();
     }
   }
 
@@ -26,5 +27,6 @@ export default class AliasFormComponent extends Component {
   removeAlias(alias) {
     const remainingAliases = without(this.args.aliases, alias);
     this.args.onChange(remainingAliases);
+    document.getElementById('new-alias-name').focus();
   }
 }
