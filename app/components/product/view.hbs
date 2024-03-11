@@ -21,9 +21,26 @@
               </div>
             {{/if}}
           </div>
+        </div>
+        <div class="mt-6 grid grid-cols-1 gap-y-2 gap-x-4 md:grid-cols-6 items-center">
           <div class="col-span-6">
             <Util::Property @label="Naam" @value={{@model.name}} />
           </div>
+          {{#if @model.alternateNames.length}}
+            <div class="col-span-6 text-sm text-gray-900 italic">
+              <ul class="list-none">
+                {{#each @model.alternateNames as |alias index|}}
+                  <li class="inline">
+                    {{!-- template-lint-disable  simple-unless --}}
+                    {{!-- comma enum except for last item --}}
+                    {{alias}}{{unless (eq (sub @model.alternateNames.length 1) index) ", "}}
+                  </li>
+                {{/each}}
+              </ul>
+            </div>
+          {{/if}}
+        </div>
+        <div class="mt-6 grid grid-cols-1 gap-y-4 gap-x-4 md:grid-cols-6 items-center">
           <div class="col-span-3">
             <Util::Property @label="Categorie" @value={{@model.category.broader.label}} />
           </div>

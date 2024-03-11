@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from '@ember/object';
 import { assert } from '@ember/debug';
-import { isPresent } from '@ember/utils';
+import { isPresent, isEmpty } from '@ember/utils';
 
 export default class CoreButton extends Component {
   // Workaround for linkTo not accepting @model and @models parameter, regardless if one is null
@@ -63,6 +63,13 @@ export default class CoreButton extends Component {
 
   get hasIconLeft() {
     return this.args.icon && !this.hasIconRight;
+  }
+
+  get hideText() {
+    // default if icon without a label
+    return isPresent(this.args.hideText)
+      ? this.args.hideText
+      : isPresent(this.args.icon) && isEmpty(this.args.label);
   }
 
   get sizeClass() {
