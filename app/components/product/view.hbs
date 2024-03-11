@@ -24,19 +24,38 @@
         </div>
         <div class="mt-6 grid grid-cols-1 gap-y-2 gap-x-4 md:grid-cols-6 items-center">
           <div class="col-span-6">
-            <Util::Property @label="Naam" @value={{get-by-lang @model.name}} />
+            <Util::Property @label="Naam">
+              <ul class="list-none">
+                {{#each this.SUPPORTED_LANGUAGES as |lang index|}}
+                  {{#let (get-by-lang @model.name lang) as |name|}}
+                    {{#if name}}
+                      <li class="block">
+                        {{get-by-lang @model.name lang}} ({{lang}})
+                      </li>
+                    {{/if}}
+                  {{/let}}
+                {{/each}}
+              </ul>
+            </Util::Property>
           </div>
           {{#if @model.alternateNames.length}}
             <div class="col-span-6 text-sm text-gray-900 italic">
-              <ul class="list-none">
-                {{#each @model.alternateNames as |alias index|}}
-                  <li class="inline">
-                    {{!-- template-lint-disable  simple-unless --}}
-                    {{!-- comma enum except for last item --}}
-                    {{get-by-lang alias}}{{unless (eq (sub @model.alternateNames.length 1) index) ", "}}
-                  </li>
-                {{/each}}
-              </ul>
+              {{#each this.SUPPORTED_LANGUAGES as |lang|}}
+                <ul class="list-none">
+                  {{#let (filter-by "language" lang @model.alternateNames) as |alternateNames|}}
+                    {{#each alternateNames as |alias index|}}
+                      <li class="inline">
+                        {{!-- template-lint-disable  simple-unless --}}
+                        {{!-- comma enum except for last item --}}
+                        {{get-by-lang alias}}{{unless (eq (sub alternateNames.length 1) index) ", "}}
+                      </li>
+                    {{/each}}
+                    {{#if alternateNames.length}}
+                      ({{lang}})
+                    {{/if}}
+                  {{/let}}
+                </ul>
+              {{/each}}
             </div>
           {{/if}}
         </div>
