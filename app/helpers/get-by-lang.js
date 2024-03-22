@@ -1,7 +1,6 @@
-import { helper } from '@ember/component/helper';
 import { DEFAULT_LANGUAGE } from 'frontend-price-management/config';
 
-export function getByLang([object, lang]) {
+export default function getByLang(object, lang) {
   lang = lang || DEFAULT_LANGUAGE;
   if (Array.isArray(object)) {
     const objectsByLang = object.filter((o) => o.language === lang);
@@ -19,5 +18,3 @@ export function getByLang([object, lang]) {
   );
   return object.content;
 }
-
-export default helper(getByLang);
