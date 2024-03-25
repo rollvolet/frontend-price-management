@@ -70,7 +70,7 @@ export default class MainProductsIndexRoute extends Route {
 
     const filter = {};
 
-    filter[':wildcard:name'] = getWildcardFilterValue(params.name);
+    filter[':wildcard:searchName'] = getWildcardFilterValue(params.name);
     if (isPresent(params.identifier)) {
       filter['identifier'] = params.identifier;
     }
