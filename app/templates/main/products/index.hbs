@@ -114,6 +114,7 @@
                 Leverancier
               </th>
               <th class="px-6 py-3 bg-gray-100"></th>
+              <th class="px-3 py-3 bg-gray-100"></th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
@@ -165,6 +166,13 @@
                     @model={{product.uuid}}
                     @skin="link" />
                 </td>
+                <td class="px-3 py-3 whitespace-nowrap text-sm font-medium">
+                  <Rlv::Button
+                    @label="Preview"
+                    @skin="link"
+                    {{on "click" (fn this.showPreview product)}}
+                  />
+                </td>
               </tr>
             {{else}}
               <tr>
@@ -187,3 +195,9 @@
   @onNext={{this.nextPage}}
   @onSelectPage={{this.selectPage}}
 />
+{{#if this.previewProduct}}
+  <Product::QuickviewModal
+    @product={{this.previewProduct}}
+    @onClose={{this.closePreview}}
+  />
+{{/if}}
