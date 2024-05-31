@@ -20,6 +20,8 @@ export default class MainProductsIndexController extends Controller {
   @tracked rack;
   @tracked availableOnly = true;
 
+  @tracked previewProduct;
+
   @restartableTask
   *debounceFilter(key, event) {
     const value = event.target.value;
@@ -50,6 +52,16 @@ export default class MainProductsIndexController extends Controller {
     for (let key of Object.keys(qpValues)) {
       this[key] = qpValues[key];
     }
+  }
+
+  @action
+  showPreview(product) {
+    this.previewProduct = product;
+  }
+
+  @action
+  closePreview() {
+    this.previewProduct = undefined;
   }
 
   @action
