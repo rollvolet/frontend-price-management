@@ -12,6 +12,18 @@ export default class AliasFormComponent extends Component {
   }
 
   @action
+  attemptSubmit(event) {
+    event.preventDefault();
+    // event bubbles from child input element to the element on which we have
+    // this ember event handler ("on"). Need to make the distinction between
+    // move of focus to another child element (the language selector) and an external
+    // element. We only want to submit on move of focus to external element.
+    if (!event.target.form.contains(event.relatedTarget) && this.newAliasIsValid) {
+      this.addAlias(event);
+    }
+  }
+
+  @action
   addAlias(event) {
     event.preventDefault();
     if (this.newAlias) {
