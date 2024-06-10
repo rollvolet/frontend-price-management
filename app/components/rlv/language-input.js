@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { SUPPORTED_LANGUAGES, DEFAULT_LANGUAGE } from 'frontend-price-management/config';
+import { SUPPORTED_LANGUAGES } from 'frontend-price-management/config';
 import LangString from 'frontend-price-management/utils/lang-string';
 
 export default class LanguageInputComponent extends Component {
