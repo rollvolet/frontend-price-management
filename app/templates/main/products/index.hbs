@@ -159,19 +159,16 @@
                     <br>Nr. {{product.purchaseOffering.identifier}}
                   {{/if}}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <td class="px-6 py-4">
                   <Rlv::Button
-                    @label="Bekijk"
+                    @label="Open"
                     @route="main.products.detail.index"
                     @model={{product.uuid}}
                     @skin="link" />
-                </td>
-                <td class="px-3 py-3 whitespace-nowrap text-sm font-medium">
                   <Rlv::Button
                     @label="Preview"
                     @skin="link"
-                    {{on "click" (fn this.showPreview product)}}
-                  />
+                    {{on "click" (fn this.showPreview product)}} />
                 </td>
               </tr>
             {{else}}

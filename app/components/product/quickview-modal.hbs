@@ -1,49 +1,26 @@
 <Rlv::Modal
-  @width="w-3/5"
+  @width="w-4/5"
   @onClose={{@onClose}}>
   <:body>
-    <div class="flex min-h-full items-stretch justify-center text-center md:items-center md:px-2 lg:px-4">
-
-          <div class="grid w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8">
-            <div class="sm:col-span-4 lg:col-span-5">
-              <div class="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100">
-                <img src="{{this.imageLink}}" class="object-cover object-center">
-              </div>
+    <div class="space-y-2">
+      <h2 class="text-2xl font-bold text-gray-900">
+        {{get-by-lang @product.name}}
+      </h2>
+      {{#if this.loadImage.isRunning}}
+        <div class="w-full h-48">
+          <Util::LoadingSpinner />
+        </div>
+      {{else}}
+        <div class="flex items-center justify-center overflow-hidden min-h-[12rem]">
+          {{#if this.image}}
+            <img src="{{this.imageLink}}">
+          {{else}}
+            <div class="text-sm text-gray-400">
+              Geen afbeelding beschikbaar
             </div>
-            <div class="sm:col-span-8 lg:col-span-7 text-left">
-              <h2 class="text-2xl font-bold text-gray-900 sm:pr-12">
-                {{get-by-lang @product.name}}
-              </h2>
-              <section aria-labelledby="information-heading" class="mt-3">
-                <h3 id="information-heading" class="sr-only">Product information</h3>
-
-                <p class="text-2xl text-gray-900">
-                  <Fmt::UnitPrice
-                    @model={{@product.salesOffering.unitPriceSpecification}}
-                    @showTaxIncluded={{false}} />
-                </p>
-
-
-                <div class="mt-6">
-                  <h4 class="sr-only">Description</h4>
-
-                  <p class="text-sm text-gray-700">{{@product.description}}</p>
-                </div>
-              </section>
-
-              <section aria-labelledby="options-heading" class="mt-6">
-                <form>
-                  <p class="absolute left-4 top-4 text-center sm:static sm:mt-6">
-                    <Rlv::Button
-                      @label="Bekijk detail"
-                      @route="main.products.detail.index"
-                      @model={{@product.uuid}}
-                      @skin="link" />
-                  </p>
-                </form>
-              </section>
-            </div>
-          </div>
+          {{/if}}
+        </div>
+      {{/if}}
     </div>
   </:body>
 </Rlv::Modal>
