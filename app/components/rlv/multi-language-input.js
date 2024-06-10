@@ -48,19 +48,13 @@ export default class MultiLanguageInputComponent extends Component {
 
   @action
   addLangString(event) {
-    event.preventDefault();
+    event?.preventDefault();
     if (this.newLangString) {
       const values = this.values.slice();
       values.push(this.newLangString);
       this.args.onChange(values);
       this.newLangString = '';
     }
-  }
-
-  @action
-  setInputElement(element) {
-    this.inputElement = element;
-    this.inputElement?.focus();
   }
 
   @action

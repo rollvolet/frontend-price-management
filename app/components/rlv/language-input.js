@@ -1,9 +1,12 @@
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { SUPPORTED_LANGUAGES } from 'frontend-price-management/config';
 import LangString from 'frontend-price-management/utils/lang-string';
 
 export default class LanguageInputComponent extends Component {
+  @tracked wrapperNode;
+
   get value() {
     return this.args.value || {};
   }
@@ -28,6 +31,11 @@ export default class LanguageInputComponent extends Component {
   }
 
   @action
+  setWrapperNode(element) {
+    this.wrapperNode = element;
+  }
+
+  @action
   changeContent(content) {
     this.args.onChange(LangString(content, this.language));
   }
@@ -35,5 +43,17 @@ export default class LanguageInputComponent extends Component {
   @action
   changeLanguage(language) {
     this.args.onChange(LangString(this.content, language));
+  }
+
+  @action
+  focusOut(event) {
+    const newFocusedElement = event.relatedTarget;
+    if (newFocusedElement && this.wrapperNode.contains(newFocusedElement)) {
+      // change of focus inside the language-input component. Nothing should happen.
+      event.preventDefault();
+    } else {
+      // change of focus outside the language-input component, call focusout handler
+      this.args.onFocusOut();
+    }
   }
 }
