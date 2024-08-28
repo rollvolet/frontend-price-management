@@ -8,6 +8,10 @@ export default class OfferingModel extends Model {
   @attr('string') availability;
   @attr('datetime') validFrom;
   @attr('datetime') validThrough;
+  @attr('datetime') created;
+  @attr('datetime') modified;
+  @attr('string') creator;
+  @attr('string') editor;
 
   @belongsTo('product', { inverse: 'purchaseOffering', async: true }) purchaseProduct;
   @belongsTo('product', { inverse: 'salesOffering', async: true }) salesProduct;

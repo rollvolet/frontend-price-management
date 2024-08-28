@@ -15,6 +15,8 @@ export default class ProductModel extends Model {
   @attr('boolean') includeInStockReport;
   @attr('datetime') created;
   @attr('datetime') modified;
+  @attr('string') creator;
+  @attr('string') editor;
 
   @belongsTo('warehouse-location', { inverse: 'products', async: true }) warehouseLocation;
   @belongsTo('offering', { inverse: 'purchaseProduct', async: true }) purchaseOffering;
