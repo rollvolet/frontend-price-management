@@ -40,8 +40,6 @@ export default class MainProductsNewRoute extends Route {
     });
     const warehouseLocation = this.store.createRecord('warehouse-location', {});
     const product = this.store.createRecord('product', {
-      created: now,
-      modified: now,
       identifier: number,
       warehouseLocation,
       purchaseOffering,

@@ -1,17 +1,14 @@
-import Model, { attr, belongsTo } from '@ember-data/model';
+import { attr, belongsTo } from '@ember-data/model';
+import ProvenanceModel from './provenance-model';
 import { isAfter } from 'date-fns';
 import { isPresent } from '@ember/utils';
 
-export default class OfferingModel extends Model {
+export default class OfferingModel extends ProvenanceModel {
   @attr('string') name;
   @attr('string') identifier;
   @attr('string') availability;
   @attr('datetime') validFrom;
   @attr('datetime') validThrough;
-  @attr('datetime') created;
-  @attr('datetime') modified;
-  @attr('string') creator;
-  @attr('string') editor;
 
   @belongsTo('product', { inverse: 'purchaseOffering', async: true }) purchaseProduct;
   @belongsTo('product', { inverse: 'salesOffering', async: true }) salesProduct;
