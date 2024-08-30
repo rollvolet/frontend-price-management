@@ -78,7 +78,14 @@
             @subtitle="Informatie over de leverancier waar het product aangekocht is." />
           <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 grid-cols-6">
             <div class="col-span-4 sm:col-span-3">
-              <Util::Property @label="Leverancier" @value={{@model.purchaseOffering.businessEntity.name}} />
+              <Util::Property @label="Leverancier">
+                {{@model.purchaseOffering.businessEntity.name}}
+                <Rlv::Button
+                  @skin="link"
+                  @href={{@model.purchaseOffering.businessEntity.rkbLink}}
+                  @icon="external-link-line"
+                />
+              </Util::Property>
             </div>
             <div class="col-span-2 sm:col-span-3">
               <Util::Property @label="Productnummer" @value={{@model.purchaseOffering.identifier}} />

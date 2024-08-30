@@ -28,15 +28,23 @@
       </form>
     {{else}}
       <div class="flex items-center justify-between">
-        <div role="button" class="w-full flex items-center space-x-2" {{on "click" this.openEdit}}>
-          <span class="py-1.5">{{@model.name}}</span>
+        <div class="w-full flex items-center space-x-2" >
+          <span class="py-1.5">
+            {{@model.name}}
+            <Rlv::Button
+              @skin="link"
+              @href={{@model.rkbLink}}
+              @icon="external-link-line"
+              target="_blank"
+            />
+          </span>
           <Rlv::Button
-            role="presentation"
             @label="Bewerk"
             @skin="secondary-naked"
             @size="small"
             @icon="pencil-line"
             @hideText={{true}}
+            {{on "click" this.openEdit}}
             class="hidden group-hover:block" />
         </div>
         <Rlv::Button
