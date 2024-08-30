@@ -12,6 +12,7 @@ export default class MainSuppliersController extends Controller {
   @service store;
 
   @tracked newSupplierName;
+  @tracked newSupplierId;
   @tracked isOpenSupplierModal;
 
   get showCreateButton() {
@@ -22,6 +23,7 @@ export default class MainSuppliersController extends Controller {
   *createSupplier() {
     const supplier = this.store.createRecord('business-entity', {
       name: this.newSupplierName,
+      identifier: this.newSupplierId,
       category: BUSINESS_CATEGORIES.SUPPLIER,
     });
     yield supplier.save();
@@ -37,6 +39,7 @@ export default class MainSuppliersController extends Controller {
   @action
   closeNewSupplierModal() {
     this.newSupplierName = null;
+    this.newSupplierId = null;
     this.isOpenSupplierModal = false;
   }
 }

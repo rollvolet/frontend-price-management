@@ -32,13 +32,24 @@
           Leverancier toevoegen
         </h3>
         <div class="mt-8">
-          <label for="new-supplier-name" class="block text-sm font-medium text-gray-700">
-            Naam
-          </label>
-          <Input
-            id="new-supplier-name"
-            @value={{this.newSupplierName}}
-            class="mt-1 focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
+          <div class="mt-6">
+            <label for="new-supplier-name" class="block text-sm font-medium text-gray-700">
+              Naam
+            </label>
+            <Input
+              id="new-supplier-name"
+              @value={{this.newSupplierName}}
+              class="mt-1 focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
+          </div>
+          <div class="mt-6">
+            <label for="new-supplier-id" class="block text-sm font-medium text-gray-700">
+              RKB Klantnummer
+            </label>
+            <Input
+              id="new-supplier-id"
+              @value={{this.newSupplierId}}
+              class="mt-1 focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
+          </div>
         </div>
       </div>
     </div>
