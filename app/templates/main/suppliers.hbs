@@ -52,12 +52,14 @@
             {{#if this.newSupplierId}}
               <span class="text-xs italic text-gray-500">
                 Link naar RKB testen?
+                {{!-- template-lint-disable link-rel-noopener --}}
                 <a
                   href={{this.newSupplierRkbLink}}
                   target="_blank"
                   class="text-red-700">
                   {{svg-jar "external-link-line" class="inline h-4 w-4"}} {{this.newSupplierRkbLink}}
                 </a>
+                {{!-- template-lint-enable link-rel-noopener --}}
               </span>
             {{/if}}
           </div>
