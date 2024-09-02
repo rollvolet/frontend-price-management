@@ -192,10 +192,10 @@
         </div>
         <div class="mt-6 gap-y-4 text-xs text-gray-400">
           <div>
-            <Util::CreatedOn @date={{@model.salesOffering.created}} @user={{@model.salesOffering.creator}} />
+            <Util::CreatedOn @date={{@model.salesOffering.unitPriceSpecification.created}} @user={{@model.salesOffering.unitPriceSpecification.creator}} />
           </div>
           <div>
-            <Util::UpdatedOn @date={{@model.salesOffering.modified}} @user={{@model.salesOffering.editor}} />
+            <Util::UpdatedOn @date={{@model.salesOffering.unitPriceSpecification.modified}} @user={{@model.salesOffering.unitPriceSpecification.editor}} />
           </div>
         </div>
       </div>

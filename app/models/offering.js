@@ -1,9 +1,8 @@
-import { attr, belongsTo } from '@ember-data/model';
-import ProvenanceModel from './provenance-model';
+import Model, { attr, belongsTo } from '@ember-data/model';
 import { isAfter } from 'date-fns';
 import { isPresent } from '@ember/utils';
 
-export default class OfferingModel extends ProvenanceModel {
+export default class OfferingModel extends Model {
   @attr('string') name;
   @attr('string') identifier;
   @attr('string') availability;
