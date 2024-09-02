@@ -19,6 +19,13 @@ export default class MainSuppliersController extends Controller {
     return this.router.currentRouteName == 'main.suppliers.index';
   }
 
+  get newSupplierRkbLink() {
+    if (this.newSupplierId) {
+      return `https://rkb.rollvolet.be/customers/nb/${this.newSupplierId}`;
+    }
+    return undefined;
+  }
+
   @task
   *createSupplier() {
     const supplier = this.store.createRecord('business-entity', {
