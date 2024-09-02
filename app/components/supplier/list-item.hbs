@@ -29,15 +29,17 @@
     {{else}}
       <div class="flex items-center justify-between">
         <div class="w-full flex items-center space-x-2" >
-          <span class="py-1.5">
-            {{@model.name}}
-            <Rlv::Button
-              @skin="link"
-              @href={{@model.rkbLink}}
-              @icon="external-link-line"
-              target="_blank"
-            />
-          </span>
+            <span class="py-1.5">
+              {{@model.name}}
+              {{#if @model.rkbLink}}
+                <Rlv::Button
+                  @skin="link"
+                  @href={{@model.rkbLink}}
+                  @icon="external-link-line"
+                  target="_blank"
+                />
+              {{/if}}
+            </span>
           <Rlv::Button
             @label="Bewerk"
             @skin="secondary-naked"

@@ -80,11 +80,13 @@
             <div class="col-span-4 sm:col-span-3">
               <Util::Property @label="Leverancier">
                 {{@model.purchaseOffering.businessEntity.name}}
-                <Rlv::Button
-                  @skin="link"
-                  @href={{@model.purchaseOffering.businessEntity.rkbLink}}
-                  @icon="external-link-line"
-                />
+                {{#if @model.purchaseOffering.businessEntity.rkbLink}}
+                  <Rlv::Button
+                    @skin="link"
+                    @href={{@model.purchaseOffering.businessEntity.rkbLink}}
+                    @icon="external-link-line"
+                  />
+                {{/if}}
               </Util::Property>
             </div>
             <div class="col-span-2 sm:col-span-3">
