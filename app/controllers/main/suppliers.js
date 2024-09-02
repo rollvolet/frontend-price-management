@@ -3,6 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { task } from 'ember-concurrency';
 import { service } from '@ember/service';
+import { schedule } from '@ember/runloop';
 import constants from '../../config/constants';
 
 const { BUSINESS_CATEGORIES } = constants;
@@ -41,6 +42,9 @@ export default class MainSuppliersController extends Controller {
   @action
   openNewSupplierModal() {
     this.isOpenSupplierModal = true;
+    schedule('afterRender', this, function() {
+      document.getElementById('new-supplier-name').focus();
+    });
   }
 
   @action
