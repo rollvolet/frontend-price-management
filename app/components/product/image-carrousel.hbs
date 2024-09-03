@@ -1,0 +1,29 @@
+<div class="mt-4 flow-root">
+  <div class="-my-2">
+    <div class="relative box-content h-80 overflow-x-auto py-2">
+      <div class="absolute flex space-x-8 px-6 my-6">
+        {{#each @images as |image|}}
+          <a
+            href="#"
+            class="relative flex h-60 w-60 flex-col overflow-hidden focus:outline-none focus:ring focus:ring-red-200 focus:border-red-200 rounded-lg shadow-lg p-6 hover:opacity-75"
+            {{on "click" (fn this.openViewModal image)}}
+          >
+            <span aria-hidden="true" class="absolute inset-0">
+              <img
+                src={{image.downloadLink}}
+                alt={{image.filename}}
+                class="h-full w-full object-cover object-center"/>
+            </span>
+          </a>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</div>
+
+{{#if this.viewModalIsOpen}}
+  <ImageViewModal
+    @image={{this.imageToView}}
+    @onClose={{this.closeViewModal}}
+  />
+{{/if}}
