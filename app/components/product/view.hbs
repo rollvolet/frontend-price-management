@@ -70,6 +70,14 @@
             <Util::Property @label="Opmerking" @value={{@model.description}} />
           </div>
         </div>
+        <div class="mt-6 gap-y-4 text-xs text-gray-400">
+          <div>
+            <Util::CreatedOn @date={{@model.created}} @user={{@model.creator}} />
+          </div>
+          <div>
+            <Util::UpdatedOn @date={{@model.modified}} @user={{@model.editor}} />
+          </div>
+        </div>
       </div>
       <div class="md:col-span-1">
         <div class="mt-8 border-t border-gray-200 pt-8 md:mt-0 md:border-0 md:pt-0">
@@ -182,6 +190,11 @@
             </Util::Property>
           </div>
         </div>
+        <div class="mt-6 gap-y-4 text-xs text-gray-400">
+          <div>
+            <Util::UpdatedOn @date={{@model.salesOffering.unitPriceSpecification.modified}} @user={{@model.salesOffering.unitPriceSpecification.editor}} />
+          </div>
+        </div>
       </div>
     {{/let}}
     <div class="mt-8 border-t border-gray-200 pt-8">
@@ -203,14 +216,6 @@
   </div>
   <div class="mt-8 border-t border-gray-200 pt-5">
     <div class="flex flex-wrap-reverse justify-between items-center">
-      <div class="mt-6 text-xs text-gray-400 sm:mt-0">
-        <div>
-          <Util::CreatedOn @date={{@model.created}} />
-        </div>
-        <div>
-          <Util::UpdatedOn @date={{@model.modified}} />
-        </div>
-      </div>
       <div class="flex justify-end space-x-3">
         <Rlv::Button
           @label="Terug"
