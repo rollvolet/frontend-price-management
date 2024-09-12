@@ -10,6 +10,22 @@
           @route="main.products.new"
           @skin="primary"
           @icon="add-line" />
+        <Rlv::Button
+          @label="Prijslijst exporteren"
+          @skin="secondary"
+          @icon="add-line"
+          {{on "click" (perform this.createExport)}}
+        />
+        {{#if this.createExport.lastSuccessful.value}}
+          {{log this.createExport.lastSuccessful.value.filename}}
+          <Rlv::Button
+            @label="Export downloaden"
+            @skin="secondary"
+            @icon="add-line"
+            @href={{this.createExport.lastSuccessful.value.downloadLink}}
+            target="_blank"
+            rel="noopener noreferrer" />
+        {{/if}}
       </div>
     {{/if}}
   </div>
