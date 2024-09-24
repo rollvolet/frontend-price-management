@@ -160,7 +160,7 @@
         @subtitle="Bijkomende informatie in de vorm van afbeelingen en bestanden." />
       <div class="mt-4">
         {{#if @model.attachments.length}}
-          <Product::ImageCarrousel @images={{@model.attachments}} />
+          <Product::ImageCarrousel @images={{filter-by "isImage" @model.attachments}} />
           <Product::AttachmentList @files={{@model.attachments}} />
         {{else}}
           <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-2">

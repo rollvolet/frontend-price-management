@@ -21,4 +21,8 @@ export default class FileModel extends Model {
   get downloadLink() {
     return `/files/${this.id}/download?name=${this.filename}`;
   }
+
+  get isImage() {
+    return this.format?.startsWith('image/');
+  }
 }
