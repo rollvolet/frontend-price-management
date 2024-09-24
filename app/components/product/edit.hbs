@@ -85,250 +85,252 @@
             </div>
           </div>
         </div>
-        <div class="md:col-span-1">
-          <div class="mt-8 border-t border-gray-200 pt-8 md:mt-0 md:border-0 md:pt-0">
-            <Util::SectionHeader
-              @title="Leverancier"
-              @subtitle="Informatie over de leverancier waar het product aangekocht is." />
-            <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-6">
-              <div class="md:col-span-4">
-                <div class="rounded-md shadow-sm">
-                  <InputField::BusinessEntitySelect
-                    @label="Leverancier"
-                    @value={{@model.purchaseOffering.businessEntity}}
-                    @onSelectionChange={{this.setSupplier}} />
-                </div>
-              </div>
-              <div class="md:col-span-2">
-                <label for="supplier-product-nb" class="block text-sm font-medium text-gray-700">
-                  Productnummer
-                </label>
-                <Input
-                  id="supplier-product-nb"
-                  @value={{@model.purchaseOffering.identifier}}
-                  class="mt-1 focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
-              </div>
+        <div class="mt-8 border-t border-gray-200 pt-8">
+          <Util::SectionHeader
+            @title="Prijzen"
+            @subtitle="Informatie over de inkoop- en verkoopprijs van het product." />
+          <div class="mt-6 grid grid-cols-6 gap-y-6 gap-x-4">
+            <div class="col-span-3 sm:col-span-2">
+              <Rlv::InputField::DecimalInput
+                @label="Inkoopprijs netto"
+                @leading="&euro;"
+                @value={{@model.purchaseOffering.unitPriceSpecification.currencyValue}}
+                @onChange={{this.setPriceIn}}
+                class="focus:ring-red-200 focus:border-red-200 block w-full pl-7 border-gray-300 rounded-md sm:text-sm" />
+            </div>
+            <div class="col-span-3 md:col-span-2">
+              <InputField::UnitCodeSelect
+                @label="Eenheid"
+                @value={{@model.purchaseOffering.unitPriceSpecification.unitCode}}
+                @onSelectionChange={{this.setUnitPriceIn}} />
             </div>
           </div>
-          <div class="mt-8 border-t border-gray-200 pt-8">
-            <Util::SectionHeader
-              @title="Magazijn"
-              @subtitle="Informatie over de plaatsing en voorraad van het product in het magazijn." />
-            <div class="mt-6 grid grid-cols-6 gap-y-6 gap-x-4">
-              <div class="col-span-6 relative flex items-start">
-                <div class="flex items-center h-5">
-                  <Rlv::InputField::Switch
-                    @value={{@model.includeInStockReport}}
-                    @onChange={{fn (mut @model.includeInStockReport)}} />
+          {{#let @model.salesOffering.unitPriceSpecification as |salesPrice|}}
+            <fieldset class="mt-4 space-y-4">
+              <div class="p-4 grid grid-cols-6 gap-y-6 gap-x-4 rounded-md bg-gray-50 border
+                {{if salesPrice.hasPriceOutCalculationBasis "border-green-300" "border-gray-200"}}">
+                <div class="col-span-6 flex items-center">
+                  <input
+                    id="calc-base-price-out"
+                    type="radio"
+                    name="price-calc-basis"
+                    value={{this.priceOutCalculationBasis}}
+                    checked={{salesPrice.hasPriceOutCalculationBasis}}
+                    {{on "input" this.setCalculationBasis}}
+                    class="focus:ring-green-400 h-4 w-4 text-green-600 border-gray-300" />
+                  <label for="calc-base-price-out" class="ml-3">
+                    <span class="block text-sm font-medium
+                      {{if salesPrice.hasPriceOutCalculationBasis "text-green-700" "text-gray-700"}}">
+                      Verkoopprijs
+                    </span>
+                  </label>
                 </div>
-                <div class="ml-3 text-sm">
-                  <label for="in-stock" class="font-medium text-gray-700">In voorraadlijst</label>
+                <div class="col-span-3 lg:col-span-2">
+                  <Rlv::InputField::DecimalInput
+                    @label="Prijs excl. btw"
+                    @leading="&euro;"
+                    @value={{salesPrice.currencyValueTaxExcluded}}
+                    class="block w-full pl-7 border-gray-300 rounded-md sm:text-sm bg-gray-200"
+                    disabled="true" />
+                </div>
+                <div class="col-span-3 lg:col-span-2">
+                  <Rlv::InputField::DecimalInput
+                    @label="Prijs incl. btw"
+                    @leading="&euro;"
+                    @value={{salesPrice.currencyValue}}
+                    @onChange={{this.setPriceOut}}
+                    class="focus:ring-red-200 focus:border-red-200 block w-full pl-7 border-gray-300 rounded-md sm:text-sm
+                    {{if salesPrice.hasMarginCalculationBasis "disabled:bg-gray-200"}}"
+                    disabled={{salesPrice.hasMarginCalculationBasis}} />
+                </div>
+                <div class="col-span-3 lg:col-span-2">
+                  <InputField::UnitCodeSelect
+                    @label="Eenheid"
+                    @value={{salesPrice.unitCode}}
+                    @onSelectionChange={{this.setUnitPriceOut}} />
                 </div>
               </div>
-
-              <div class="col-span-6 lg:col-span-3">
-                <InputField::WarehouseDepartmentSelect
-                  @label="Afdeling"
-                  @value={{@model.warehouseLocation.department}}
-                  @onSelectionChange={{this.setWarehouseDepartment}} />
+              <div class="p-4 grid grid-cols-6 gap-y-6 gap-x-4 rounded-md bg-gray-50 border
+                {{if salesPrice.hasMarginCalculationBasis "border-green-300" "border-gray-200"}}">
+                <div class="col-span-6 flex items-center">
+                  <input
+                    id="calc-base-margin"
+                    type="radio"
+                    name="price-calc-basis"
+                    value={{this.marginCalculationBasis}}
+                    checked={{salesPrice.hasMarginCalculationBasis}}
+                    {{on "input" this.setCalculationBasis}}
+                    class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300" />
+                  <label for="calc-base-margin" class="ml-3">
+                    <span class="block text-sm font-medium
+                      {{if salesPrice.hasMarginCalculationBasis "text-green-700" "text-gray-700"}}">
+                      Marge
+                    </span>
+                  </label>
+                </div>
+                <div class="col-span-3 lg:col-span-2">
+                  <Rlv::InputField::DecimalInput
+                    @label="Factor"
+                    @value={{salesPrice.margin}}
+                    @onChange={{this.setMargin}}
+                    class="focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm
+                    {{if salesPrice.hasPriceOutCalculationBasis "disabled:bg-gray-200"}}"
+                    disabled={{salesPrice.hasPriceOutCalculationBasis}} />
+                </div>
+                <div class="hidden col-span-6 h-14 md:block lg:hidden">
+                  {{!-- Dummy element for alignment --}}
+                </div>
               </div>
-              <div class="col-span-2 lg:col-span-1">
-                <label for="warehouse-rack-nb" class="block text-sm font-medium text-gray-700">
-                  Rek
-                </label>
-                <Input
-                  id="warehouse-rack-nb"
-                  @value={{@model.warehouseLocation.rack}}
-                  class="mt-1 focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
-              </div>
-              <div class="col-span-2 lg:col-span-1">
-                <label for="warehouse-side" class="block text-sm font-medium text-gray-700">
-                  Zijde
-                </label>
-                <Input
-                  id="warehouse-side"
-                  @value={{@model.warehouseLocation.side}}
-                  class="mt-1 focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
-              </div>
-              <div class="col-span-2 lg:col-span-1">
-                <label for="warehouse-position" class="block text-sm font-medium text-gray-700">
-                  Plaats
-                </label>
-                <Input
-                  id="warehouse-position"
-                  @value={{@model.warehouseLocation.position}}
-                  class="mt-1 focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
+            </fieldset>
+            <div class="mt-4 text-xs text-gray-400">
+              <div>
+                <Util::UpdatedOn @date={{@model.salesOffering.unitPriceSpecification.modified}} @user={{@model.salesOffering.unitPriceSpecification.editor}} />
               </div>
             </div>
-          </div>
+          {{/let}}
         </div>
       </div>
     </div>
-    <div class="mt-8 border-t border-gray-200 pt-8">
-      <Util::SectionHeader
-        @title="Prijzen"
-        @subtitle="Informatie over de inkoop- en verkoopprijs van het product." />
-      <div class="mt-6 grid grid-cols-6 gap-y-6 gap-x-4">
-        <div class="col-span-3 sm:col-span-2 lg:col-span-1">
-          <Rlv::InputField::DecimalInput
-            @label="Inkoopprijs netto"
-            @leading="&euro;"
-            @value={{@model.purchaseOffering.unitPriceSpecification.currencyValue}}
-            @onChange={{this.setPriceIn}}
-            class="focus:ring-red-200 focus:border-red-200 block w-full pl-7 border-gray-300 rounded-md sm:text-sm" />
-        </div>
-        <div class="col-span-3 md:col-span-1">
-          <InputField::UnitCodeSelect
-            @label="Eenheid"
-            @value={{@model.purchaseOffering.unitPriceSpecification.unitCode}}
-            @onSelectionChange={{this.setUnitPriceIn}} />
-        </div>
-      </div>
-      {{#let @model.salesOffering.unitPriceSpecification as |salesPrice|}}
-        <fieldset class="mt-4 grid gap-y-4 gap-x-6 md:grid-cols-2">
-          <div class="p-4 grid grid-cols-6 gap-y-6 gap-x-4 rounded-md bg-gray-50 border
-            {{if salesPrice.hasPriceOutCalculationBasis "border-green-300" "border-gray-200"}}">
-            <div class="col-span-6 flex items-center">
-              <input
-                id="calc-base-price-out"
-                type="radio"
-                name="price-calc-basis"
-                value={{this.priceOutCalculationBasis}}
-                checked={{salesPrice.hasPriceOutCalculationBasis}}
-                {{on "input" this.setCalculationBasis}}
-                class="focus:ring-green-400 h-4 w-4 text-green-600 border-gray-300" />
-              <label for="calc-base-price-out" class="ml-3">
-                <span class="block text-sm font-medium
-                  {{if salesPrice.hasPriceOutCalculationBasis "text-green-700" "text-gray-700"}}">
-                  Verkoopprijs
-                </span>
-              </label>
-            </div>
-            <div class="col-span-3 lg:col-span-2">
-              <Rlv::InputField::DecimalInput
-                @label="Prijs excl. btw"
-                @leading="&euro;"
-                @value={{salesPrice.currencyValueTaxExcluded}}
-                class="block w-full pl-7 border-gray-300 rounded-md sm:text-sm bg-gray-200"
-                disabled="true" />
-            </div>
-            <div class="col-span-3 lg:col-span-2">
-              <Rlv::InputField::DecimalInput
-                @label="Prijs incl. btw"
-                @leading="&euro;"
-                @value={{salesPrice.currencyValue}}
-                @onChange={{this.setPriceOut}}
-                class="focus:ring-red-200 focus:border-red-200 block w-full pl-7 border-gray-300 rounded-md sm:text-sm
-                {{if salesPrice.hasMarginCalculationBasis "disabled:bg-gray-200"}}"
-                disabled={{salesPrice.hasMarginCalculationBasis}} />
-            </div>
-            <div class="col-span-3 lg:col-span-2">
-              <InputField::UnitCodeSelect
-                @label="Eenheid"
-                @value={{salesPrice.unitCode}}
-                @onSelectionChange={{this.setUnitPriceOut}} />
-            </div>
-          </div>
-          <div class="p-4 grid grid-cols-6 gap-y-6 gap-x-4 rounded-md bg-gray-50 border
-            {{if salesPrice.hasMarginCalculationBasis "border-green-300" "border-gray-200"}}">
-            <div class="col-span-6 flex items-center">
-              <input
-                id="calc-base-margin"
-                type="radio"
-                name="price-calc-basis"
-                value={{this.marginCalculationBasis}}
-                checked={{salesPrice.hasMarginCalculationBasis}}
-                {{on "input" this.setCalculationBasis}}
-                class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300" />
-              <label for="calc-base-margin" class="ml-3">
-                <span class="block text-sm font-medium
-                  {{if salesPrice.hasMarginCalculationBasis "text-green-700" "text-gray-700"}}">
-                  Marge
-                </span>
-              </label>
-            </div>
-            <div class="col-span-3 lg:col-span-2">
-              <Rlv::InputField::DecimalInput
-                @label="Factor"
-                @value={{salesPrice.margin}}
-                @onChange={{this.setMargin}}
-                class="focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm
-                {{if salesPrice.hasPriceOutCalculationBasis "disabled:bg-gray-200"}}"
-                disabled={{salesPrice.hasPriceOutCalculationBasis}} />
-            </div>
-            <div class="hidden col-span-6 h-14 md:block lg:hidden">
-              {{!-- Dummy element for alignment --}}
-            </div>
-          </div>
-        </fieldset>
-        <div class="mt-4 text-xs text-gray-400">
-          <div>
-            <Util::UpdatedOn @date={{@model.salesOffering.unitPriceSpecification.modified}} @user={{@model.salesOffering.unitPriceSpecification.editor}} />
-          </div>
-        </div>
-        {{/let}}
-      </div>
-    <div class="mt-8 border-t border-gray-200 pt-8">
-      <Util::SectionHeader
-        @title="Bijlagen"
-        @subtitle="Bijkomende informatie in de vorm van afbeelingen en bestanden." />
-      <div class="mt-6">
-        <div>
-          <label for="attachments" class="block text-sm font-medium text-gray-700">
-            Afbeeldingen en documenten
-          </label>
-          <div class="mt-2">
-            {{#let (file-queue name="attachments" onFileAdded=(perform this.uploadFile)) as |queue|}}
-              <FileDropzone
-                @queue={{queue}}
-                as |dropzone|>
-                <div class="flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md {{if (and dropzone.active dropzone.supported) "border-red-300 bg-red-50" "border-gray-300"}}">
-                  <div class="space-y-1 text-center">
-                    {{svg-jar "add-image" class="mx-auto h-12 w-12 text-gray-400"}}
-                    {{#if (and dropzone.active (not dropzone.supported))}}
-                      <div class="text-sm text-gray-600">
-                        Drag-and-drop niet ondersteund
-                      </div>
-                    {{else if queue.files.length}}
-                      <div class="text-sm text-gray-600">
-                        {{queue.files.length}} bestanden aan het opladen ({{queue.progress}}%)
-                      </div>
-                    {{else}}
-                      <div class="flex text-sm text-gray-600">
-                        <label
-                          for="file-upload"
-                          class="relative cursor-pointer rounded-md font-medium text-red-600 hover:text-red-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-red-200">
-                          {{#if (or queue.files.length this.uploadFile.isRunning)}}
-                            Aan het opladen...
-                          {{else}}
-                            Laad een bestaad op
-                            {{#if dropzone.supported}}
-                              <span> of sleep het naar hier</span>
-                            {{/if}}
+  </div>
+  <div class="mt-8 border-t border-gray-200 pt-8">
+    <Util::SectionHeader
+      @title="Bijlagen"
+      @subtitle="Bijkomende informatie in de vorm van afbeelingen en bestanden." />
+    <div class="mt-6">
+      <div>
+        <label for="attachments" class="block text-sm font-medium text-gray-700">
+          Afbeeldingen en documenten
+        </label>
+        <div class="mt-2">
+          {{#let (file-queue name="attachments" onFileAdded=(perform this.uploadFile)) as |queue|}}
+            <FileDropzone
+              @queue={{queue}}
+              as |dropzone|>
+              <div class="flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md {{if (and dropzone.active dropzone.supported) "border-red-300 bg-red-50" "border-gray-300"}}">
+                <div class="space-y-1 text-center">
+                  {{svg-jar "add-image" class="mx-auto h-12 w-12 text-gray-400"}}
+                  {{#if (and dropzone.active (not dropzone.supported))}}
+                    <div class="text-sm text-gray-600">
+                      Drag-and-drop niet ondersteund
+                    </div>
+                  {{else if queue.files.length}}
+                    <div class="text-sm text-gray-600">
+                      {{queue.files.length}} bestanden aan het opladen ({{queue.progress}}%)
+                    </div>
+                  {{else}}
+                    <div class="flex text-sm text-gray-600">
+                      <label
+                        for="file-upload"
+                        class="relative cursor-pointer rounded-md font-medium text-red-600 hover:text-red-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-red-200">
+                        {{#if (or queue.files.length this.uploadFile.isRunning)}}
+                          Aan het opladen...
+                        {{else}}
+                          Laad een bestaad op
+                          {{#if dropzone.supported}}
+                            <span> of sleep het naar hier</span>
                           {{/if}}
-                        </label>
-                        <input
-                          type="file"
-                          id="file-upload"
-                          multiple
-                          hidden
-                          {{queue.selectFile}}>
-                      </div>
-                      <p class="text-xs text-gray-500">
-                        Max. 500MB
-                      </p>
-                    {{/if}}
-                  </div>
+                        {{/if}}
+                      </label>
+                      <input
+                        type="file"
+                        id="file-upload"
+                        multiple
+                        hidden
+                        {{queue.selectFile}}>
+                    </div>
+                    <p class="text-xs text-gray-500">
+                      Max. 500MB
+                    </p>
+                  {{/if}}
                 </div>
-              </FileDropzone>
-            {{/let}}
+              </div>
+            </FileDropzone>
+          {{/let}}
+        </div>
+      </div>
+      {{#if @model.attachments.length}}
+        <Product::AttachmentList
+          @files={{@model.attachments}}
+          @onDelete={{perform this.deleteFile}} />
+      {{/if}}
+    </div>
+  </div>
+  <div class="mt-8 border-t border-gray-200 pt-8">
+    <div class="grid gap-y-6 gap-x-6 md:grid-cols-2">
+      <div>
+        <Util::SectionHeader
+          @title="Leverancier"
+          @subtitle="Informatie over de leverancier waar het product aangekocht is." />
+        <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-6">
+          <div class="md:col-span-4">
+            <div class="rounded-md shadow-sm">
+              <InputField::BusinessEntitySelect
+                @label="Leverancier"
+                @value={{@model.purchaseOffering.businessEntity}}
+                @onSelectionChange={{this.setSupplier}} />
+            </div>
+          </div>
+          <div class="md:col-span-2">
+            <label for="supplier-product-nb" class="block text-sm font-medium text-gray-700">
+              Productnummer
+            </label>
+            <Input
+              id="supplier-product-nb"
+              @value={{@model.purchaseOffering.identifier}}
+              class="mt-1 focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
           </div>
         </div>
-        {{#if @model.attachments.length}}
-          <Product::AttachmentList
-            @files={{@model.attachments}}
-            @onDelete={{perform this.deleteFile}} />
-        {{/if}}
+      </div>
+      <div>
+        <Util::SectionHeader
+          @title="Magazijn"
+          @subtitle="Informatie over de plaatsing en voorraad van het product in het magazijn." />
+        <div class="mt-6 grid grid-cols-6 gap-y-6 gap-x-4">
+          <div class="col-span-6 relative flex items-start">
+            <div class="flex items-center h-5">
+              <Rlv::InputField::Switch
+                @value={{@model.includeInStockReport}}
+                @onChange={{fn (mut @model.includeInStockReport)}} />
+            </div>
+            <div class="ml-3 text-sm">
+              <label for="in-stock" class="font-medium text-gray-700">In voorraadlijst</label>
+            </div>
+          </div>
+
+          <div class="col-span-6 lg:col-span-3">
+            <InputField::WarehouseDepartmentSelect
+              @label="Afdeling"
+              @value={{@model.warehouseLocation.department}}
+              @onSelectionChange={{this.setWarehouseDepartment}} />
+          </div>
+          <div class="col-span-2 lg:col-span-1">
+            <label for="warehouse-rack-nb" class="block text-sm font-medium text-gray-700">
+              Rek
+            </label>
+            <Input
+              id="warehouse-rack-nb"
+              @value={{@model.warehouseLocation.rack}}
+              class="mt-1 focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
+          </div>
+          <div class="col-span-2 lg:col-span-1">
+            <label for="warehouse-side" class="block text-sm font-medium text-gray-700">
+              Zijde
+            </label>
+            <Input
+              id="warehouse-side"
+              @value={{@model.warehouseLocation.side}}
+              class="mt-1 focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
+          </div>
+          <div class="col-span-2 lg:col-span-1">
+            <label for="warehouse-position" class="block text-sm font-medium text-gray-700">
+              Plaats
+            </label>
+            <Input
+              id="warehouse-position"
+              @value={{@model.warehouseLocation.position}}
+              class="mt-1 focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
+          </div>
+        </div>
       </div>
     </div>
   </div>
