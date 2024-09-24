@@ -1,6 +1,7 @@
-import Model, { attr, hasMany, belongsTo } from '@ember-data/model';
+import { attr, hasMany, belongsTo } from '@ember-data/model';
+import ProvenanceModel from './provenance-model';
 
-export default class ProductModel extends Model {
+export default class ProductModel extends ProvenanceModel {
   @attr('language-string-set') name;
   @attr('language-string-set', {
     // even though we use ember-mu-transform-helpers, this default isn't covered
@@ -13,8 +14,6 @@ export default class ProductModel extends Model {
   @attr('string') description;
   @attr('number') identifier;
   @attr('boolean') includeInStockReport;
-  @attr('datetime') created;
-  @attr('datetime') modified;
 
   @belongsTo('warehouse-location', { inverse: 'products', async: true }) warehouseLocation;
   @belongsTo('offering', { inverse: 'purchaseProduct', async: true }) purchaseOffering;

@@ -25,11 +25,11 @@
         <div class="mt-6 grid grid-cols-1 gap-y-2 gap-x-4 md:grid-cols-6 items-center">
           <div class="col-span-6">
             <Util::Property @label="Naam">
-              <ul class="list-none">
+              <ul>
                 {{#each this.SUPPORTED_LANGUAGES as |lang index|}}
                   {{#let (get-by-lang @model.name lang) as |name|}}
                     {{#if name}}
-                      <li class="block">
+                      <li class="text-gray-900 font-medium">
                         {{get-by-lang @model.name lang}} ({{lang}})
                       </li>
                     {{/if}}
@@ -41,7 +41,7 @@
           {{#if @model.alternateNames.length}}
             <div class="col-span-6 text-sm text-gray-900 italic">
               {{#each this.SUPPORTED_LANGUAGES as |lang|}}
-                <ul class="list-none">
+                <ul>
                   {{#let (filter-by "language" lang @model.alternateNames) as |alternateNames|}}
                     {{#each alternateNames as |alias index|}}
                       <li class="inline">
@@ -70,22 +70,138 @@
             <Util::Property @label="Opmerking" @value={{@model.description}} />
           </div>
         </div>
+        <div class="mt-6 gap-y-4 text-xs text-gray-400">
+          <div>
+            <Util::CreatedOn @date={{@model.created}} @user={{@model.creator}} />
+          </div>
+          <div>
+            <Util::UpdatedOn @date={{@model.modified}} @user={{@model.editor}} />
+          </div>
+        </div>
       </div>
-      <div class="md:col-span-1">
-        <div class="mt-8 border-t border-gray-200 pt-8 md:mt-0 md:border-0 md:pt-0">
+      <div class="">
+        <Util::SectionHeader
+          @title="Prijzen"
+          @subtitle="Informatie over de inkoop- en verkoopprijs van het product." />
+        <div class="mt-6 grid grid-cols-6 gap-y-6 gap-x-4">
+          <div class="col-span-3 sm:col-span-2">
+            <Util::Property @label="Inkoopprijs netto">
+              <Fmt::UnitPrice
+                @model={{@model.purchaseOffering.unitPriceSpecification}}
+                @showTaxIncluded={{false}} />
+            </Util::Property>
+          </div>
+          <div class="col-span-3 sm:col-span-2 lg:col-span-1">
+            <Util::Property @label="Eenheid">
+              <Fmt::UnitCode @value={{@model.purchaseOffering.unitPriceSpecification.unitCode.label}} />
+            </Util::Property>
+          </div>
+        </div>
+        {{#let @model.salesOffering.unitPriceSpecification as |salesPrice|}}
+          <div class="mt-4 space-y-4">
+            <div class="p-4 grid grid-cols-6 gap-y-4 gap-x-4 rounded-md bg-gray-50 border
+              {{if salesPrice.hasPriceOutCalculationBasis "border-green-300" "border-gray-200"}}">
+              <div class="col-span-6 flex items-center">
+                {{#if salesPrice.hasPriceOutCalculationBasis}}
+                  {{svg-jar "checkbox-circle-line" class="h-5 w-5 text-green-400 fill-current"}}
+                  <span class="ml-2 block text-sm font-medium text-green-700">Verkoopprijs</span>
+                {{else}}
+                  {{svg-jar "indeterminate-circle-line" class="h-5 w-5 text-gray-400 fill-current"}}
+                  <span class="ml-2 block text-sm font-medium text-gray-700">Verkoopprijs</span>
+                {{/if}}
+              </div>
+              <div class="col-span-2">
+                <Util::Property @label="Prijs excl. btw">
+                  <Fmt::UnitPrice @model={{salesPrice}} @showTaxIncluded={{false}} />
+                </Util::Property>
+              </div>
+              <div class="col-span-2">
+                <Util::Property @label="Prijs incl. btw">
+                  <Fmt::UnitPrice @model={{salesPrice}} @showTaxIncluded={{true}} />
+                </Util::Property>
+              </div>
+              <div class="col-span-2">
+                <Util::Property @label="Eenheid">
+                  <Fmt::UnitCode @value={{salesPrice.unitCode.label}} />
+                </Util::Property>
+              </div>
+            </div>
+            <div class="p-4 grid grid-cols-6 gap-y-4 gap-x-4 rounded-md bg-gray-50 border
+              {{if salesPrice.hasMarginCalculationBasis "border-green-300" "border-gray-200"}}">
+              <div class="col-span-6 flex items-center">
+                {{#if salesPrice.hasMarginCalculationBasis}}
+                  {{svg-jar "checkbox-circle-line" class="h-5 w-5 text-green-400 fill-current"}}
+                  <span class="ml-2 block text-sm font-medium text-green-700">Marge</span>
+                {{else}}
+                  {{svg-jar "indeterminate-circle-line" class="h-5 w-5 text-gray-400 fill-current"}}
+                  <span class="ml-2 block text-sm font-medium text-gray-600">Marge</span>
+                {{/if}}
+              </div>
+              <div class="col-span-6">
+                <Util::Property @label="Factor">
+                  {{#if salesPrice.margin}}
+                    <Fmt::Decimal @value={{salesPrice.margin}} />
+                  {{/if}}
+                </Util::Property>
+              </div>
+            </div>
+            <div class="text-xs text-gray-400">
+              <Util::UpdatedOn
+                @date={{@model.salesOffering.unitPriceSpecification.modified}}
+                @user={{@model.salesOffering.unitPriceSpecification.editor}} />
+            </div>
+          </div>
+        {{/let}}
+      </div>
+    </div>
+    <div class="mt-8 border-t border-gray-200 pt-8">
+      <Util::SectionHeader
+        @title="Bijlagen"
+        @subtitle="Bijkomende informatie in de vorm van afbeelingen en bestanden." />
+      <div class="mt-6">
+        {{#if @model.attachments.length}}
+          <Product::AttachmentList @files={{@model.attachments}} />
+        {{else}}
+          <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-2">
+            <div class="text-sm text-gray-400 italic">
+              Nog geen bestanden opgeladen.
+            </div>
+          </div>
+        {{/if}}
+      </div>
+    </div>
+    <div class="mt-8 border-t border-gray-200 pt-8">
+      <div class="grid gap-y-6 gap-x-6 md:grid-cols-2">
+        <div>
           <Util::SectionHeader
             @title="Leverancier"
             @subtitle="Informatie over de leverancier waar het product aangekocht is." />
           <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 grid-cols-6">
             <div class="col-span-4 sm:col-span-3">
-              <Util::Property @label="Leverancier" @value={{@model.purchaseOffering.businessEntity.name}} />
+              <Util::Property @label="Leverancier">
+                <div class="flex items-center space-x-1">
+                  {{#if @model.purchaseOffering.businessEntity.identifier}}
+                    <div class="text-gray-500 text-sm">
+                      [{{@model.purchaseOffering.businessEntity.identifier}}]
+                    </div>
+                  {{/if}}
+                  <div>{{@model.purchaseOffering.businessEntity.name}}</div>
+                  {{#if @model.purchaseOffering.businessEntity.rkbLink}}
+                    <Rlv::Button
+                      @skin="link"
+                      @href={{@model.purchaseOffering.businessEntity.rkbLink}}
+                      @icon="external-link-line"
+                    />
+                  {{/if}}
+                </div>
+              </Util::Property>
             </div>
             <div class="col-span-2 sm:col-span-3">
-              <Util::Property @label="Nummer" @value={{@model.purchaseOffering.identifier}} />
+              <Util::Property @label="Productnummer" @value={{@model.purchaseOffering.identifier}} />
             </div>
           </div>
         </div>
-        <div class="mt-8 border-t border-gray-200 pt-8">
+        <div>
           <Util::SectionHeader
             @title="Magazijn"
             @subtitle="Informatie over de plaatsing en voorraad van het product in het magazijn." />
@@ -116,101 +232,8 @@
       </div>
     </div>
   </div>
-  <div class="mt-8 pt-8 border-t border-gray-200">
-    <Util::SectionHeader
-      @title="Prijzen"
-      @subtitle="Informatie over de inkoop- en verkoopprijs van het product." />
-    <div class="mt-6 grid grid-cols-6 gap-y-6 gap-x-4">
-      <div class="col-span-3 sm:col-span-2 lg:col-span-1">
-        <Util::Property @label="Inkoopprijs netto">
-          <Fmt::UnitPrice
-            @model={{@model.purchaseOffering.unitPriceSpecification}}
-            @showTaxIncluded={{false}} />
-        </Util::Property>
-      </div>
-      <div class="col-span-3 sm:col-span-2 lg:col-span-1">
-        <Util::Property @label="Eenheid">
-          <Fmt::UnitCode @value={{@model.purchaseOffering.unitPriceSpecification.unitCode.label}} />
-        </Util::Property>
-      </div>
-    </div>
-    {{#let @model.salesOffering.unitPriceSpecification as |salesPrice|}}
-      <div class="mt-4 grid gap-y-4 gap-x-6 md:grid-cols-2">
-        <div class="p-4 grid grid-cols-6 gap-y-4 gap-x-4 rounded-md bg-gray-50 border
-          {{if salesPrice.hasPriceOutCalculationBasis "border-green-300" "border-gray-200"}}">
-          <div class="col-span-6 flex items-center">
-            {{#if salesPrice.hasPriceOutCalculationBasis}}
-              {{svg-jar "checkbox-circle-line" class="h-5 w-5 text-green-400 fill-current"}}
-              <span class="ml-2 block text-sm font-medium text-green-700">Verkoopprijs</span>
-            {{else}}
-              {{svg-jar "indeterminate-circle-line" class="h-5 w-5 text-gray-400 fill-current"}}
-              <span class="ml-2 block text-sm font-medium text-gray-700">Verkoopprijs</span>
-            {{/if}}
-          </div>
-          <div class="col-span-2">
-            <Util::Property @label="Prijs excl. btw">
-              <Fmt::UnitPrice @model={{salesPrice}} @showTaxIncluded={{false}} />
-            </Util::Property>
-          </div>
-          <div class="col-span-2">
-            <Util::Property @label="Prijs incl. btw">
-              <Fmt::UnitPrice @model={{salesPrice}} @showTaxIncluded={{true}} />
-            </Util::Property>
-          </div>
-          <div class="col-span-2">
-            <Util::Property @label="Eenheid">
-              <Fmt::UnitCode @value={{salesPrice.unitCode.label}} />
-            </Util::Property>
-          </div>
-        </div>
-        <div class="p-4 grid grid-cols-6 gap-y-4 gap-x-4 rounded-md bg-gray-50 border
-          {{if salesPrice.hasMarginCalculationBasis "border-green-300" "border-gray-200"}}">
-          <div class="col-span-6 flex items-center">
-            {{#if salesPrice.hasMarginCalculationBasis}}
-              {{svg-jar "checkbox-circle-line" class="h-5 w-5 text-green-400 fill-current"}}
-              <span class="ml-2 block text-sm font-medium text-green-700">Marge</span>
-            {{else}}
-              {{svg-jar "indeterminate-circle-line" class="h-5 w-5 text-gray-400 fill-current"}}
-              <span class="ml-2 block text-sm font-medium text-gray-600">Marge</span>
-            {{/if}}
-          </div>
-          <div class="col-span-6">
-            <Util::Property @label="Factor">
-              {{#if salesPrice.margin}}
-                <Fmt::Decimal @value={{salesPrice.margin}} />
-              {{/if}}
-            </Util::Property>
-          </div>
-        </div>
-      </div>
-    {{/let}}
-    <div class="mt-8 border-t border-gray-200 pt-8">
-      <Util::SectionHeader
-        @title="Bijlagen"
-        @subtitle="Bijkomende informatie in de vorm van afbeelingen en bestanden." />
-      <div class="mt-6">
-        {{#if @model.attachments.length}}
-          <Product::AttachmentList @files={{@model.attachments}} />
-        {{else}}
-          <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-2">
-            <div class="text-sm text-gray-400 italic">
-              Nog geen bestanden opgeladen.
-            </div>
-          </div>
-        {{/if}}
-      </div>
-    </div>
-  </div>
   <div class="mt-8 border-t border-gray-200 pt-5">
     <div class="flex flex-wrap-reverse justify-between items-center">
-      <div class="mt-6 text-xs text-gray-400 sm:mt-0">
-        <div>
-          <Util::CreatedOn @date={{@model.created}} />
-        </div>
-        <div>
-          <Util::UpdatedOn @date={{@model.modified}} />
-        </div>
-      </div>
       <div class="flex justify-end space-x-3">
         <Rlv::Button
           @label="Terug"
