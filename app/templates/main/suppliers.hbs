@@ -32,13 +32,37 @@
           Leverancier toevoegen
         </h3>
         <div class="mt-8">
-          <label for="new-supplier-name" class="block text-sm font-medium text-gray-700">
-            Naam
-          </label>
-          <Input
-            id="new-supplier-name"
-            @value={{this.newSupplierName}}
-            class="mt-1 focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
+          <div class="mt-6">
+            <label for="new-supplier-name" class="block text-sm font-medium text-gray-700">
+              Naam
+            </label>
+            <Input
+              id="new-supplier-name"
+              @value={{this.newSupplierName}}
+              class="mt-1 focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
+          </div>
+          <div class="mt-6">
+            <label for="new-supplier-id" class="block text-sm font-medium text-gray-700">
+              RKB Klantnummer
+            </label>
+            <Input
+              id="new-supplier-id"
+              @value={{this.newSupplierId}}
+              class="mt-1 focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm" />
+            {{#if this.newSupplierId}}
+              <span class="text-xs italic text-gray-500">
+                Link naar RKB testen?
+                {{!-- template-lint-disable link-rel-noopener --}}
+                <a
+                  href={{this.newSupplierRkbLink}}
+                  target="_blank"
+                  class="text-red-700">
+                  {{svg-jar "external-link-line" class="inline h-4 w-4"}} {{this.newSupplierRkbLink}}
+                </a>
+                {{!-- template-lint-enable link-rel-noopener --}}
+              </span>
+            {{/if}}
+          </div>
         </div>
       </div>
     </div>
