@@ -79,14 +79,21 @@
           <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 grid-cols-6">
             <div class="col-span-4 sm:col-span-3">
               <Util::Property @label="Leverancier">
-                {{@model.purchaseOffering.businessEntity.name}}
-                {{#if @model.purchaseOffering.businessEntity.rkbLink}}
-                  <Rlv::Button
-                    @skin="link"
-                    @href={{@model.purchaseOffering.businessEntity.rkbLink}}
-                    @icon="external-link-line"
-                  />
-                {{/if}}
+                <div class="flex items-center space-x-1">
+                  {{#if @model.purchaseOffering.businessEntity.identifier}}
+                    <div class="text-gray-500 text-sm">
+                      [{{@model.purchaseOffering.businessEntity.identifier}}]
+                    </div>
+                  {{/if}}
+                  <div>{{@model.purchaseOffering.businessEntity.name}}</div>
+                  {{#if @model.purchaseOffering.businessEntity.rkbLink}}
+                    <Rlv::Button
+                      @skin="link"
+                      @href={{@model.purchaseOffering.businessEntity.rkbLink}}
+                      @icon="external-link-line"
+                    />
+                  {{/if}}
+                </div>
               </Util::Property>
             </div>
             <div class="col-span-2 sm:col-span-3">
