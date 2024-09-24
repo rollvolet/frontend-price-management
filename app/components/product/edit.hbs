@@ -230,13 +230,13 @@
                             <span> of sleep het naar hier</span>
                           {{/if}}
                         {{/if}}
+                        <input
+                          type="file"
+                          id="file-upload"
+                          class="!block w-0 h-0 outline-0"
+                          multiple
+                          {{queue.selectFile}}>
                       </label>
-                      <input
-                        type="file"
-                        id="file-upload"
-                        multiple
-                        hidden
-                        {{queue.selectFile}}>
                     </div>
                     <p class="text-xs text-gray-500">
                       Max. 500MB
