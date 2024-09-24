@@ -7,9 +7,19 @@
         </label>
         <Input
           id="supplier-name"
+          placeholder="Naam"
           @value={{@model.name}}
           class="focus:ring-red-200 focus:border-red-200 block w-96 border-gray-300 rounded-md sm:text-sm"
           {{autofocus}}
+          {{on-key "Escape" this.cancelEdit}} />
+        <label for="supplier-number" class="sr-only block text-sm font-medium text-gray-700">
+          RKB Klantnummer
+        </label>
+        <Input
+          id="supplier-number"
+          placeholder="RKB Klantnummer"
+          @value={{@model.identifier}}
+          class="focus:ring-red-200 focus:border-red-200 block w-36 border-gray-300 rounded-md sm:text-sm"
           {{on-key "Escape" this.cancelEdit}} />
         <Rlv::Button
           type="submit"
