@@ -14,14 +14,15 @@
           @label="Prijslijst exporteren"
           @skin="secondary"
           @icon="add-line"
+          @loading={{this.createExport.isRunning}}
           {{on "click" (perform this.createExport)}}
         />
         {{#if this.createExport.lastSuccessful.value}}
-          {{log this.createExport.lastSuccessful.value.filename}}
           <Rlv::Button
             @label="Export downloaden"
             @skin="secondary"
-            @icon="add-line"
+            @icon="download-line"
+            @disabled={{this.createExport.isRunning}}
             @href={{this.createExport.lastSuccessful.value.downloadLink}}
             target="_blank"
             rel="noopener noreferrer" />

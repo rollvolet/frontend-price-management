@@ -25,6 +25,8 @@
     {{yield to="tooltip"}}
   </LinkTo>
 {{else if @href}}
+  {{!-- Note that the 'disabled' attribute won't have any effect on an <a> element.
+    It can still be used by custom css selector rule though. --}}
   <a
     class={{this.buttonClass}}
     disabled={{@disabled}}
