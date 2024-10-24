@@ -10,19 +10,24 @@
           @route="main.products.new"
           @skin="primary"
           @icon="add-line" />
-        <Rlv::Button
-          @label="Prijslijst exporteren"
-          @skin="secondary"
-          @icon="add-line"
-          @loading={{this.createExport.isRunning}}
-          {{on "click" (perform this.createExport)}}
-        />
-        {{#if this.createExport.lastSuccessful.value}}
+
+        <Rlv::ActionMenu
+          class="ml-3"
+          @label="Exporteren"
+          as |Menu|>
+          <Menu.Item
+            @label="Alle producten"
+            @onClick={{perform this.createExport this.PRICELIST_EXPORT_TASK_ALL_PROD_OP }} />
+          <Menu.Item
+            @label="Voorraadlijst"
+            @onClick={{perform this.createExport this.PRICELIST_EXPORT_TASK_STOCK_OP}} />
+          </Rlv::ActionMenu>
+        {{#if this.createExport.last}}
           <Rlv::Button
             @label="Export downloaden"
             @skin="secondary"
             @icon="download-line"
-            @disabled={{this.createExport.isRunning}}
+            @loading={{this.createExport.isRunning}}
             @href={{this.createExport.lastSuccessful.value.downloadLink}}
             target="_blank"
             rel="noopener noreferrer" />
