@@ -9,6 +9,7 @@ const { PRICELIST_EXPORT_TASK_ALL_PROD_OP, PRICELIST_EXPORT_TASK_STOCK_OP } = co
 export default class MainProductsController extends Controller {
   @service router;
   @service store;
+  @service taskMonitor;
 
   PRICELIST_EXPORT_TASK_ALL_PROD_OP = PRICELIST_EXPORT_TASK_ALL_PROD_OP;
   PRICELIST_EXPORT_TASK_STOCK_OP = PRICELIST_EXPORT_TASK_STOCK_OP;
@@ -31,9 +32,7 @@ export default class MainProductsController extends Controller {
   @task
   *createExport(operation) {
     const task = yield this.createExportTask(operation);
-    yield timeout(5000);
-    // TODO proper polled task execution monitoring
-    yield task.reload();
+    yield this.taskMonitor.monitor.perform(task);
     if (!task.isSuccessful) {
       throw 'Exporttask failed executing';
     }
