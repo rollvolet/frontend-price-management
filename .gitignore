@@ -1,6 +1,7 @@
 # compiled output
 /dist/
 public/assets/tailwind.css
+/declarations/
 
 # dependencies
 /node_modules/
