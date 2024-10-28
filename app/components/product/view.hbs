@@ -42,12 +42,12 @@
             <div class="col-span-6 text-sm text-gray-900 italic">
               {{#each this.SUPPORTED_LANGUAGES as |lang|}}
                 <ul>
-                  {{#let (filter-by "language" lang @model.alternateNames) as |alternateNames|}}
+                  {{#let (get-by-lang @model.alternateNames lang) as |alternateNames|}}
                     {{#each alternateNames as |alias index|}}
                       <li class="inline">
                         {{!-- template-lint-disable  simple-unless --}}
                         {{!-- comma enum except for last item --}}
-                        {{get-by-lang alias}}{{unless (eq (sub alternateNames.length 1) index) ", "}}
+                        {{alias}} {{unless (eq (sub alternateNames.length 1) index) ", "}}
                       </li>
                     {{/each}}
                     {{#if alternateNames.length}}
@@ -160,7 +160,7 @@
         @subtitle="Bijkomende informatie in de vorm van afbeelingen en bestanden." />
       <div class="mt-4">
         {{#if @model.attachments.length}}
-          <Product::ImageCarrousel @images={{filter-by "isImage" @model.attachments}} />
+          <Product::ImageCarrousel @images={{this.imageAttachments}} />
           <Product::AttachmentList @files={{@model.attachments}} />
         {{else}}
           <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-2">

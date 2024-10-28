@@ -65,15 +65,14 @@
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.2",
     "ember-cli-update": "^1.0.1",
-    "ember-click-outside": "^6.1.0",
-    "ember-composable-helpers": "^5.0.0",
-    "ember-concurrency": "^3.1.1",
+    "ember-click-outside": "^6.1.1",
+    "ember-concurrency": "^4.0.2",
     "ember-copy": "^2.0.1",
     "ember-css-transitions": "^4.4.1",
     "ember-data": "~5.3.8",
     "ember-dynamic-format-currency": "https://github.com/erikap/ember-dynamic-format-currency#master",
     "ember-fetch": "^8.1.2",
-    "ember-file-upload": "^8.4.1",
+    "ember-file-upload": "^9.1.0",
     "ember-keyboard": "^8.2.1",
     "ember-load-initializers": "^2.1.2",
     "ember-math-helpers": "^4.0.0",
@@ -109,13 +108,13 @@
     "stylelint-config-standard": "^34.0.0",
     "stylelint-prettier": "^4.1.0",
     "tailwindcss": "^3.4.1",
-    "torii": "https://github.com/jmonster/torii.git#bbbd0ba317da193039193e47295224d2290b8443",
+    "torii": "https://github.com/adopted-ember-addons/torii/tree/v1.0.0-beta.2",
     "torii-azure-ad2-provider": "^1.0.5",
     "tracked-built-ins": "^3.3.0",
     "webpack": "5.95.0"
   },
   "engines": {
-    "node": ">= 18"
+    "node": ">= 18.20.4"
   },
   "ember": {
     "edition": "octane"
