@@ -30,11 +30,16 @@
     "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
     "test:ember": "ember test"
   },
+  "overrides": {
+    "ember-dynamic-format-currency": {
+      "ember-source": "$ember-source"
+    }
+  },
   "devDependencies": {
     "@babel/eslint-parser": "^7.22.5",
     "@babel/plugin-proposal-decorators": "^7.22.5",
     "@ember/optional-features": "^2.0.0",
-    "@ember/render-modifiers": "^1.0.2",
+    "@ember/render-modifiers": "^2.1.0",
     "@ember/string": "^3.1.1",
     "@ember/test-helpers": "^3.0.3",
     "@glimmer/component": "^1.1.2",
@@ -53,6 +58,7 @@
     "ember-cli-babel": "^7.26.11",
     "ember-cli-clean-css": "^2.0.0",
     "ember-cli-dependency-checker": "^3.3.1",
+    "ember-cli-dependency-lint": "^2.0.1",
     "ember-cli-htmlbars": "^6.2.0",
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-cli-sri": "^2.1.1",
@@ -62,7 +68,7 @@
     "ember-composable-helpers": "^5.0.0",
     "ember-concurrency": "^3.1.1",
     "ember-copy": "^2.0.1",
-    "ember-css-transitions": "^2.1.0",
+    "ember-css-transitions": "^4.4.1",
     "ember-data": "~5.0.0",
     "ember-dynamic-format-currency": "https://github.com/erikap/ember-dynamic-format-currency#master",
     "ember-fetch": "^8.1.2",
@@ -70,7 +76,7 @@
     "ember-keyboard": "^8.2.1",
     "ember-load-initializers": "^2.1.2",
     "ember-math-helpers": "^4.0.0",
-    "ember-modifier": "^4.1.0",
+    "ember-modifier": "^4.2.0",
     "ember-mu-login": "^3.0.0",
     "ember-mu-transform-helpers": "^2.1.1",
     "ember-page-title": "^7.0.0",
