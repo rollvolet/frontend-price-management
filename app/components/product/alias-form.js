@@ -14,7 +14,7 @@ export default class AliasFormComponent extends Component {
   @action
   addAlias(event) {
     event?.preventDefault();
-    if (this.newAlias) {
+    if (this.newAlias?.content) {
       const aliases = this.args.aliases.slice();
       aliases.push(this.newAlias);
       this.args.onChange(aliases);
