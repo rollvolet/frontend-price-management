@@ -30,7 +30,7 @@
                   {{#let (get-by-lang @model.name lang) as |name|}}
                     {{#if name}}
                       <li class="text-gray-900 font-medium">
-                        {{get-by-lang @model.name lang}} ({{lang}})
+                        {{name}} ({{lang}})
                       </li>
                     {{/if}}
                   {{/let}}
