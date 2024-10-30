@@ -21,8 +21,14 @@
           <Menu.Item
             @label="Voorraadlijst"
             @onClick={{perform this.createExport this.PRICELIST_EXPORT_TASK_STOCK_OP}} />
-          </Rlv::ActionMenu>
-        {{#if this.createExport.last}}
+        </Rlv::ActionMenu>
+        {{#if this.createExport.last.isError}}
+          <div class="mt-2 text-sm text-yellow-700">
+            <p>Exporteren mislukt, probeer opnieuw: <br>
+            {{this.createExport.last.error}}
+            </p>
+          </div>
+        {{else if this.createExport.last}}
           <Rlv::Button
             @label="Export downloaden"
             @skin="secondary"
