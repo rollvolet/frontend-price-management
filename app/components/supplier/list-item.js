@@ -6,12 +6,11 @@ import { task } from 'ember-concurrency';
 export default class SupplierListItemComponent extends Component {
   @tracked editMode = false;
 
-  @task
-  *save(e) {
+  save = task(async (e) => {
     e.preventDefault();
-    yield this.args.model.save();
+    await this.args.model.save();
     this.editMode = false;
-  }
+  });
 
   @action
   cancelEdit() {

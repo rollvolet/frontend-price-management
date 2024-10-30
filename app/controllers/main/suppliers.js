@@ -27,22 +27,21 @@ export default class MainSuppliersController extends Controller {
     return undefined;
   }
 
-  @task
-  *createSupplier() {
+  createSupplier = task(async () => {
     const supplier = this.store.createRecord('business-entity', {
       name: this.newSupplierName,
       identifier: this.newSupplierId,
       category: BUSINESS_CATEGORIES.SUPPLIER,
     });
-    yield supplier.save();
+    await supplier.save();
     this.closeNewSupplierModal();
     this.router.refresh('main.suppliers');
-  }
+  });
 
   @action
   openNewSupplierModal() {
     this.isOpenSupplierModal = true;
-    schedule('afterRender', this, function() {
+    schedule('afterRender', this, function () {
       document.getElementById('new-supplier-name').focus();
     });
   }

@@ -26,23 +26,21 @@ export default class ProductEditComponent extends Component {
     this.loadData.perform();
   }
 
-  @keepLatestTask
-  *loadData() {
-    const category = yield this.args.model.category;
+  loadData = keepLatestTask(async () => {
+    const category = await this.args.model.category;
     if (category) {
-      this.broaderCategory = yield category.broader;
+      this.broaderCategory = await category.broader;
     } else {
       this.broaderCategory = null;
     }
-  }
+  });
 
-  @task
-  *rollback() {
-    const warehouseLocation = yield this.args.model.warehouseLocation;
-    const purchaseOffering = yield this.args.model.purchaseOffering;
-    const purchasePrice = yield purchaseOffering.unitPriceSpecification;
-    const salesOffering = yield this.args.model.salesOffering;
-    const salesPrice = yield salesOffering.unitPriceSpecification;
+  rollback = task(async () => {
+    const warehouseLocation = await this.args.model.warehouseLocation;
+    const purchaseOffering = await this.args.model.purchaseOffering;
+    const purchasePrice = await purchaseOffering.unitPriceSpecification;
+    const salesOffering = await this.args.model.salesOffering;
+    const salesPrice = await salesOffering.unitPriceSpecification;
 
     warehouseLocation.rollbackAttributes();
     purchasePrice.rollbackAttributes();
@@ -53,7 +51,7 @@ export default class ProductEditComponent extends Component {
 
     // reset state of relationships for an existing record
     if (this.args.model.id) {
-      yield Promise.all([
+      await Promise.all([
         warehouseLocation.belongsTo('department').reload(),
         purchasePrice.belongsTo('unitCode').reload(),
         purchaseOffering.belongsTo('unitPriceSpecification').reload(),
@@ -68,30 +66,28 @@ export default class ProductEditComponent extends Component {
 
       this.loadData.perform(); // restore broaderCategory
     }
-  }
+  });
 
-  @task
-  *cancel() {
-    yield this.rollback.perform();
+  cancel = task(async () => {
+    await this.rollback.perform();
     this.args.onCancel();
-  }
+  });
 
-  @task
-  *save() {
+  save = task(async () => {
     // TODO add some validation
     try {
-      const [warehouseLocation, purchaseOffering, salesOffering] = yield Promise.all([
+      const [warehouseLocation, purchaseOffering, salesOffering] = await Promise.all([
         this.args.model.warehouseLocation,
         this.args.model.purchaseOffering,
         this.args.model.salesOffering,
       ]);
-      const [purchasePrice, salesPrice] = yield Promise.all([
+      const [purchasePrice, salesPrice] = await Promise.all([
         purchaseOffering.unitPriceSpecification,
         salesOffering.unitPriceSpecification,
       ]);
-      yield Promise.all([warehouseLocation.save(), purchasePrice.save(), salesPrice.save()]);
-      yield Promise.all([purchaseOffering.save(), salesOffering.save()]);
-      yield this.args.model.save();
+      await Promise.all([warehouseLocation.save(), purchasePrice.save(), salesPrice.save()]);
+      await Promise.all([purchaseOffering.save(), salesOffering.save()]);
+      await this.args.model.save();
 
       if (this.args.onSave) {
         this.args.onSave();
@@ -103,43 +99,41 @@ export default class ProductEditComponent extends Component {
         error: e,
       });
     }
-  }
+  });
 
-  @task
-  *delete() {
-    const [warehouseLocation, purchaseOffering, salesOffering, attachments] = yield Promise.all([
+  delete = task(async () => {
+    const [warehouseLocation, purchaseOffering, salesOffering, attachments] = await Promise.all([
       this.args.model.warehouseLocation,
       this.args.model.purchaseOffering,
       this.args.model.salesOffering,
       this.args.model.attachments,
     ]);
-    const [purchasePrice, salesPrice] = yield Promise.all([
+    const [purchasePrice, salesPrice] = await Promise.all([
       purchaseOffering.unitPriceSpecification,
       salesOffering.unitPriceSpecification,
     ]);
-    yield this.args.model.destroyRecord();
-    yield Promise.all(
+    await this.args.model.destroyRecord();
+    await Promise.all(
       [warehouseLocation, purchaseOffering, purchasePrice, salesOffering, salesPrice].map(
-        (record) => record.destroyRecord()
-      )
+        (record) => record.destroyRecord(),
+      ),
     );
-    yield Promise.all(attachments.map((file) => file.destroyRecord()));
-    yield timeout(4000); // wait for delete-delta to be handled by mu-search
+    await Promise.all(attachments.map((file) => file.destroyRecord()));
+    await timeout(4000); // wait for delete-delta to be handled by mu-search
 
     this.showDeleteConfirmationModal = false;
     if (this.args.onDelete) {
       this.args.onDelete();
     }
-  }
+  });
 
-  @keepLatestTask
-  *recalculateSalesPrice() {
-    const purchaseOffering = yield this.args.model.purchaseOffering;
-    const purchasePrice = yield purchaseOffering.unitPriceSpecification;
+  recalculateSalesPrice = keepLatestTask(async () => {
+    const purchaseOffering = await this.args.model.purchaseOffering;
+    const purchasePrice = await purchaseOffering.unitPriceSpecification;
     purchasePrice.currencyValue = roundDecimal(purchasePrice.currencyValue);
 
-    const salesOffering = yield this.args.model.salesOffering;
-    const salesPrice = yield salesOffering.unitPriceSpecification;
+    const salesOffering = await this.args.model.salesOffering;
+    const salesPrice = await salesOffering.unitPriceSpecification;
 
     if (salesPrice.calculationBasis == CALCULATION_BASIS.MARGIN) {
       salesPrice.margin = roundDecimal(salesPrice.margin);
@@ -155,15 +149,14 @@ export default class ProductEditComponent extends Component {
       const margin = salesPrice.currencyValueTaxExcluded / purchasePrice.currencyValue;
       salesPrice.margin = roundDecimal(margin);
     }
-  }
+  });
 
-  @enqueueTask
-  *uploadFile(file) {
+  uploadFile = enqueueTask(async (file) => {
     try {
-      const response = yield file.upload('/files');
-      const { data } = yield response.json();
-      const uploadedFile = yield this.store.findRecord('file', data.id);
-      const attachments = yield this.args.model.attachments;
+      const response = await file.upload('/files');
+      const { data } = await response.json();
+      const uploadedFile = await this.store.findRecord('file', data.id);
+      const attachments = await this.args.model.attachments;
       attachments.push(uploadedFile);
     } catch (e) {
       this.notification.addError({
@@ -172,13 +165,12 @@ export default class ProductEditComponent extends Component {
         error: e,
       });
     }
-  }
+  });
 
-  @task
-  *deleteFile(file) {
-    let attachments = yield this.args.model.attachments;
+  deleteFile = task(async (file) => {
+    let attachments = await this.args.model.attachments;
     this.args.model.attachments = without(attachments, file);
-  }
+  });
 
   @action
   askToDelete() {

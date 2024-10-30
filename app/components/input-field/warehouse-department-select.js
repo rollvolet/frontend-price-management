@@ -16,14 +16,13 @@ export default class InputWarehouseDepartmentSelectComponent extends Component {
     this.loadData.perform();
   }
 
-  @keepLatestTask
-  *loadData() {
+  loadData = keepLatestTask(async () => {
     this.options = this.store
       .peekAll('warehouse-department')
       .slice(0)
       .sort((a, b) => compare(a.label, b.label));
 
-    const value = yield this.args.value; // argument may be a promise/proxy object
+    const value = await this.args.value; // argument may be a promise/proxy object
     if (value) {
       const selected = this.options.find((opt) => opt.uri == value.uri);
       if (!selected) {
@@ -31,7 +30,7 @@ export default class InputWarehouseDepartmentSelectComponent extends Component {
         this.args.onSelectionChange(null);
       }
     }
-  }
+  });
 
   get fieldId() {
     return `warehouse-department-select-${guidFor(this)}`;

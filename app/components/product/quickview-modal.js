@@ -12,18 +12,17 @@ export default class QuickviewModalProductComponent extends Component {
     this.loadImage.perform();
   }
 
-  @keepLatestTask
-  *loadImage() {
-    const product = yield this.store.queryOne('product', {
+  loadImage = keepLatestTask(async () => {
+    const product = await this.store.queryOne('product', {
       filter: { ':id:': this.args.product.id },
       include: 'attachments',
     });
-    const attachments = yield product.attachments;
+    const attachments = await product.attachments;
     const imageFile = attachments.find((a) => {
       return a.format.startsWith('image/');
     });
     this.image = imageFile;
-  }
+  });
 
   get imageLink() {
     if (this.image) {

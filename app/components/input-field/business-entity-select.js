@@ -16,20 +16,18 @@ export default class InputFieldBusinessEntitySelectComponent extends Component {
     this.loadData.perform();
   }
 
-  @keepLatestTask
-  *loadData() {
-    this.options = yield this.store.query('business-entity', {
+  loadData = keepLatestTask(async () => {
+    this.options = await this.store.query('business-entity', {
       page: { size: 50 },
       sort: 'name',
       filter: {
         category: BUSINESS_CATEGORIES.SUPPLIER,
       },
     });
-  }
+  });
 
-  @restartableTask
-  *search(term) {
-    yield timeout(500);
+  search = restartableTask(async (term) => {
+    await timeout(500);
     return this.store.query('business-entity', {
       page: { size: 50 },
       sort: 'name',
@@ -38,5 +36,5 @@ export default class InputFieldBusinessEntitySelectComponent extends Component {
         category: BUSINESS_CATEGORIES.SUPPLIER,
       },
     });
-  }
+  });
 }

@@ -82,7 +82,7 @@ export default class DataTablePaginationComponent extends Component {
       } else {
         const x = this.args.page;
         const currentPageWindow = [x - 2, x - 1, x, x + 1, x + 2].filter(
-          (i) => i >= this.firstPage && i <= this.lastPage
+          (i) => i >= this.firstPage && i <= this.lastPage,
         );
         let prepend = [];
         let append = [];

@@ -17,9 +17,8 @@ export default class UtilUpdatedOnComponent extends Component {
     }
   }
 
-  @keepLatestTask
-  *loadUser() {
-    const user = yield this.store.findRecordByUri('user', this.args.user);
+  loadUser = keepLatestTask(async () => {
+    const user = await this.store.findRecordByUri('user', this.args.user);
     this.by = user?.firstName;
-  }
+  });
 }

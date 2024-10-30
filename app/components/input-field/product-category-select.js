@@ -16,18 +16,17 @@ export default class InputFieldProductCategorySelectComponent extends Component 
     this.loadData.perform();
   }
 
-  @keepLatestTask
-  *loadData() {
+  loadData = keepLatestTask(async () => {
     const categories = this.store.peekAll('product-category');
 
-    const wrappers = yield all(
+    const wrappers = await all(
       categories.map(async (category) => {
         const broader = await category.broader;
         return {
           category,
           broaderUri: broader?.uri,
         };
-      })
+      }),
     );
 
     if (this.args.scope == 'top') {
@@ -43,7 +42,7 @@ export default class InputFieldProductCategorySelectComponent extends Component 
     } else {
       this.options = [];
     }
-  }
+  });
 
   get fieldId() {
     return `product-category-select-${guidFor(this)}`;

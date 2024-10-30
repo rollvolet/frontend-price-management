@@ -14,17 +14,16 @@ export default class PreloaderService extends Service {
     return this.loadData.isRunning;
   }
 
-  @keepLatestTask
-  *loadData() {
-    yield this.store.queryAll('product-category', {
+  loadData = keepLatestTask(async () => {
+    await this.store.queryAll('product-category', {
       sort: 'label',
       include: 'broader',
     });
-    yield this.store.queryAll('warehouse-department', {
+    await this.store.queryAll('warehouse-department', {
       sort: 'name',
     });
-    yield this.store.queryAll('unit-code', {
+    await this.store.queryAll('unit-code', {
       sort: 'label',
     });
-  }
+  });
 }

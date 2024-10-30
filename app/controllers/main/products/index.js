@@ -22,13 +22,12 @@ export default class MainProductsIndexController extends Controller {
 
   @tracked previewProduct;
 
-  @restartableTask
-  *debounceFilter(key, event) {
+  debounceFilter = restartableTask(async (key, event) => {
     const value = event.target.value;
     this.filter[key] = isBlank(value) ? undefined : value;
-    yield timeout(500);
-    yield this.applyFilter();
-  }
+    await timeout(500);
+    await this.applyFilter();
+  });
 
   @action
   selectFilter(key, value) {

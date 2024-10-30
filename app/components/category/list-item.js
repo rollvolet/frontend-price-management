@@ -14,12 +14,11 @@ export default class CategoryListItemComponent extends Component {
   @tracked subcategories = new TrackedArray([]);
   @tracked newCategory;
 
-  @keepLatestTask
-  *loadSubcategories() {
+  loadSubcategories = keepLatestTask(async () => {
     if (!this.subcategories.length) {
-      this.subcategories = yield this.args.model.narrowers;
+      this.subcategories = await this.args.model.narrowers;
     }
-  }
+  });
 
   get sortedSubcategories() {
     return this.subcategories.slice(0).sort((a, b) => compare(a.label, b.label));
@@ -39,8 +38,7 @@ export default class CategoryListItemComponent extends Component {
     this.isEnabledInput = true;
   }
 
-  @task
-  *createCategory() {
+  createCategory = task(async () => {
     if (this.isEnabledInput) {
       if (this.newCategory) {
         this.isEnabledInput = false;
@@ -49,13 +47,13 @@ export default class CategoryListItemComponent extends Component {
           conceptScheme: this.args.model.conceptScheme,
           broader: this.args.model,
         });
-        yield category.save();
+        await category.save();
         this.newCategory = null;
       } else {
         this.isEnabledInput = false;
       }
     } // else input wasn't enabled. Just ignore.
-  }
+  });
 
   @action
   cancelNewCategory() {
@@ -63,10 +61,9 @@ export default class CategoryListItemComponent extends Component {
     this.newCategory = null;
   }
 
-  @task
-  *saveCategory(category) {
-    yield category.save();
-  }
+  saveCategory = task(async (category) => {
+    await category.save();
+  });
 
   @action
   cancelEditCategory(category) {

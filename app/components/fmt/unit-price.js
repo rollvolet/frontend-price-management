@@ -17,7 +17,7 @@ export default class FmtUnitPriceComponent extends Component {
         return calculatePriceTaxIncluded(
           model.currencyValue,
           VAT_RATE,
-          `${model.valueAddedTaxIncluded}` === 'true' // cover for mu-search where 'true' is a string
+          `${model.valueAddedTaxIncluded}` === 'true', // cover for mu-search where 'true' is a string
         );
       };
       return new TrackedAsyncData(loadData());
@@ -27,7 +27,7 @@ export default class FmtUnitPriceComponent extends Component {
         return calculatePriceTaxExcluded(
           model.currencyValue,
           VAT_RATE,
-          `${model.valueAddedTaxIncluded}` === 'true' // cover for mu-search where 'true' is a string
+          `${model.valueAddedTaxIncluded}` === 'true', // cover for mu-search where 'true' is a string
         );
       };
       return new TrackedAsyncData(loadData());
