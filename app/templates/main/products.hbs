@@ -30,7 +30,8 @@
             @loading={{this.createExport.isRunning}}
             @href={{this.createExport.lastSuccessful.value.downloadLink}}
             target="_blank"
-            rel="noopener noreferrer" />
+            rel="noopener noreferrer"
+            download />
         {{/if}}
       </div>
     {{/if}}
