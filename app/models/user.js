@@ -1,4 +1,4 @@
-import Model, { attr, belongsTo } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
 export default class UserClass extends Model {
   @attr('string') uri;
@@ -6,6 +6,7 @@ export default class UserClass extends Model {
   @attr('string') name;
 
   @belongsTo('account', { inverse: 'user', async: true }) account;
+  @hasMany('user-group', { inverse: 'users', async: true }) userGroups;
 
   get firstName() {
     // TODO this is only a best guess. Get correct first name from DB.
