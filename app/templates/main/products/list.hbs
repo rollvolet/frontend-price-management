@@ -1,0 +1,92 @@
+<div class="p-4 lg:px-6 space-y-4 w-full bg-gray-50 rounded-md">
+  <div class="flex items-center justify-between">
+    <div class="flex items-center space-x-2">
+      <div class="flex items-center">
+        {{svg-jar "search-line" class="shrink-0 mr-2 h-4 w-4 text-gray-500 fill-current"}}
+        <h4 class="text-gray-700 text-sm uppercase tracking-wide">
+          Zoeken
+        </h4>
+      </div>
+      {{#if this.isLoadingModel}}
+        <div class="flex-0">
+          <Util::LoadingSpinner @label="" />
+        </div>
+      {{else}}
+        <div class="text-gray-500 text-xs">
+          (<span class="font-medium">{{this.model.meta.count}}</span> resultaten gevonden)
+        </div>
+      {{/if}}
+    </div>
+    <div class="shrink-0">
+      <Rlv::Button
+        @label="Wis alle filters"
+        @icon="filter-line"
+        @skin="secondary-link"
+        {{on "click" this.resetFilters}} />
+    </div>
+  </div>
+  <div class="mt-4 grid sm:grid-cols-12 gap-4">
+    <div class="sm:col-span-2 lg:col-span-1">
+      <Filter::TextInput
+        @label="Nr."
+        @value={{this.filter.identifier}}
+        @onInput={{perform this.debounceFilter "identifier"}} />
+    </div>
+    <div class="sm:col-span-4 lg:col-span-3 xl:col-span-2">
+      <InputField::ProductCategorySelect
+        @label="Categorie"
+        @scope="top"
+        @value={{this.filter.broaderCategory}}
+        @onSelectionChange={{fn this.selectFilter "broaderCategory"}} />
+    </div>
+    <div class="sm:col-span-6 lg:col-span-4 xl:col-span-2">
+      <InputField::ProductCategorySelect
+        @label="Subcategorie"
+        @scope={{this.filter.broaderCategory}}
+        @disabled={{not this.filter.broaderCategory}}
+        @value={{this.filter.category}}
+        @onSelectionChange={{fn this.selectFilter "category"}} />
+    </div>
+    <div class="sm:col-span-10 lg:col-span-4 xl:col-span-3">
+      <Filter::TextInput
+        @label="Naam"
+        @value={{this.filter.name}}
+        @onInput={{perform this.debounceFilter "name"}} />
+    </div>
+    <div class="sm:col-span-6 lg:col-span-4 xl:col-span-2">
+      <InputField::BusinessEntitySelect
+        @label="Leverancier"
+        @value={{this.filter.supplier}}
+        @onSelectionChange={{fn this.selectFilter "supplier"}} />
+    </div>
+    <div class="sm:col-span-2 lg:col-span-2 xl:col-span-1">
+      <Filter::TextInput
+        @label="Lev. nr."
+        @value={{this.filter.supplierIdentifier}}
+        @onInput={{perform this.debounceFilter "supplierIdentifier"}} />
+    </div>
+    <div class="sm:col-span-2 lg:col-span-2 xl:col-span-1">
+      <Filter::TextInput
+        @label="Rek"
+        @value={{this.filter.rack}}
+        @onInput={{perform this.debounceFilter "rack"}} />
+    </div>
+    <div class="sm:col-span-6 lg:col-span-4">
+      <Rlv::InputField::Checkbox
+        @id="filter-status-field"
+        @label="Toon ook niet beschikbare producten"
+        @value={{not this.filter.availableOnly}}
+        @onChange={{this.toggleAvailableOnly}}
+        class="mt-1" />
+    </div>
+  </div>
+</div>
+{{outlet}}
+<DataTable::Pagination
+  @page={{this.page}}
+  @size={{this.size}}
+  @total={{this.model.meta.count}}
+  @onPrevious={{this.previousPage}}
+  @onNext={{this.nextPage}}
+  @onSelectPage={{this.selectPage}}
+/>

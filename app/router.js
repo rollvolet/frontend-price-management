@@ -12,6 +12,9 @@ Router.map(function () {
   this.route('oops');
   this.route('main', { path: '/' }, function () {
     this.route('products', function () {
+      this.route('list', function () {
+        this.route('prices');
+      });
       this.route('new');
       this.route('detail', { path: '/:product_id' }, function () {
         this.route('edit');

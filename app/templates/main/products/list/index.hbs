@@ -1,87 +1,3 @@
-<div class="p-4 lg:px-6 space-y-4 w-full bg-gray-50 rounded-md">
-  <div class="flex items-center justify-between">
-    <div class="flex items-center space-x-2">
-      <div class="flex items-center">
-        {{svg-jar "search-line" class="shrink-0 mr-2 h-4 w-4 text-gray-500 fill-current"}}
-        <h4 class="text-gray-700 text-sm uppercase tracking-wide">
-          Zoeken
-        </h4>
-      </div>
-      {{#if this.isLoadingModel}}
-        <div class="flex-0">
-          <Util::LoadingSpinner @label="" />
-        </div>
-      {{else}}
-        <div class="text-gray-500 text-xs">
-          (<span class="font-medium">{{this.model.meta.count}}</span> resultaten gevonden)
-        </div>
-      {{/if}}
-    </div>
-    <div class="shrink-0">
-      <Rlv::Button
-        @label="Wis alle filters"
-        @icon="filter-line"
-        @skin="secondary-link"
-        {{on "click" this.resetFilters}} />
-    </div>
-  </div>
-  <div class="mt-4 grid sm:grid-cols-12 gap-4">
-    <div class="sm:col-span-2 lg:col-span-1">
-      <Filter::TextInput
-        @label="Nr."
-        @value={{this.filter.identifier}}
-        @onInput={{perform this.debounceFilter "identifier"}} />
-    </div>
-    <div class="sm:col-span-4 lg:col-span-3 xl:col-span-2">
-      <InputField::ProductCategorySelect
-        @label="Categorie"
-        @scope="top"
-        @value={{this.filter.broaderCategory}}
-        @onSelectionChange={{fn this.selectFilter "broaderCategory"}} />
-    </div>
-    <div class="sm:col-span-6 lg:col-span-4 xl:col-span-2">
-      <InputField::ProductCategorySelect
-        @label="Subcategorie"
-        @scope={{this.filter.broaderCategory}}
-        @disabled={{not this.filter.broaderCategory}}
-        @value={{this.filter.category}}
-        @onSelectionChange={{fn this.selectFilter "category"}} />
-    </div>
-    <div class="sm:col-span-10 lg:col-span-4 xl:col-span-3">
-      <Filter::TextInput
-        @label="Naam"
-        @value={{this.filter.name}}
-        @onInput={{perform this.debounceFilter "name"}} />
-    </div>
-    <div class="sm:col-span-6 lg:col-span-4 xl:col-span-2">
-      <InputField::BusinessEntitySelect
-        @label="Leverancier"
-        @value={{this.filter.supplier}}
-        @onSelectionChange={{fn this.selectFilter "supplier"}} />
-    </div>
-    <div class="sm:col-span-2 lg:col-span-2 xl:col-span-1">
-      <Filter::TextInput
-        @label="Lev. nr."
-        @value={{this.filter.supplierIdentifier}}
-        @onInput={{perform this.debounceFilter "supplierIdentifier"}} />
-    </div>
-    <div class="sm:col-span-2 lg:col-span-2 xl:col-span-1">
-      <Filter::TextInput
-        @label="Rek"
-        @value={{this.filter.rack}}
-        @onInput={{perform this.debounceFilter "rack"}} />
-    </div>
-    <div class="sm:col-span-6 lg:col-span-4">
-      <Rlv::InputField::Checkbox
-        @id="filter-status-field"
-        @label="Toon ook niet beschikbare producten"
-        @value={{not this.filter.availableOnly}}
-        @onChange={{this.toggleAvailableOnly}}
-        class="mt-1" />
-    </div>
-  </div>
-</div>
-
 <div class="mt-4 flex flex-col">
   <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -107,7 +23,7 @@
               <th class="px-6 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                 VKP <br>btw in
               </th>
-              <th class="px-6 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+              <th class="py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                 Eenheid
               </th>
               <th class="px-6 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
@@ -131,11 +47,7 @@
                   {{product.identifier}}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {{#if product.broaderCategory}}
-                    {{product.broaderCategory.label}}
-                    <br> <div class="w-3 h-3 ml-2 mr-1 inline-block border-b-2 border-l-2 border-gray-300"></div>
-                  {{/if}}
-                  {{product.category.label}}
+                  <Product::CategoryTree @product={{product}} />
                 </td>
                 <td class="px-6 py-4 text-sm font-medium text-gray-900">
                   {{get-by-lang product.name}}
@@ -184,14 +96,7 @@
     </div>
   </div>
 </div>
-<DataTable::Pagination
-  @page={{this.page}}
-  @size={{this.size}}
-  @total={{this.model.meta.count}}
-  @onPrevious={{this.previousPage}}
-  @onNext={{this.nextPage}}
-  @onSelectPage={{this.selectPage}}
-/>
+
 {{#if this.previewProduct}}
   <Product::QuickviewModal
     @product={{this.previewProduct}}

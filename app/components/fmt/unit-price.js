@@ -1,36 +1,27 @@
 import Component from '@glimmer/component';
-import { cached } from '@glimmer/tracking';
-import { TrackedAsyncData } from 'ember-async-data';
 import { VAT_RATE } from '../../config';
 import { calculatePriceTaxIncluded, calculatePriceTaxExcluded } from '../../utils/calculate-price';
-
+import { get } from '@ember/object';
 export default class FmtUnitPriceComponent extends Component {
   // Note:
-  // this.args.model maybe a Proxy object coming from ember-data
+  // this.args.model may be a unit-price-specification Proxy object coming from ember-data
   // or a plain javascript object coming as nested object from mu-search.
 
-  @cached
-  get currencyValueLoader() {
+  get currencyValue() {
+    // eslint-disable-next-line ember/no-get
+    return get(this.args.model, 'currencyValue');
+  }
+
+  get isTaxIncluded() {
+    // eslint-disable-next-line ember/no-get
+    return `${get(this.args.model, 'valueAddedTaxIncluded')}` === 'true'; // cover for mu-search where 'true' is a string
+  }
+
+  get calculatedCurrencyValue() {
     if (this.args.showTaxIncluded) {
-      const loadData = async () => {
-        const model = await this.args.model;
-        return calculatePriceTaxIncluded(
-          model.currencyValue,
-          VAT_RATE,
-          `${model.valueAddedTaxIncluded}` === 'true', // cover for mu-search where 'true' is a string
-        );
-      };
-      return new TrackedAsyncData(loadData());
+      return calculatePriceTaxIncluded(this.currencyValue, VAT_RATE, this.isTaxIncluded);
     } else {
-      const loadData = async () => {
-        const model = await this.args.model;
-        return calculatePriceTaxExcluded(
-          model.currencyValue,
-          VAT_RATE,
-          `${model.valueAddedTaxIncluded}` === 'true', // cover for mu-search where 'true' is a string
-        );
-      };
-      return new TrackedAsyncData(loadData());
+      return calculatePriceTaxExcluded(this.currencyValue, VAT_RATE, this.isTaxIncluded);
     }
   }
 }

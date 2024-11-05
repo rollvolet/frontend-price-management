@@ -1,6 +1,4 @@
-{{#if this.currencyValueLoader.isResolved}}
-  <Fmt::Currency
-    @value={{this.currencyValueLoader.value}}
-    @currency={{@model.currency}} />
-  {{#if @showUnit}}/ <Fmt::UnitCode @value={{@model.unitCode}} />{{/if}}
-{{/if}}
+<Fmt::Currency
+  @value={{this.calculatedCurrencyValue}}
+  @currency={{@model.currency}} />
+{{#if @showUnit}}/ <Fmt::UnitCode @value={{@model.unitCode}} />{{/if}}

@@ -3,8 +3,12 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { isBlank } from '@ember/utils';
 import { restartableTask, timeout } from 'ember-concurrency';
+import { service } from '@ember/service';
 
 export default class MainProductsIndexController extends Controller {
+  @service store;
+  @service userInfo;
+
   @tracked page = 0;
   @tracked size = 20;
   @tracked sort = 'identifier';
@@ -51,16 +55,6 @@ export default class MainProductsIndexController extends Controller {
     for (let key of Object.keys(qpValues)) {
       this[key] = qpValues[key];
     }
-  }
-
-  @action
-  showPreview(product) {
-    this.previewProduct = product;
-  }
-
-  @action
-  closePreview() {
-    this.previewProduct = undefined;
   }
 
   @action

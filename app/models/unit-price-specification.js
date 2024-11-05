@@ -1,10 +1,8 @@
 import { attr, belongsTo } from '@ember-data/model';
 import ProvenanceModel from './provenance-model';
 import { calculatePriceTaxIncluded, calculatePriceTaxExcluded } from '../utils/calculate-price';
-import constants from '../config/constants';
 import { VAT_RATE } from '../config';
-
-const { CALCULATION_BASIS } = constants;
+import { hasMarginCalculationBasis, hasPriceOutCalculationBasis } from '../utils/product-price';
 
 export default class UnitPriceSpecificationModel extends ProvenanceModel {
   @attr('string') currency;
@@ -25,11 +23,11 @@ export default class UnitPriceSpecificationModel extends ProvenanceModel {
   }
 
   get hasPriceOutCalculationBasis() {
-    return this.calculationBasis == CALCULATION_BASIS.PRICE_OUT;
+    return hasPriceOutCalculationBasis(this);
   }
 
   get hasMarginCalculationBasis() {
-    return this.calculationBasis == CALCULATION_BASIS.MARGIN;
+    return hasMarginCalculationBasis(this);
   }
 
   get marginPct() {
