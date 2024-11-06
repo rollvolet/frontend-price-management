@@ -32,48 +32,47 @@ export default class MainProductsListPricesController extends Controller {
     return productObjects.map((p) => productsED.find((pED) => p.id == pED.id));
   });
 
-  // the edit actions receive the product id, as it might be ES or ED in the template
-  // But editing/saving is only possible via ED
+  // the edit actions might receive ES object or ED
+  // But editing/saving is only possible via ED, so always try to fetch ED object.
   async getProductById(productId) {
     await this.products.promise;
     return this.products.value.find((p) => p.id == productId);
   }
 
   @action
-  async setCalculationBasis(productId, event) {
-    const product = await this.getProductById(productId);
-    const calculationBasis = event.target.value;
-    const offering = await product.salesOffering;
+  async setCalculationBasis(product, calculationBasis) {
+    const productED = await this.getProductById(product.id);
+    const offering = await productED.salesOffering;
     const price = await offering.unitPriceSpecification;
     price.calculationBasis = calculationBasis;
     await price.save();
   }
 
   @action
-  async setPriceIn(productId, value) {
-    const product = await this.getProductById(productId);
-    const offering = await product.purchaseOffering;
+  async setPriceIn(product, value) {
+    const productED = await this.getProductById(product.id);
+    const offering = await productED.purchaseOffering;
     const price = await offering.unitPriceSpecification;
     price.currencyValue = value;
     await price.save();
-    await recalculateSalesPriceAndSave(product);
+    await recalculateSalesPriceAndSave(productED);
   }
 
   @action
-  async setPriceOut(productId, value) {
-    const product = await this.getProductById(productId);
-    const offering = await product.salesOffering;
+  async setPriceOut(product, value) {
+    const productED = await this.getProductById(product.id);
+    const offering = await productED.salesOffering;
     const price = await offering.unitPriceSpecification;
     price.currencyValue = value;
-    await recalculateSalesPriceAndSave(product);
+    await recalculateSalesPriceAndSave(productED);
   }
 
   @action
-  async setMargin(productId, value) {
-    const product = await this.getProductById(productId);
-    const offering = await product.salesOffering;
+  async setMargin(product, value) {
+    const productED = await this.getProductById(product.id);
+    const offering = await productED.salesOffering;
     const price = await offering.unitPriceSpecification;
     price.margin = value;
-    await recalculateSalesPriceAndSave(product);
+    await recalculateSalesPriceAndSave(productED);
   }
 }

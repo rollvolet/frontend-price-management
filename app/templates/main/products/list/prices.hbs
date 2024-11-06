@@ -32,103 +32,57 @@
               <th class="px-6 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                 Leverancier
               </th>
+              <th class="px-3 py-3 bg-gray-100">{{!-- savestate --}}</th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
             {{#each (if this.products.isLoading this.model this.products.value) as |product|}}
-              {{!-- product might be a mu-search pojo! --}}
-              <tr>
-                <td class="pl-2 py-2 whitespace-nowrap text-center text-xs text-gray-500">
-                  {{#if product.salesOffering.isValid}}
-                    {{svg-jar "circle-fill" title="Beschikbaar" class="h-3 w-3 text-green-400 fill-current"}}
-                  {{else}}
-                    {{svg-jar "circle-fill" title="Niet beschikbaar" class="h-3 w-3 text-red-400 fill-current"}}
-                  {{/if}}
-                </td>
-                <td class="px-1 py-4 whitespace-nowrap text-center text-sm text-gray-500">
-                  {{product.identifier}}
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <Product::CategoryTree @product={{product}} />
-                </td>
-                <td class="px-6 py-4 text-sm font-medium text-gray-900">
-                  {{get-by-lang product.name}}
-                </td>
-                {{#let product.salesOffering.unitPriceSpecification (unique-id) as |salesPrice uuid|}}
+              <Product::InlinePriceEdit
+                    @product={{product}}
+                    @setPriceIn={{this.setPriceIn}}
+                    @setMargin={{this.setMargin}}
+                    @setCalculationBasis={{this.setCalculationBasis}}
+                    @setPriceOut={{this.setPriceOut}}
+                    as |InlineEdit|>
+                {{!-- product might be a mu-search pojo! --}}
+                <tr>
+                  <td class="pl-2 py-2 whitespace-nowrap text-center text-xs text-gray-500">
+                    {{#if product.salesOffering.isValid}}
+                      {{svg-jar "circle-fill" title="Beschikbaar" class="h-3 w-3 text-green-400 fill-current"}}
+                    {{else}}
+                      {{svg-jar "circle-fill" title="Niet beschikbaar" class="h-3 w-3 text-red-400 fill-current"}}
+                    {{/if}}
+                  </td>
+                  <td class="px-1 py-4 whitespace-nowrap text-center text-sm text-gray-500">
+                    {{product.identifier}}
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <Product::CategoryTree @product={{product}} />
+                  </td>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    {{get-by-lang product.name}}
+                  </td>
                   <td class="py-4">
-                    <Rlv::InputField::DecimalInput
-                      @label=""
-                      @leading="&euro;"
-                      @value={{product.purchaseOffering.unitPriceSpecification.currencyValue}}
-                      @onChange={{fn this.setPriceIn product.id}}
-                      class="focus:ring-red-200 focus:border-red-200 block w-24 pl-7 border-gray-300 rounded-md sm:text-sm" 
-                    />
+                    <InlineEdit.PurchasePrice />
                   </td>
                   <td class="pl-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <div class="p-4 grid grid-cols-8 gap-y-6 gap-x-4 rounded-md bg-gray-50 border
-                      {{if (this.isMarginPriceBasis salesPrice) "border-green-300" "border-gray-200"}}">
-                      <div class="col-span-1">
-                        <input
-                          id="calc-base-margin{{uuid}}"
-                          type="radio"
-                          name="price-calc-basis{{uuid}}"
-                          value={{constant "CALCULATION_BASIS.MARGIN"}}
-                          checked={{this.isMarginPriceBasis salesPrice}}
-                          {{on "input" (fn this.setCalculationBasis product.id)}}
-                          class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300" />
-                      </div>
-                      <div class="col-span-7 pl-2">
-                        <Rlv::InputField::DecimalInput
-                          @label="Factor"
-                          @value={{salesPrice.margin}}
-                          @onChange={{fn this.setMargin product.id}}
-                          class="focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm
-                          {{if (this.isPriceOutBasis salesPrice) "disabled:bg-gray-200"}}"
-                          disabled={{this.isPriceOutBasis salesPrice}} />
-                      </div>
-                    </div>                    
+                    <InlineEdit.Margin />
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    <div class="relative p-4 grid grid-cols-8 gap-x-4 rounded-md bg-gray-50 border
-                        {{if (this.isPriceOutBasis salesPrice) "border-green-300" "border-gray-200"}}">
-                      <div class="absolute top-0 right-0 mt-2 mr-2">
-                        <input
-                          id="calc-base-price-out{{uuid}}"
-                          type="radio"
-                          name="price-calc-basis{{uuid}}"
-                          value={{constant "CALCULATION_BASIS.PRICE_OUT"}}
-                          checked={{this.isPriceOutBasis salesPrice}}
-                          {{on "input" (fn this.setCalculationBasis product.id)}}
-                          class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300" />
-                      </div>  
-                      <div class="pb-4 col-span-8">
-                        <Util::Property @label="Prijs excl. btw">
-                          <Fmt::UnitPrice @model={{salesPrice}} @showTaxIncluded={{false}} />
-                        </Util::Property>
-                      </div>
-                      <div class="col-span-8">
-                        <Rlv::InputField::DecimalInput
-                          @label="Prijs incl. btw"
-                          @leading="&euro;"
-                          @value={{salesPrice.currencyValue}}
-                          @onChange={{fn this.setPriceOut product.id}}
-                          class="focus:ring-red-200 focus:border-red-200 block w-24 pl-7 border-gray-300 rounded-md sm:text-sm
-                          {{if (this.isMarginPriceBasis salesPrice) "disabled:bg-gray-200"}}"
-                          disabled={{this.isMarginPriceBasis salesPrice}} />
-                      </div>  
-                    </div>  
+                    <InlineEdit.SellingPrice />
                   </td>
-                {{/let}}
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <Fmt::UnitCode @value={{product.salesOffering.unitPriceSpecification.unitCode}} />
-                </td>
-                <td class="px-6 py-4 text-sm text-gray-500">
-                  {{product.purchaseOffering.businessEntity.name}}
-                  {{#if product.purchaseOffering.identifier}}
-                    <br>Nr. {{product.purchaseOffering.identifier}}
-                  {{/if}}
-                </td>
-              </tr>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <Fmt::UnitCode @value={{product.salesOffering.unitPriceSpecification.unitCode}} />
+                  </td>
+                  <td class="px-6 py-4 text-sm text-gray-500">
+                    {{product.purchaseOffering.businessEntity.name}}
+                    {{#if product.purchaseOffering.identifier}}
+                      <br>Nr. {{product.purchaseOffering.identifier}}
+                    {{/if}}
+                  </td>
+                  <td><InlineEdit.SavingStateIcon /></td>
+                </tr>
+              </Product::InlinePriceEdit>
             {{else}}
               <tr>
                 <td colspan="8" class="px-6 py-4 text-center text-sm text-gray-500">

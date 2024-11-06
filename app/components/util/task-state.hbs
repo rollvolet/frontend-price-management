@@ -1,0 +1,13 @@
+{{#if @state.isRunning}}
+  <div class="flex items-center space-x-2" title={{@labelRunning}}>
+    <Util::LoadingSpinner @label="" />
+  </div>
+{{else if @state.last.isSuccessful}}
+  <div class="flex items-center space-x-2" title={{@labelSuccess}}>
+    <Util::GreenCheckmark />
+  </div>
+{{else if @state.last.isError}}
+  <div class="flex items-center space-x-2" title={{@state.last.error}}>
+    <Util::ErrorIcon  />
+  </div>
+{{/if}}
