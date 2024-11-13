@@ -10,15 +10,17 @@ export default class ProvenanceModel extends Model {
   @attr('string') editor;
 
   save() {
-    const now = new Date();
-    if (this.isNew) {
-      this.created = now;
-      this.creator = this.userInfo.user.uri;
+    if (!this.isDeleted) {
+      const now = new Date();
+      if (this.isNew) {
+        this.created = now;
+        this.creator = this.userInfo.user.uri;
+      }
+      if (this.hasDirtyAttributes) {
+        this.modified = now;
+        this.editor = this.userInfo.user.uri;
+      }
+      return super.save(...arguments);
     }
-    if (this.hasDirtyAttributes) {
-      this.modified = now;
-      this.editor = this.userInfo.user.uri;
-    }
-    return super.save(...arguments);
   }
 }
