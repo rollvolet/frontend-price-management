@@ -77,10 +77,12 @@
                     @route="main.products.detail.index"
                     @model={{product.uuid}}
                     @skin="link" />
-                  <Rlv::Button
-                    @label="Preview"
-                    @skin="link"
-                    {{on "click" (fn this.showPreview product)}} />
+                  {{#if (this.hasPreview product)}}
+                    <Rlv::Button
+                      @label="Preview"
+                      @skin="link"
+                      {{on "click" (fn this.showPreview product)}} />
+                  {{/if}}
                 </td>
               </tr>
             {{else}}
