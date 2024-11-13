@@ -24,8 +24,6 @@ export default class MainProductsIndexController extends Controller {
   @tracked rack;
   @tracked availableOnly = true;
 
-  @tracked previewProduct;
-
   debounceFilter = restartableTask(async (key, event) => {
     const value = event.target.value;
     this.filter[key] = isBlank(value) ? undefined : value;
