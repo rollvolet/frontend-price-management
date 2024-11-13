@@ -16,6 +16,7 @@ export default class ProductEditComponent extends Component {
 
   @service store;
   @service notification;
+  @service userInfo;
 
   @tracked broaderCategory;
   @tracked showDeleteConfirmationModal = false;
@@ -76,17 +77,21 @@ export default class ProductEditComponent extends Component {
   save = task(async () => {
     // TODO add some validation
     try {
-      const [warehouseLocation, purchaseOffering, salesOffering] = await Promise.all([
-        this.args.model.warehouseLocation,
-        this.args.model.purchaseOffering,
-        this.args.model.salesOffering,
-      ]);
-      const [purchasePrice, salesPrice] = await Promise.all([
-        purchaseOffering.unitPriceSpecification,
-        salesOffering.unitPriceSpecification,
-      ]);
-      await Promise.all([warehouseLocation.save(), purchasePrice.save(), salesPrice.save()]);
-      await Promise.all([purchaseOffering.save(), salesOffering.save()]);
+      const warehouseLocation = await this.args.model.warehouseLocation;
+      await warehouseLocation.save();
+
+      if(this.userInfo.isPriceAdmin) {
+        const [purchaseOffering, salesOffering] = await Promise.all([
+          this.args.model.purchaseOffering,
+          this.args.model.salesOffering,
+        ]);
+        const [purchasePrice, salesPrice] = await Promise.all([
+          purchaseOffering.unitPriceSpecification,
+          salesOffering.unitPriceSpecification,
+        ]);
+        await Promise.all([purchasePrice.save(), salesPrice.save()]);
+        await Promise.all([purchaseOffering.save(), salesOffering.save()]);
+      }
       await this.args.model.save();
 
       if (this.args.onSave) {

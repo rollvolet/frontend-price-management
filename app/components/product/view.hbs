@@ -84,13 +84,15 @@
           @title="Prijzen"
           @subtitle="Informatie over de inkoop- en verkoopprijs van het product." />
         <div class="mt-6 grid grid-cols-6 gap-y-6 gap-x-4">
-          <div class="col-span-3 sm:col-span-2">
-            <Util::Property @label="Inkoopprijs netto">
-              <Fmt::UnitPrice
-                @model={{@model.purchaseOffering.unitPriceSpecification}}
-                @showTaxIncluded={{false}} />
-            </Util::Property>
-          </div>
+          {{#if (is-price-admin)}}
+            <div class="col-span-3 sm:col-span-2">
+              <Util::Property @label="Inkoopprijs netto">
+                <Fmt::UnitPrice
+                  @model={{@model.purchaseOffering.unitPriceSpecification}}
+                  @showTaxIncluded={{false}} />
+              </Util::Property>
+            </div>
+          {{/if}}
           <div class="col-span-3 sm:col-span-2 lg:col-span-1">
             <Util::Property @label="Eenheid">
               <Fmt::UnitCode @value={{@model.purchaseOffering.unitPriceSpecification.unitCode.label}} />
@@ -137,13 +139,15 @@
                   <span class="ml-2 block text-sm font-medium text-gray-600">Marge</span>
                 {{/if}}
               </div>
-              <div class="col-span-6">
-                <Util::Property @label="Factor">
-                  {{#if salesPrice.margin}}
-                    <Fmt::Decimal @value={{salesPrice.margin}} />
-                  {{/if}}
-                </Util::Property>
-              </div>
+              {{#if (is-price-admin)}}
+                <div class="col-span-6">
+                  <Util::Property @label="Factor">
+                    {{#if salesPrice.margin}}
+                      <Fmt::Decimal @value={{salesPrice.margin}} />
+                    {{/if}}
+                  </Util::Property>
+                </div>
+              {{/if}}
             </div>
             <div class="text-xs text-gray-400">
               <Util::UpdatedOn

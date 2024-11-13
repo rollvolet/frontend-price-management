@@ -90,14 +90,16 @@
             @title="Prijzen"
             @subtitle="Informatie over de inkoop- en verkoopprijs van het product." />
           <div class="mt-6 grid grid-cols-6 gap-y-6 gap-x-4">
-            <div class="col-span-3 sm:col-span-2">
-              <Rlv::InputField::DecimalInput
-                @label="Inkoopprijs netto"
-                @leading="&euro;"
-                @value={{@model.purchaseOffering.unitPriceSpecification.currencyValue}}
-                @onChange={{this.setPriceIn}}
-                class="focus:ring-red-200 focus:border-red-200 block w-full pl-7 border-gray-300 rounded-md sm:text-sm" />
-            </div>
+            {{#if (is-price-admin)}}
+              <div class="col-span-3 sm:col-span-2">
+                <Rlv::InputField::DecimalInput
+                  @label="Inkoopprijs netto"
+                  @leading="&euro;"
+                  @value={{@model.purchaseOffering.unitPriceSpecification.currencyValue}}
+                  @onChange={{this.setPriceIn}}
+                  class="focus:ring-red-200 focus:border-red-200 block w-full pl-7 border-gray-300 rounded-md sm:text-sm" />
+              </div>
+            {{/if}}
             <div class="col-span-3 md:col-span-2">
               <InputField::UnitCodeSelect
                 @label="Eenheid"
@@ -116,6 +118,7 @@
                     name="price-calc-basis"
                     value={{this.priceOutCalculationBasis}}
                     checked={{salesPrice.hasPriceOutCalculationBasis}}
+                    disabled={{not (is-price-admin)}}
                     {{on "input" this.setCalculationBasis}}
                     class="focus:ring-green-400 h-4 w-4 text-green-600 border-gray-300" />
                   <label for="calc-base-price-out" class="ml-3">
@@ -140,8 +143,8 @@
                     @value={{salesPrice.currencyValue}}
                     @onChange={{this.setPriceOut}}
                     class="focus:ring-red-200 focus:border-red-200 block w-full pl-7 border-gray-300 rounded-md sm:text-sm
-                    {{if salesPrice.hasMarginCalculationBasis "disabled:bg-gray-200"}}"
-                    disabled={{salesPrice.hasMarginCalculationBasis}} />
+                    {{if (or (not (is-price-admin)) salesPrice.hasMarginCalculationBasis) "disabled:bg-gray-200"}}"
+                    disabled={{or (not (is-price-admin)) salesPrice.hasMarginCalculationBasis}} />
                 </div>
                 <div class="col-span-3 lg:col-span-2">
                   <InputField::UnitCodeSelect
@@ -160,6 +163,7 @@
                     value={{this.marginCalculationBasis}}
                     checked={{salesPrice.hasMarginCalculationBasis}}
                     {{on "input" this.setCalculationBasis}}
+                    disabled={{not (is-price-admin)}}
                     class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300" />
                   <label for="calc-base-margin" class="ml-3">
                     <span class="block text-sm font-medium
@@ -168,15 +172,17 @@
                     </span>
                   </label>
                 </div>
-                <div class="col-span-3 lg:col-span-2">
-                  <Rlv::InputField::DecimalInput
-                    @label="Factor"
-                    @value={{salesPrice.margin}}
-                    @onChange={{this.setMargin}}
-                    class="focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm
-                    {{if salesPrice.hasPriceOutCalculationBasis "disabled:bg-gray-200"}}"
-                    disabled={{salesPrice.hasPriceOutCalculationBasis}} />
-                </div>
+                {{#if (is-price-admin)}}
+                  <div class="col-span-3 lg:col-span-2">
+                    <Rlv::InputField::DecimalInput
+                      @label="Factor"
+                      @value={{salesPrice.margin}}
+                      @onChange={{this.setMargin}}
+                      class="focus:ring-red-200 focus:border-red-200 block w-full border-gray-300 rounded-md sm:text-sm
+                      {{if salesPrice.hasPriceOutCalculationBasis "disabled:bg-gray-200"}}"
+                      disabled={{salesPrice.hasPriceOutCalculationBasis}} />
+                  </div>
+                {{/if}}
                 <div class="hidden col-span-6 h-14 md:block lg:hidden">
                   {{!-- Dummy element for alignment --}}
                 </div>
