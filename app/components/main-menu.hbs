@@ -17,11 +17,13 @@
               class="ml-4 px-3 py-2 rounded-md font-medium text-red-100 hover:bg-red-600 focus:outline-none focus:text-white focus:bg-red-600">
               Producten
             </LinkTo>
-            <LinkTo @route="main.products.list.prices"
-              @activeClass="text-white !bg-red-700"
-              class="ml-4 px-3 py-2 rounded-md font-medium text-red-100 hover:bg-red-600 focus:outline-none focus:text-white focus:bg-red-600">
-              Prijzenlijst
-            </LinkTo>
+            {{#if this.canEditPrice}}
+              <LinkTo @route="main.products.list.prices"
+                @activeClass="text-white !bg-red-700"
+                class="ml-4 px-3 py-2 rounded-md font-medium text-red-100 hover:bg-red-600 focus:outline-none focus:text-white focus:bg-red-600">
+                Prijzenlijst
+              </LinkTo>
+            {{/if}}
             <LinkTo @route="main.suppliers.index"
               @activeClass="text-white !bg-red-700"
               class="ml-4 px-3 py-2 rounded-md font-medium text-red-100 hover:bg-red-600 focus:outline-none focus:text-white focus:bg-red-600">
