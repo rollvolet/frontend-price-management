@@ -1,0 +1,17 @@
+<fieldset>
+  {{#if @label}}
+    <label for="user-type-select" class="block text-sm font-medium text-gray-700">
+      {{@label}}
+    </label>
+  {{/if}}
+  {{#each @options as |option|}}
+  <div class="mt-1 sm:flex space-y-5 sm:space-y-0 sm:space-x-6">
+    <Rlv::InputField::Checkbox
+      @id={{concat "option-" option.id}}
+      @label={{this.getLabel option}}
+      @value={{this.isSelected option}}
+      @onChange={{fn this.updateValue option}}
+      @disabled={{@disabled}} />
+  </div>
+  {{/each}}
+</fieldset>

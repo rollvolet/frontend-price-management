@@ -1,0 +1,75 @@
+{{page-title "Gebruikersbeheer"}}
+<div class="mt-4 bg-white shadow rounded-lg">
+  <div class="flex flex-col">
+    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="overflow-hidden border-b border-gray-200">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead>
+              <tr>
+                <DataTable::Th
+                  @field="name"
+                  @currentSort={{this.sort}}
+                  @onUpdateSort={{fn (mut this.sort)}}
+                  class="px-6 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                  Naam
+                </DataTable::Th>
+                <th class="px-6 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                  Account
+                </th>
+                <th class="px-6 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                  Groepen
+                </th>
+                <th class="px-6 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                  {{!-- Actions --}}
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              {{#each this.model as |user|}}
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    {{user.name}}
+                  </td>
+                  <td class="px-6 py-4 text-sm text-gray-500">
+                    {{user.account.accountName}}
+                  </td>
+                  <td class="px-6 py-4 text-sm text-gray-500 space-x-2">
+                    {{#each (this.getUserGroups user) as |group|}}
+                      <Rlv::Pill @label={{group.name}} />
+                    {{/each}}
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    <Rlv::Button
+                      @label="Bewerk"
+                      @icon="pencil-line"
+                      @skin="secondary-naked"
+                      @size="large"
+                      @hideText={{true}}
+                      {{on "click" (fn this.openEditModal user)}} />
+                  </td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <DataTable::Pagination
+    @page={{this.page}}
+    @size={{this.size}}
+    @total={{this.model.meta.count}}
+    @onPrevious={{this.previousPage}}
+    @onNext={{this.nextPage}}
+    @onSelectPage={{this.selectPage}} />
+</div>
+{{outlet}}
+
+{{#if this.isOpenEditModal}}
+  <User::EditModal
+    @model={{this.selectedUser}}
+    @didSave={{this.refreshModel}}
+    @didTerminate={{this.refreshModel}}
+    @onClose={{this.closeEditModal}} />
+{{/if}}

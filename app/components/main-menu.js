@@ -12,4 +12,8 @@ export default class MainMenuComponent extends Component {
   toggleIsOpenMenu() {
     this.isOpenMenu = !this.isOpenMenu;
   }
+
+  get canEditUsers() {
+    return this.userInfo.isAdmin;
+  }
 }

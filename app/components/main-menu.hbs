@@ -27,6 +27,13 @@
               class="ml-4 px-3 py-2 rounded-md font-medium text-red-100 hover:bg-red-600 focus:outline-none focus:text-white focus:bg-red-600">
               Categorieën
             </LinkTo>
+            {{#if this.canEditUsers}}
+              <LinkTo @route="main.users.index"
+                @activeClass="text-white !bg-red-700"
+                class="ml-4 px-3 py-2 rounded-md font-medium text-red-100 hover:bg-red-600 focus:outline-none focus:text-white focus:bg-red-600">
+                Gebruikersbeheer
+              </LinkTo>
+            {{/if}}
           </div>
         </div>
       </div>

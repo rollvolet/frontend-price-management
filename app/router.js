@@ -10,6 +10,7 @@ Router.map(function () {
   this.route('login');
   this.route('mock-login');
   this.route('oops');
+  this.route('forbidden');
   this.route('main', { path: '/' }, function () {
     this.route('products', function () {
       this.route('new');
@@ -21,5 +22,6 @@ Router.map(function () {
       this.route('edit', { path: '/:supplier_id' });
     });
     this.route('categories', function () {});
+    this.route('users', function () {});
   });
 });

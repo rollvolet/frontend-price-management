@@ -4,6 +4,7 @@
       id={{@id}}
       @type="checkbox"
       @checked={{this.checkedValue}}
+      disabled={{@disabled}}
       class="focus:ring-red-200 h-4 w-4 text-red-600 border-gray-300 rounded"
       {{on "input" this.toggleValue}} />
   </div>

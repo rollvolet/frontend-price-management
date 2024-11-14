@@ -1,0 +1,41 @@
+<Rlv::Modal
+  @title={{concat "Gebruiker " (if @model.isNew "aanmaken" "bewerken")}}
+  @width="max-w-5xl" @onClose={{this.cancel}}>
+  <:body>
+  <div class="space-y-4">
+    <form {{on "submit" this.save}} class="space-y-6">
+      <div class="pt-6 sm:pt-5 grid grid-cols-1 gap-6 sm:grid-cols-6">
+        <div class="sm:col-span-2">
+          <label for="name" class="block text-sm font-medium text-gray-700">
+            Naam
+          </label>
+          <Input
+            id="name"
+            @type="text"
+            @value={{@model.name}}
+            class="mt-1 focus:ring-red-200 focus:border-red-200 block w-full sm:text-sm border-gray-300 rounded-md" />
+        </div>
+      </div>
+      <div class="border-t border-gray-200 pt-6 sm:pt-5 grid grid-cols-1 gap-6 sm:grid-cols-6">
+        <div class="sm:col-span-4">
+          <Rlv::InputField::CheckboxMultiSelect
+            @label="Groepen"
+            @options={{this.allUserGroups.value}}
+            @labelField="name"
+            @selected={{this.selectedGroups}}
+            @onSelectionChange={{this.setUserGroups}}
+            @disabled={{this.allUserGroups.isPending}}
+            class="mt-1" />
+        </div>
+      </div>
+
+      <div class="pt-6 sm:pt-5 flex items-center {{if @model.isNew "justify-end" "justify-between"}}">
+        <Rlv::Button
+          type="submit"
+          @label="Opslaan"
+          @skin="primary" />
+      </div>
+    </form>
+  </div>
+  </:body>
+</Rlv::Modal>
