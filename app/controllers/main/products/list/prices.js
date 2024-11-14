@@ -1,19 +1,11 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
-import {
-  hasMarginCalculationBasis,
-  hasPriceOutCalculationBasis,
-  recalculateSalesPriceAndSave,
-} from '../../../../utils/product-price';
+import { recalculateSalesPriceAndSave } from '../../../../utils/product-price';
 import { trackedFunction } from 'reactiveweb/function';
-import { timeout } from 'ember-concurrency';
 
 export default class MainProductsListPricesController extends Controller {
   @service store;
-
-  isMarginPriceBasis = (priceSpecification) => hasMarginCalculationBasis(priceSpecification);
-  isPriceOutBasis = (priceSpecification) => hasPriceOutCalculationBasis(priceSpecification);
 
   products = trackedFunction(this, async () => {
     const productObjects = await this.model;
