@@ -4,7 +4,7 @@
       Producten
     </h1>
     {{#if this.showCreateButton}}
-      <div class="mt-3 sm:mt-0 sm:ml-4">
+      <div class="mt-3 sm:mt-0 sm:ml-4 flex items-center space-x-3">
         <Rlv::Button
           @label="Nieuw product"
           @route="main.products.new"
@@ -12,7 +12,6 @@
           @icon="add-line" />
 
         <Rlv::ActionMenu
-          class="ml-3"
           @label="Exporteren"
           as |Menu|>
           <Menu.Item
@@ -22,22 +21,19 @@
             @label="Voorraadlijst"
             @onClick={{perform this.createExport (app-constant "PRICELIST_EXPORT_TASK_OPERATIONS.IN_STOCK")}} />
         </Rlv::ActionMenu>
-        {{#if this.createExport.last.isError}}
-          <div class="mt-2 text-sm text-yellow-700">
-            <p>Exporteren mislukt, probeer opnieuw: <br>
-            {{this.createExport.last.error}}
-            </p>
-          </div>
-        {{else if this.createExport.last}}
-          <Rlv::Button
-            @label="Export downloaden"
-            @skin="secondary"
-            @icon="download-line"
-            @loading={{this.createExport.isRunning}}
-            @href={{this.createExport.lastSuccessful.value.downloadLink}}
-            target="_blank"
-            rel="noopener noreferrer"
-            download />
+        {{#if this.createExport.last}}
+          {{#let this.createExport.last.isError as |isError|}}
+            <Rlv::Button
+              @label="Export downloaden"
+              @skin="muted"
+              @icon={{if isError "error-warning-line" "download-line"}}
+              @hideText="true"
+              @alert={{isError}}
+              @loading={{this.createExport.isRunning}}
+              {{on "click" this.openExportFile}}
+              rel="noopener noreferrer"
+              download />
+          {{/let}}
         {{/if}}
       </div>
     {{/if}}

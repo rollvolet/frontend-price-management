@@ -4,13 +4,13 @@
   {{else}}
     <div>
       <button type="button"
-        class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-2 py-1 bg-white text-xs font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-red-200"
+        class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm {{this.sizeClass}} bg-white text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-red-200"
         id="menu-button"
         aria-expanded="true"
         aria-haspopup="true"
         {{on "click" this.openActionMenu}}>
         {{or @label "Acties"}}
-        {{svg-jar "arrow-down-s-line" class="-mr-0.5 ml-1 h-4 w-4 fill-current"}}
+        {{svg-jar "arrow-down-s-line" class="mt-0.5 -mr-0.5 ml-1 h-4 w-4 fill-current"}}
       </button>
     </div>
   {{/if}}
