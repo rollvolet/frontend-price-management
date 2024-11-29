@@ -1,11 +1,12 @@
-import Model, { attr, belongsTo } from '@ember-data/model';
+import { attr, belongsTo } from '@ember-data/model';
+import ProvenanceModel from './provenance-model';
 import { calculatePriceTaxIncluded, calculatePriceTaxExcluded } from '../utils/calculate-price';
 import constants from '../config/constants';
 import { VAT_RATE } from '../config';
 
 const { CALCULATION_BASIS } = constants;
 
-export default class UnitPriceSpecificationModel extends Model {
+export default class UnitPriceSpecificationModel extends ProvenanceModel {
   @attr('string') currency;
   @attr('number') currencyValue;
   @attr('number') margin;

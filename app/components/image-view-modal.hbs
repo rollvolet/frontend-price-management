@@ -1,0 +1,13 @@
+<Rlv::Modal
+  @onClose={{@onClose}}>
+  <:body>
+    <div class="mt-5">
+      <div class="flex items-center justify-center overflow-hidden min-h-[12rem]">
+        <img src={{@image.downloadLink}} alt={{@image.filename}}/>
+      </div>
+    </div>
+    <div class="mt-1 text-gray-500 text-xs">
+      {{@image.filename}}
+    </div>
+  </:body>
+</Rlv::Modal>

@@ -91,7 +91,6 @@ export default class ProductEditComponent extends Component {
       ]);
       yield Promise.all([warehouseLocation.save(), purchasePrice.save(), salesPrice.save()]);
       yield Promise.all([purchaseOffering.save(), salesOffering.save()]);
-      this.args.model.modified = new Date();
       yield this.args.model.save();
 
       if (this.args.onSave) {
