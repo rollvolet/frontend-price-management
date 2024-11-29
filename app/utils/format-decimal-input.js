@@ -1,4 +1,4 @@
-import { formatCurrency } from 'ember-dynamic-format-currency/helpers/format-currency';
+import { formatCurrency } from '../helpers/format-currency';
 
 export default function formatDecimalInput(value) {
   if (value) {
