@@ -2,17 +2,12 @@ import Controller from '@ember/controller';
 import { task, timeout } from 'ember-concurrency';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
-import constants from 'frontend-price-management/config/constants';
 import TaskModel from 'frontend-price-management/models/task';
-const { PRICELIST_EXPORT_TASK_ALL_PROD_OP, PRICELIST_EXPORT_TASK_STOCK_OP } = constants;
 
 export default class MainProductsController extends Controller {
   @service router;
   @service store;
   @service taskMonitor;
-
-  PRICELIST_EXPORT_TASK_ALL_PROD_OP = PRICELIST_EXPORT_TASK_ALL_PROD_OP;
-  PRICELIST_EXPORT_TASK_STOCK_OP = PRICELIST_EXPORT_TASK_STOCK_OP;
 
   get showCreateButton() {
     return this.router.currentRouteName == 'main.products.index';

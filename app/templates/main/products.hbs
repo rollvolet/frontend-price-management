@@ -17,10 +17,10 @@
           as |Menu|>
           <Menu.Item
             @label="Alle producten"
-            @onClick={{perform this.createExport this.PRICELIST_EXPORT_TASK_ALL_PROD_OP }} />
+            @onClick={{perform this.createExport (app-constant "PRICELIST_EXPORT_TASK_OPERATIONS.ALL_PRODUCTS")}} />
           <Menu.Item
             @label="Voorraadlijst"
-            @onClick={{perform this.createExport this.PRICELIST_EXPORT_TASK_STOCK_OP}} />
+            @onClick={{perform this.createExport (app-constant "PRICELIST_EXPORT_TASK_OPERATIONS.IN_STOCK")}} />
         </Rlv::ActionMenu>
         {{#if this.createExport.last.isError}}
           <div class="mt-2 text-sm text-yellow-700">
