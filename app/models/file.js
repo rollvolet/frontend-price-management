@@ -1,4 +1,4 @@
-import Model, { attr } from '@ember-data/model';
+import Model, { attr, hasMany } from '@ember-data/model';
 
 export default class FileModel extends Model {
   @attr('string') filename;
@@ -6,6 +6,8 @@ export default class FileModel extends Model {
   @attr('string') size;
   @attr('string') extension;
   @attr('datetime') created;
+
+  @hasMany('data-container', { async: true, inverse: 'files' }) dataContainers;
 
   get humanReadableSize() {
     const bytes = this.size;
