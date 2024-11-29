@@ -1,4 +1,4 @@
-import Model, { attr, belongsTo } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
 export default class TaskModel extends Model {
   static BUSY = 'http://redpencil.data.gift/id/concept/JobStatus/busy';
@@ -14,20 +14,11 @@ export default class TaskModel extends Model {
   @attr('string') operation;
   @attr('string') index;
 
-  // @belongsTo('job-error', { async: true, inverse: null }) error;
-  // @belongsTo('job', { async: true, inverse: 'tasks' }) job;
-
-  // @hasMany('task', { async: true, inverse: null }) parentTasks;
-
-  @belongsTo('data-container', { async: true, inverse: null }) resultContainer;
-  @belongsTo('data-container', { async: true, inverse: null }) inputContainer;
+  @belongsTo('data-container', { async: true, inverse: 'inputFromTasks' }) inputContainer;
+  @belongsTo('data-container', { async: true, inverse: 'resultFromTasks' }) resultContainer;
 
   get hasEnded() {
-    return [
-      TaskModel.SUCCESS,
-      TaskModel.FAILED,
-      TaskModel.CANCELED,
-    ].includes(this.status);
+    return [TaskModel.SUCCESS, TaskModel.FAILED, TaskModel.CANCELED].includes(this.status);
   }
 
   get isSuccessful() {
