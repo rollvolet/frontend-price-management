@@ -18,4 +18,8 @@ export default {
     PRICE_ADMIN: 'http://data.rollvolet.be/user-groups/price-admin',
     ADMIN: 'http://data.rollvolet.be/user-groups/admin',
   },
+  PRICELIST_EXPORT_TASK_OPERATIONS: {
+    ALL_PRODUCTS: 'http://data.rollvolet.be/pricelist-export/task-operations/all-products-export',
+    IN_STOCK: 'http://data.rollvolet.be/pricelist-export/task-operations/stock-list-export',
+  },
 };

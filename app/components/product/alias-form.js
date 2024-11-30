@@ -8,13 +8,13 @@ export default class AliasFormComponent extends Component {
   @tracked newAlias;
 
   get newAliasIsValid() {
-    return isPresent(this.newAlias);
+    return isPresent(this.newAlias) && isPresent(this.newAlias.content);
   }
 
   @action
   addAlias(event) {
     event?.preventDefault();
-    if (this.newAlias?.content) {
+    if (this.newAliasIsValid) {
       const aliases = this.args.aliases.slice();
       aliases.push(this.newAlias);
       this.args.onChange(aliases);

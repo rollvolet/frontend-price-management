@@ -24,7 +24,28 @@
     {{/if}}
     {{yield to="tooltip"}}
   </LinkTo>
+{{else if @loading}}
+  <button type="button"
+    class={{this.buttonClass}}
+    disabled={{true}}
+    ...attributes
+  >
+    {{#if @icon}}
+      {{svg-jar "loading-circle" class=(concat "animate-spin h-4 w-4 " (unless this.hideText "mr-2"))}}
+      {{#unless this.hideText}}
+        {{or @loadingMessage @label}}
+      {{/unless}}
+    {{else}}
+      {{svg-jar "loading-circle" class=(concat "animate-spin h-4 w-4 " (if @loadingMessage "mr-2"))}}
+      {{#if @loadingMessage}}
+        {{@loadingMessage}}
+      {{/if}}
+    {{/if}}
+    {{yield to="tooltip"}}
+  </button>
 {{else if @href}}
+  {{!-- Note that the 'disabled' attribute won't have any effect on an <a> element.
+    It can still be used by custom css selector rule though. --}}
   <a
     class={{this.buttonClass}}
     disabled={{@disabled}}
@@ -48,25 +69,6 @@
     {{/if}}
     {{yield to="tooltip"}}
   </a>
-{{else if @loading}}
-  <button type="button"
-    class={{this.buttonClass}}
-    disabled={{true}}
-    ...attributes
-  >
-    {{#if @icon}}
-      {{svg-jar "loading-circle" class=(concat "animate-spin h-4 w-4 " (unless this.hideText "mr-2"))}}
-      {{#unless this.hideText}}
-        {{or @loadingMessage @label}}
-      {{/unless}}
-    {{else}}
-      {{svg-jar "loading-circle" class=(concat "animate-spin h-4 w-4 " (if @loadingMessage "mr-2"))}}
-      {{#if @loadingMessage}}
-        {{@loadingMessage}}
-      {{/if}}
-    {{/if}}
-    {{yield to="tooltip"}}
-  </button>
 {{else}}
   <button type="button"
     class={{this.buttonClass}}
