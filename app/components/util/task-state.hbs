@@ -1,0 +1,13 @@
+{{#if @state.isRunning}}
+  <div class="items-center space-x-2" title={{@labelRunning}}>
+    <Util::LoadingSpinner @label="" />
+  </div>
+{{else if @state.last.isSuccessful}}
+  <div class="items-center space-x-2" title={{@labelSuccess}}>
+    {{svg-jar "check-fill" class="text-green-600"}}
+  </div>
+{{else if @state.last.isError}}
+  <div class="items-center space-x-2" title={{@state.last.error}}>
+    {{svg-jar "error-warning-line" class="h-6 w-6 text-red-600"}}
+  </div>
+{{/if}}

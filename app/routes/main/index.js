@@ -5,6 +5,6 @@ export default class MainIndexRoute extends Route {
   @service router;
 
   beforeModel() {
-    this.router.transitionTo('main.products.index');
+    this.router.transitionTo('main.products.list');
   }
 }

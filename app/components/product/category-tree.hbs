@@ -1,0 +1,7 @@
+{{#let (or @product.broaderCategory.label @product.category.broader.label) as |broaderCategoryLabel| }}
+  {{#if broaderCategoryLabel}}
+    {{broaderCategoryLabel}}
+    <br> <div class="w-3 h-3 ml-2 mr-1 inline-block border-b-2 border-l-2 border-gray-300"></div>
+  {{/if}}
+{{/let}}
+{{@product.category.label}}

@@ -1,0 +1,99 @@
+{{page-title "Prijsbeheer"}}
+<div class="mt-4 flex flex-col">
+  <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+      <div class="overflow-hidden border-b border-gray-200 sm:rounded-lg">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead>
+            <tr>
+              <th class="py-3 bg-gray-100 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+                title="Beschikbaarheid">
+              </th>
+              <th class="px-1 py-3 bg-gray-100 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Nr.
+              </th>
+              <th class="px-6 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Categorie
+              </th>
+              <th class="px-6 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Naam
+              </th>
+              <th class="py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                inkoopprijs
+              </th>
+              <th class="px-6 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                marge
+              </th>
+              <th class="px-6 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Verkoopprijs
+              </th>
+              <th class="py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Eenheid
+              </th>
+              <th class="px-6 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Leverancier
+              </th>
+              <th class="w-8 px-3 py-3 bg-gray-100">{{!-- savestate --}}</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            {{#each (if this.products.isLoading this.model this.products.value) as |product|}}
+              <Product::InlinePriceEdit
+                    @product={{product}}
+                    @setPriceIn={{this.setPriceIn}}
+                    @setMargin={{this.setMargin}}
+                    @setCalculationBasis={{this.setCalculationBasis}}
+                    @setPriceOut={{this.setPriceOut}}
+                    as |InlineEdit|>
+                {{!-- product might be a mu-search pojo! --}}
+                <tr>
+                  <td class="pl-2 py-2 whitespace-nowrap text-center text-xs text-gray-500">
+                    {{#if product.salesOffering.isValid}}
+                      {{svg-jar "circle-fill" title="Beschikbaar" class="h-3 w-3 text-green-400 fill-current"}}
+                    {{else}}
+                      {{svg-jar "circle-fill" title="Niet beschikbaar" class="h-3 w-3 text-red-400 fill-current"}}
+                    {{/if}}
+                  </td>
+                  <td class="px-1 py-4 whitespace-nowrap text-center text-sm text-gray-500">
+                    {{product.identifier}}
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <Product::CategoryTree @product={{product}} />
+                  </td>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    {{get-by-lang product.name}}
+                  </td>
+                  <td class="py-4">
+                    <InlineEdit.PurchasePrice />
+                  </td>
+                  <td class="pl-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <InlineEdit.Margin />
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <InlineEdit.SellingPrice />
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <Fmt::UnitCode @value={{product.salesOffering.unitPriceSpecification.unitCode}} />
+                  </td>
+                  <td class="px-6 py-4 text-sm text-gray-500">
+                    {{product.purchaseOffering.businessEntity.name}}
+                    {{#if product.purchaseOffering.identifier}}
+                      <br>Nr. {{product.purchaseOffering.identifier}}
+                    {{/if}}
+                  </td>
+                  <td><InlineEdit.SavingStateIcon /></td>
+                </tr>
+              </Product::InlinePriceEdit>
+            {{else}}
+              <tr>
+                <td colspan="8" class="px-6 py-4 text-center text-sm text-gray-500">
+                  Geen producten gevonden.
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

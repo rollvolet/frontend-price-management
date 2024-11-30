@@ -31,7 +31,7 @@ module.exports = function (environment) {
       },
     },
     'ember-simple-auth': {
-      routeAfterAuthentication: 'main.products.index',
+      routeAfterAuthentication: 'main.products.list',
     },
   };
 

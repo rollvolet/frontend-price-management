@@ -8,6 +8,9 @@ export default class MainMenuComponent extends Component {
 
   @tracked isOpenMenu = false;
 
+  get canEditPrice() {
+    return this.userInfo.isPriceAdmin;
+  }
   @action
   toggleIsOpenMenu() {
     this.isOpenMenu = !this.isOpenMenu;
