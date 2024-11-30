@@ -84,7 +84,7 @@
           @title="Prijzen"
           @subtitle="Informatie over de inkoop- en verkoopprijs van het product." />
         <div class="mt-6 grid grid-cols-6 gap-y-6 gap-x-4">
-          {{#if (is-price-admin)}}
+          {{#if (in-user-group "price_admin")}}
             <div class="col-span-3 sm:col-span-2">
               <Util::Property @label="Inkoopprijs netto">
                 <Fmt::UnitPrice
@@ -92,54 +92,54 @@
                   @showTaxIncluded={{false}} />
               </Util::Property>
             </div>
+            <div class="col-span-3 sm:col-span-2 lg:col-span-1">
+              <Util::Property @label="Eenheid">
+                <Fmt::UnitCode @value={{@model.purchaseOffering.unitPriceSpecification.unitCode.label}} />
+              </Util::Property>
+            </div>
           {{/if}}
-          <div class="col-span-3 sm:col-span-2 lg:col-span-1">
-            <Util::Property @label="Eenheid">
-              <Fmt::UnitCode @value={{@model.purchaseOffering.unitPriceSpecification.unitCode.label}} />
-            </Util::Property>
-          </div>
         </div>
         {{#let @model.salesOffering.unitPriceSpecification as |salesPrice|}}
           <div class="mt-4 space-y-4">
-            <div class="p-4 grid grid-cols-6 gap-y-4 gap-x-4 rounded-md bg-gray-50 border
-              {{if salesPrice.hasPriceOutCalculationBasis "border-green-300" "border-gray-200"}}">
-              <div class="col-span-6 flex items-center">
-                {{#if salesPrice.hasPriceOutCalculationBasis}}
-                  {{svg-jar "checkbox-circle-line" class="h-5 w-5 text-green-400 fill-current"}}
-                  <span class="ml-2 block text-sm font-medium text-green-700">Verkoopprijs</span>
-                {{else}}
-                  {{svg-jar "indeterminate-circle-line" class="h-5 w-5 text-gray-400 fill-current"}}
-                  <span class="ml-2 block text-sm font-medium text-gray-700">Verkoopprijs</span>
-                {{/if}}
+            {{#if (in-user-group "price_admin")}}
+              <div class="p-4 grid grid-cols-6 gap-y-4 gap-x-4 rounded-md bg-gray-50 border
+                {{if salesPrice.hasPriceOutCalculationBasis " border-green-300" "border-gray-200" }}">
+                <div class="col-span-6 flex items-center">
+                  {{#if salesPrice.hasPriceOutCalculationBasis}}
+                    {{svg-jar "checkbox-circle-line" class="h-5 w-5 text-green-400 fill-current"}}
+                    <span class="ml-2 block text-sm font-medium text-green-700">Verkoopprijs</span>
+                  {{else}}
+                    {{svg-jar "indeterminate-circle-line" class="h-5 w-5 text-gray-400 fill-current"}}
+                    <span class="ml-2 block text-sm font-medium text-gray-700">Verkoopprijs</span>
+                  {{/if}}
+                </div>
+                <div class="col-span-2">
+                  <Util::Property @label="Prijs excl. btw">
+                    <Fmt::UnitPrice @model={{salesPrice}} @showTaxIncluded={{false}} />
+                  </Util::Property>
+                </div>
+                <div class="col-span-2">
+                  <Util::Property @label="Prijs incl. btw">
+                    <Fmt::UnitPrice @model={{salesPrice}} @showTaxIncluded={{true}} />
+                  </Util::Property>
+                </div>
+                <div class="col-span-2">
+                  <Util::Property @label="Eenheid">
+                    <Fmt::UnitCode @value={{salesPrice.unitCode.label}} />
+                  </Util::Property>
+                </div>
               </div>
-              <div class="col-span-2">
-                <Util::Property @label="Prijs excl. btw">
-                  <Fmt::UnitPrice @model={{salesPrice}} @showTaxIncluded={{false}} />
-                </Util::Property>
-              </div>
-              <div class="col-span-2">
-                <Util::Property @label="Prijs incl. btw">
-                  <Fmt::UnitPrice @model={{salesPrice}} @showTaxIncluded={{true}} />
-                </Util::Property>
-              </div>
-              <div class="col-span-2">
-                <Util::Property @label="Eenheid">
-                  <Fmt::UnitCode @value={{salesPrice.unitCode.label}} />
-                </Util::Property>
-              </div>
-            </div>
-            <div class="p-4 grid grid-cols-6 gap-y-4 gap-x-4 rounded-md bg-gray-50 border
-              {{if salesPrice.hasMarginCalculationBasis "border-green-300" "border-gray-200"}}">
-              <div class="col-span-6 flex items-center">
-                {{#if salesPrice.hasMarginCalculationBasis}}
-                  {{svg-jar "checkbox-circle-line" class="h-5 w-5 text-green-400 fill-current"}}
-                  <span class="ml-2 block text-sm font-medium text-green-700">Marge</span>
-                {{else}}
-                  {{svg-jar "indeterminate-circle-line" class="h-5 w-5 text-gray-400 fill-current"}}
-                  <span class="ml-2 block text-sm font-medium text-gray-600">Marge</span>
-                {{/if}}
-              </div>
-              {{#if (is-price-admin)}}
+              <div class="p-4 grid grid-cols-6 gap-y-4 gap-x-4 rounded-md bg-gray-50 border
+                {{if salesPrice.hasMarginCalculationBasis " border-green-300" "border-gray-200" }}">
+                <div class="col-span-6 flex items-center">
+                  {{#if salesPrice.hasMarginCalculationBasis}}
+                    {{svg-jar "checkbox-circle-line" class="h-5 w-5 text-green-400 fill-current"}}
+                    <span class="ml-2 block text-sm font-medium text-green-700">Marge</span>
+                  {{else}}
+                    {{svg-jar "indeterminate-circle-line" class="h-5 w-5 text-gray-400 fill-current"}}
+                    <span class="ml-2 block text-sm font-medium text-gray-600">Marge</span>
+                  {{/if}}
+                </div>
                 <div class="col-span-6">
                   <Util::Property @label="Factor">
                     {{#if salesPrice.margin}}
@@ -147,13 +147,33 @@
                     {{/if}}
                   </Util::Property>
                 </div>
-              {{/if}}
-            </div>
-            <div class="text-xs text-gray-400">
-              <Util::UpdatedOn
-                @date={{@model.salesOffering.unitPriceSpecification.modified}}
-                @user={{@model.salesOffering.unitPriceSpecification.editor}} />
-            </div>
+              </div>
+              <div class="text-xs text-gray-400">
+                <Util::UpdatedOn @date={{@model.salesOffering.unitPriceSpecification.modified}}
+                  @user={{@model.salesOffering.unitPriceSpecification.editor}} />
+              </div>
+            {{else}}
+              <div class="p-4 grid grid-cols-6 gap-y-4 gap-x-4 rounded-md bg-gray-50 border border-gray-200">
+                <div class="col-span-6 flex items-center">
+                  <span class="block text-sm font-medium text-gray-700">Verkoopprijs</span>
+                </div>
+                <div class="col-span-2">
+                  <Util::Property @label="Prijs excl. btw">
+                    <Fmt::UnitPrice @model={{salesPrice}} @showTaxIncluded={{false}} />
+                  </Util::Property>
+                </div>
+                <div class="col-span-2">
+                  <Util::Property @label="Prijs incl. btw">
+                    <Fmt::UnitPrice @model={{salesPrice}} @showTaxIncluded={{true}} />
+                  </Util::Property>
+                </div>
+                <div class="col-span-2">
+                  <Util::Property @label="Eenheid">
+                    <Fmt::UnitCode @value={{salesPrice.unitCode.label}} />
+                  </Util::Property>
+                </div>
+              </div>
+            {{/if}}
           </div>
         {{/let}}
       </div>

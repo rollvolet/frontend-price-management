@@ -80,7 +80,7 @@ export default class ProductEditComponent extends Component {
       const warehouseLocation = await this.args.model.warehouseLocation;
       await warehouseLocation.save();
 
-      if(this.userInfo.isPriceAdmin) {
+      if (this.userInfo.isPriceAdmin) {
         const [purchaseOffering, salesOffering] = await Promise.all([
           this.args.model.purchaseOffering,
           this.args.model.salesOffering,
