@@ -159,16 +159,17 @@
                     <br>Nr. {{product.purchaseOffering.identifier}}
                   {{/if}}
                 </td>
-                <td class="px-6 py-4 flex flex-col">
-                  <Rlv::Button
-                    @label="Open"
-                    @route="main.products.detail.index"
-                    @model={{product.uuid}}
-                    @skin="link" />
-                  <Rlv::Button
-                    @label="Preview"
-                    @skin="link"
-                    {{on "click" (fn this.showPreview product)}} />
+                <td class="px-6 py-4 space-y-1">
+                  <div>
+                    <Rlv::Button
+                      @label="Open"
+                      @route="main.products.detail.index"
+                      @model={{product.uuid}}
+                      @skin="link" />
+                  </div>
+                  <Product::ImagePreviewButton
+                    @productId={{product.uuid}}
+                    @onClick={{fn this.showPreview product}} />
                 </td>
               </tr>
             {{else}}

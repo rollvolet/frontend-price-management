@@ -20,7 +20,7 @@ export default class ProvenanceModel extends Model {
         this.modified = now;
         this.editor = this.userInfo.user.uri;
       }
-      return super.save(...arguments);
     }
+    return super.save(...arguments);
   }
 }

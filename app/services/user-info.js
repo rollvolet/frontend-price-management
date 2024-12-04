@@ -2,7 +2,9 @@ import Service, { service } from '@ember/service';
 import { keepLatestTask } from 'ember-concurrency';
 import { tracked } from '@glimmer/tracking';
 import constants from '../config/constants';
-const USER_GROUPS = constants.USER_GROUPS;
+
+const { USER_GROUPS } = constants;
+
 export default class UserInfoService extends Service {
   @service session;
   @service store;
@@ -30,8 +32,7 @@ export default class UserInfoService extends Service {
   fetchUserInfo = keepLatestTask(async () => {
     if (this.session.isAuthenticated) {
       const authenticatedData = this.session.data.authenticated;
-      // TODO: response in msal-login service must be fixed. Relationships must be included in data object
-      const sessionData = authenticatedData.relationships || authenticatedData.data.relationships;
+      const sessionData = authenticatedData.data.relationships;
       const accountId = sessionData.account?.data.id;
       this.account = await this.store.findRecord('account', accountId, {
         include: 'user',
@@ -41,11 +42,7 @@ export default class UserInfoService extends Service {
     } else {
       this.account = null;
       this.user = null;
+      this.userGroups = [];
     }
   });
-
-  clearUserInfo() {
-    this.account = null;
-    this.user = null;
-  }
 }
