@@ -89,7 +89,6 @@
     "eslint-plugin-n": "^16.6.2",
     "eslint-plugin-qunit": "^8.1.2",
     "loader.js": "^4.7.0",
-    "lodash.sortby": "^4.7.0",
     "postcss": "^8.4.33",
     "postcss-cli": "^10.1.0",
     "postcss-import": "^15.1.0",
