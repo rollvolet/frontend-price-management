@@ -7,7 +7,7 @@ export default class MainUsersRoute extends Route {
 
   beforeModel() {
     if (!this.userInfo.isAdmin) {
-      this.router.transitionTo('main.forbidden');
+      this.router.transitionTo('forbidden');
     }
   }
 }
