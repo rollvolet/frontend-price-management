@@ -101,11 +101,25 @@
               <th class="px-6 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                 Naam
               </th>
-              <th class="px-6 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                VKP <br>btw ex
+              <th class="px-6 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider flex items-center">
+                {{#if this.isEditingPrice}}
+                  <div>Inkoop</div>
+                {{else}}
+                  <div>VKP <br>btw ex</div>
+                {{/if}}
+                <Rlv::Button
+                  @label="Prijzen bewerken"
+                  @hideText={{true}}
+                  @icon={{if this.isEditingPrice "close-line" "pencil-line"}}
+                  @skin="secondary-naked"
+                  {{on "click" this.togglePriceUpdate}} />
               </th>
               <th class="px-6 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                VKP <br>btw in
+                {{#if this.isEditingPrice}}
+                  <div>Verkoop</div>
+                {{else}}
+                  VKP <br>btw in
+                {{/if}}
               </th>
               <th class="px-6 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                 Eenheid
@@ -113,8 +127,8 @@
               <th class="px-6 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                 Leverancier
               </th>
-              <th class="px-6 py-3 bg-gray-100"></th>
-              <th class="px-3 py-3 bg-gray-100"></th>
+              <th class="px-3 py-3 bg-gray-100">
+              </th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
@@ -140,16 +154,44 @@
                 <td class="px-6 py-4 text-sm font-medium text-gray-900">
                   {{get-by-lang product.name}}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <Fmt::UnitPrice
-                    @model={{product.salesOffering.unitPriceSpecification}}
-                    @showTaxIncluded={{false}} />
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  <Fmt::UnitPrice
-                    @model={{product.salesOffering.unitPriceSpecification}}
-                    @showTaxIncluded={{true}} />
-                </td>
+                {{#let product.purchaseOffering.unitPriceSpecification product.salesOffering.unitPriceSpecification as |purchasePrice salesPrice|}}
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {{#if this.isEditingPrice}}
+                      <Rlv::InputField::DecimalInput
+                        @label="IKP netto"
+                        @leading="&euro;"
+                        @value={{purchasePrice.currencyValue}}
+                        @onChange={{fn this.setPriceIn product}}
+                        class="focus:ring-red-200 focus:border-red-200 block w-full pl-7 border-gray-300 rounded-md sm:text-sm" />
+                    {{else}}
+                      <Fmt::UnitPrice @model={{salesPrice}} @showTaxIncluded={{false}} />
+                    {{/if}}
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 space-y-2">
+                    {{#if this.isEditingPrice}}
+                      <div>
+                        <Rlv::InputField::DecimalInput
+                          @label="BTW ex"
+                          @leading="&euro;"
+                          @value={{salesPrice.currencyValueTaxExcluded}}
+                          class="block w-full pl-7 border-gray-300 rounded-md sm:text-sm bg-gray-200"
+                          disabled="true" />
+                      </div>
+                      <div>
+                        <Rlv::InputField::DecimalInput
+                          @label="BTW in"
+                          @leading="&euro;"
+                          @value={{salesPrice.currencyValue}}
+                          @onChange={{fn this.setPriceOut product}}
+                          class="focus:ring-red-200 focus:border-red-200 block w-full pl-7 border-gray-300 rounded-md sm:text-sm
+                          {{if salesPrice.hasMarginCalculationBasis " disabled:bg-gray-200"}}"
+                          disabled={{salesPrice.hasMarginCalculationBasis}} />
+                      </div>
+                    {{else}}
+                      <Fmt::UnitPrice @model={{salesPrice}} @showTaxIncluded={{true}} />
+                    {{/if}}
+                  </td>
+                {{/let}}
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   <Fmt::UnitCode @value={{product.salesOffering.unitPriceSpecification.unitCode}} />
                 </td>

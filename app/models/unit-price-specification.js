@@ -20,7 +20,7 @@ export default class UnitPriceSpecificationModel extends ProvenanceModel {
     return calculatePriceTaxIncluded(this.currencyValue, VAT_RATE, this.valueAddedTaxIncluded);
   }
 
-  get currencyValueTaxExcluded() {
+  get currencyValueTaxExcludedy() {
     return calculatePriceTaxExcluded(this.currencyValue, VAT_RATE, this.valueAddedTaxIncluded);
   }
 

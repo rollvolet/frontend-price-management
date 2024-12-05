@@ -125,6 +125,8 @@ export default class MainProductsIndexRoute extends Route {
     controller.page = this.lastParams.committed.page;
     controller.size = this.lastParams.committed.size;
     controller.sort = this.lastParams.committed.sort;
+
+    controller.isEditingPrice = false;
   }
 
   @action
