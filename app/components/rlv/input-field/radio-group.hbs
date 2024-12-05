@@ -1,0 +1,17 @@
+{{#let (unique-id) as |groupName|}}
+  {{#each @options as |option|}}
+    {{#let (unique-id) as |optionId|}}
+      <div>
+        <input
+          type="radio"
+          name={{groupName}}
+          id={{optionId}}
+          value={{option.value}}
+          checked={{eq option.value @value}}
+          class="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-red-600 checked:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400"
+          {{on "change" (with-value @onChange)}} />
+        <label for={{optionId}}>{{option.label}}</label>
+      </div>
+    {{/let}}
+  {{/each}}
+{{/let}}

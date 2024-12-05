@@ -2,7 +2,8 @@ import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { isBlank } from '@ember/utils';
-import { restartableTask, timeout } from 'ember-concurrency';
+import { keepLatestTask, restartableTask, timeout } from 'ember-concurrency';
+import recalculateSalesPriceFn from '../../../utils/recalculate-sales-price';
 
 export default class MainProductsIndexController extends Controller {
   @tracked page = 0;
@@ -10,6 +11,7 @@ export default class MainProductsIndexController extends Controller {
   @tracked sort = 'identifier';
 
   @tracked isLoadingModel;
+  @tracked isEditingPrice = false;
   @tracked filter;
   @tracked name;
   @tracked category;
@@ -51,6 +53,48 @@ export default class MainProductsIndexController extends Controller {
     for (let key of Object.keys(qpValues)) {
       this[key] = qpValues[key];
     }
+  }
+
+  @action
+  togglePriceUpdate() {
+    this.isEditingPrice = !this.isEditingPrice;
+  }
+
+  @action
+  async setPriceIn(searchProduct, value) {
+    const product = searchProduct.record;
+    const offering = await product.purchaseOffering;
+    const price = await offering.unitPriceSpecification;
+    price.currencyValue = value;
+    this.recalculateSalesPrice.perform(product);
+  }
+
+  @action
+  async setPriceOut(searchProduct, value) {
+    const product = searchProduct.record;
+    const offering = await product.salesOffering;
+    const price = await offering.unitPriceSpecification;
+    price.currencyValue = value;
+    this.recalculateSalesPrice.perform(product);
+  }
+
+  @action
+  async setMargin(searchProduct, value) {
+    const product = searchProduct.record;
+    const offering = await product.salesOffering;
+    const price = await offering.unitPriceSpecification;
+    price.margin = value;
+    this.recalculateSalesPrice.perform(product);
+  }
+
+  recalculateSalesPrice = keepLatestTask(async (product) => await recalculateSalesPriceFn(product));
+
+  @action
+  async setPriceCalculationBasis(searchProduct, value) {
+    const product = searchProduct.record;
+    const offering = await product.salesOffering;
+    const price = await offering.unitPriceSpecification;
+    price.calculationBasis = value;
   }
 
   @action

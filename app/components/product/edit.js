@@ -3,10 +3,9 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { service } from '@ember/service';
 import { enqueueTask, keepLatestTask, task, timeout } from 'ember-concurrency';
-import roundDecimal from '../../utils/round-decimal';
+import recalculateSalesPriceFn from '../../utils/recalculate-sales-price';
+import { without } from '../../utils/array';
 import constants from '../../config/constants';
-import { VAT_RATE } from '../../config';
-import { without } from 'frontend-price-management/utils/array';
 
 const { CALCULATION_BASIS } = constants;
 
@@ -132,29 +131,7 @@ export default class ProductEditComponent extends Component {
     }
   });
 
-  recalculateSalesPrice = keepLatestTask(async () => {
-    const purchaseOffering = await this.args.model.purchaseOffering;
-    const purchasePrice = await purchaseOffering.unitPriceSpecification;
-    purchasePrice.currencyValue = roundDecimal(purchasePrice.currencyValue);
-
-    const salesOffering = await this.args.model.salesOffering;
-    const salesPrice = await salesOffering.unitPriceSpecification;
-
-    if (salesPrice.calculationBasis == CALCULATION_BASIS.MARGIN) {
-      salesPrice.margin = roundDecimal(salesPrice.margin);
-      if (salesPrice.valueAddedTaxIncluded) {
-        const value = purchasePrice.currencyValue * salesPrice.margin * (1 + VAT_RATE);
-        salesPrice.currencyValue = roundDecimal(value);
-      } else {
-        const value = purchasePrice.currencyValue * salesPrice.margin;
-        salesPrice.currencyValue = roundDecimal(value);
-      }
-    } else {
-      salesPrice.currencyValue = roundDecimal(salesPrice.currencyValue);
-      const margin = salesPrice.currencyValueTaxExcluded / purchasePrice.currencyValue;
-      salesPrice.margin = roundDecimal(margin);
-    }
-  });
+  recalculateSalesPrice = keepLatestTask(async () => await recalculateSalesPriceFn(this.args.model));
 
   uploadFile = enqueueTask(async (file) => {
     try {

@@ -90,7 +90,7 @@ export default class MainProductsIndexRoute extends Route {
 
     this.lastParams.commit();
 
-    return search('products', params.page, params.size, params.sort, filter, (product) => {
+    return search('products', params.page, params.size, params.sort, filter, async (product) => {
       const entry = product.attributes;
       entry.id = product.id;
       // create record for convenience of the isValid getter
@@ -104,6 +104,11 @@ export default class MainProductsIndexRoute extends Route {
 
       entry.name = langStringResourceFormat(entry.name);
       entry.alternateNames = langStringResourceFormat(entry.alternateNames);
+
+      const record = await this.store.findRecord('product', product.id, {
+        include: 'purchase-offering.unit-price-specification,sales-offering.unit-price-specification'
+      });
+      entry.record = record;
 
       return entry;
     });
@@ -125,6 +130,8 @@ export default class MainProductsIndexRoute extends Route {
     controller.page = this.lastParams.committed.page;
     controller.size = this.lastParams.committed.size;
     controller.sort = this.lastParams.committed.sort;
+
+    controller.isEditingPrice = false;
   }
 
   @action
