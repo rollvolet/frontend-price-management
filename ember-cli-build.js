@@ -11,6 +11,9 @@ module.exports = function (defaults) {
     svgJar: {
       sourceDirs: ['public', 'node_modules/remixicon/icons'],
     },
+    minifyCSS: {
+      enabled: false
+    }
   });
 
   return app.toTree();
